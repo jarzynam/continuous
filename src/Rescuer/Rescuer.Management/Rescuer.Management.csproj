@@ -46,12 +46,11 @@
   <ItemGroup>
     <Compile Include="HealthStatus.cs" />
     <Compile Include="IRescuer.cs" />
-    <Compile Include="IRescuerFactory.cs" />
-    <Compile Include="IWindowsServiceShell.cs" />
+    <Compile Include="WindowsService\Exceptions\ServiceNotFoundException.cs" />
+    <Compile Include="WindowsService\IWindowsServiceRescuer.cs" />
+    <Compile Include="WindowsService\Shell\IWindowsServiceShell.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RescuerFactory.cs" />
-    <Compile Include="RescuerType.cs" />
-    <Compile Include="WindowsServiceRescuer.cs" />
+    <Compile Include="WindowsService\WindowsServiceRescuer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
