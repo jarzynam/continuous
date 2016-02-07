@@ -1,8 +1,14 @@
-namespace Rescuer.Management.WindowsService
+using System.Collections.Generic;
+
+namespace Rescuer.Management.WindowsService.Shell
 {
     public interface IWindowsServiceShell
     {
         string GetServiceStatus(string serviceName);
-        bool CheckExisting(string isAny);
+        bool CheckExisting(string serviceName);
+        bool InstallService(string serviceName);
+        bool UninstallService(string serviceName);
+        List<string> ErrorLog { get; set; }
+        void ClearErrorLog();
     }
 }

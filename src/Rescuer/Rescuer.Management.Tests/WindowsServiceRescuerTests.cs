@@ -2,6 +2,7 @@
 using Moq;
 using NUnit.Framework;
 using Rescuer.Management.WindowsService;
+using Rescuer.Management.WindowsService.Shell;
 
 namespace Rescuer.Management.Tests
 {
