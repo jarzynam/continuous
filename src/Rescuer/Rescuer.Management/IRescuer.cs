@@ -2,6 +2,7 @@ namespace Rescuer.Management
 {
     public interface IRescuer
     {
-        HealthStatus CheckHealth();
+        HealthStatus CheckHealth();        
+        void ConnectToService(string serviceName);
     }
 }
