@@ -9,7 +9,8 @@ namespace Rescuer.Management.WindowsService.Shell
     public class WindowsServiceShell : IWindowsServiceShell
     {
         public List<string> ErrorLog { get; set; }
-        public ServiceController _service { get; set; }
+
+        private ServiceController _service;
 
         public WindowsServiceShell()
         {
