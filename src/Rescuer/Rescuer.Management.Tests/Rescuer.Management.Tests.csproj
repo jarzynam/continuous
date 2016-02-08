@@ -48,6 +48,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Management.Automation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Management.Automation.6.1.7601.17515\lib\net45\System.Management.Automation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ServiceProcess" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -58,12 +63,12 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="WindowsServiceInstallerTests.cs" />
     <Compile Include="WindowsServiceRescuerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WindowsServiceShellTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="CompiledTestService\Rescuer.Services.EmptyTestService.exe.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -71,6 +76,9 @@
       <Project>{39BEC5C6-0D24-4F81-8BFE-2040A38C8CC9}</Project>
       <Name>Rescuer.Management</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CompiledTestService\Rescuer.Services.EmptyTestService.exe" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

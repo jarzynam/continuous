@@ -35,7 +35,13 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Management.Automation.dll.10.0.10586.0\lib\net40\System.Management.Automation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,8 +52,6 @@
   <ItemGroup>
     <Compile Include="HealthStatus.cs" />
     <Compile Include="IRescuer.cs" />
-    <Compile Include="WindowsService\Shell\Installer\IWindowsServiceInstaller.cs" />
-    <Compile Include="WindowsService\Shell\Installer\WindowsServiceInstaller.cs" />
     <Compile Include="WindowsService\Exceptions\ServiceNotFoundException.cs" />
     <Compile Include="WindowsService\IWindowsServiceRescuer.cs" />
     <Compile Include="WindowsService\Shell\IWindowsServiceShell.cs" />

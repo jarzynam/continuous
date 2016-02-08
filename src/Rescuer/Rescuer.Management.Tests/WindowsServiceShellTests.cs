@@ -1,101 +1,26 @@
-﻿using System.Linq;
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Security.Principal;
+using System.ServiceProcess;
 using Autofac;
 using Moq;
 using NUnit.Framework;
 using Rescuer.Management.WindowsService.Shell;
-using Rescuer.Management.WindowsService.Shell.Installer;
 
 namespace Rescuer.Management.Tests
 {
     [TestFixture]
     public class WindowsServiceShellTests
     {
-        private IContainer _container;
-
-        private string negativeService = "negaticeService";
-        private string positiveService = "positiveService";
         [SetUp]
         public void Configure()
         {
             var builder = new ContainerBuilder();
 
-
-            var installerMock = new Mock<IWindowsServiceInstaller>();
-            installerMock.Setup(p => p.Install(positiveService))
-                .Returns(true);
-            installerMock.Setup(p => p.Uninstall(positiveService))
-                .Returns(true);
-
-            installerMock.Setup(p => p.Install(negativeService))
-                .Returns(false);
-            installerMock.Setup(p => p.Uninstall(negativeService));
-
-            builder.RegisterInstance(installerMock.Object).As<IWindowsServiceInstaller>();
             builder.RegisterType<WindowsServiceShell>().AsImplementedInterfaces();
-            
+
             _container = builder.Build();
-        }
-
-
-        [Test]
-        public void Can_Install_Service_Test()
-        {
-            var shell = _container.Resolve<IWindowsServiceShell>();
-
-            var installResult = shell.InstallService(positiveService);
-
-            Assert.AreEqual(true, installResult);
-        }
-
-        [Test]
-        public void Can_Uninstall_Service_Test()
-        {
-            var shell = _container.Resolve<IWindowsServiceShell>();
-
-            var uninstallResult = shell.UninstallService(positiveService);
-
-            Assert.AreEqual(true, uninstallResult);
-        }
-        
-
-        [Test]
-        public void Can_Handle_With_InstallError_Test()
-        {
-            var shell = _container.Resolve<IWindowsServiceShell>();
-
-            if (shell.ErrorLog.Any())
-                shell.ClearErrorLog();
-
-            Assert.IsFalse(shell.ErrorLog.Any(), "error log after cleaning should be empty");
-
-            var installResult = shell.InstallService(negativeService);
-
-            Assert.AreEqual(false, installResult, "installation should fail");
-            Assert.IsTrue(shell.ErrorLog.Any(), "after installation failed, error log should contains at least one message ");
-            Assert.IsNotNullOrEmpty(shell.ErrorLog[0], "error message should contains any text");
-        }
-
-        [Test]
-        public void Can_Handle_With_UninstallError_Test()
-        {
-            var shell = _container.Resolve<IWindowsServiceShell>();
-
-            if (shell.ErrorLog.Any())
-                shell.ClearErrorLog();
-
-            Assert.IsFalse(shell.ErrorLog.Any(), "error log after cleaning should be empty");
-
-            var installResult = shell.UninstallService(negativeService);
-
-            Assert.AreEqual(false, installResult, "uninstallation should fail");
-            Assert.IsTrue(shell.ErrorLog.Any(), "after uninstallation failed, error log should contains at least one message ");
-            Assert.IsNotNullOrEmpty(shell.ErrorLog[0], "error message should contains any text");
-        }
-
-        [Test]
-        public void Can_Check_If_ServiceExist()
-        {
-            Assert.Fail("test not implemented yet");
         }
 
 
@@ -105,6 +30,97 @@ namespace Rescuer.Management.Tests
             _container.Dispose();
         }
 
+        private IContainer _container;
 
+        
+        [Test]
+        public void Can_Connect_To_InstalledService_Test()
+        {
+            var serviceName = "TestService";
+            var shell = _container.Resolve<IWindowsServiceShell>();
+
+            var installationResult = shell.InstallService(serviceName, GetTestServicePath());
+            if (!installationResult)
+                Assert.Inconclusive("unable to make test due to failed windows service installation");
+
+            try
+            {
+                var connectionResult = shell.ConnectToService(serviceName);
+
+                Assert.IsTrue(connectionResult, "Can't connect to properly installed service");
+            }
+            finally
+            {
+                shell.UninstallService(serviceName);
+            }
+        }
+
+        [Test]
+        public void Can_Check_ServiceStatus_Test()
+        {
+            var serviceName = "TestService";
+            var shell = _container.Resolve<IWindowsServiceShell>();
+
+            var installationResult = shell.InstallService(serviceName, GetTestServicePath());
+            if (!installationResult)            
+                Assert.Inconclusive("unable to make test due to failed windows service installation");
+            try
+            {
+                var connectionResult = shell.ConnectToService(serviceName);
+
+                if (!connectionResult)
+                    Assert.Inconclusive("unable to make test due to failed connect to service");
+
+                var serviceStatus = shell.GetServiceStatus();
+
+                Assert.IsNotNullOrEmpty(serviceStatus, "service status shoudn't be empty");
+
+                Assert.IsTrue(serviceStatus == ServiceControllerStatus.Stopped.ToString() || serviceStatus == ServiceControllerStatus.Running.ToString());
+            }
+            finally
+            {
+                shell.UninstallService(serviceName);
+            }
+        }
+
+        [Test]
+        public void Can_Throw_Exception_If_CheckStatus_Before_ConnectingToService_Test()
+        {
+            var shell = _container.Resolve<IWindowsServiceShell>();
+
+            Assert.Throws<InvalidOperationException>(() => shell.GetServiceStatus(),
+                "invoking GetServiceStatus before ConnectToService() should throw an exception, but didn't");
+        }
+
+
+        [Test]
+        public void Can_Install_And_Uninstall_Service_Test()
+        {
+            if (!new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator))
+            {
+                Assert.Fail("user invoking this test must has admiministrator role");
+            }
+
+            var serviceName = "TestService";
+            var servicePath = GetTestServicePath();
+
+            var shell = _container.Resolve<IWindowsServiceShell>();
+
+            var installResult = shell.InstallService(serviceName, servicePath);
+
+            Assert.IsTrue(installResult, $"cant install windows service: {serviceName}");
+
+            var uninstallResult = shell.UninstallService(serviceName);
+
+            Assert.IsTrue(uninstallResult, $"can't uninstall existing service: {serviceName}");
+        }
+
+        
+
+        private static string GetTestServicePath()
+        {
+            return Path.Combine(Directory.GetCurrentDirectory(), "CompiledTestService",
+                "Rescuer.Services.EmptyTestService.exe");
+        }
     }
 }

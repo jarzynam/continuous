@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System.ServiceProcess;
+using Autofac;
 using Moq;
 using NUnit.Framework;
 using Rescuer.Management.WindowsService;
@@ -15,8 +16,8 @@ namespace Rescuer.Management.Tests
             var builder = new ContainerBuilder();
             var windowsServiceShell = new Mock<IWindowsServiceShell>();
             
-            windowsServiceShell.Setup(p => p.GetServiceStatus(It.IsAny<string>()))
-                .Returns("stopped");
+            windowsServiceShell.Setup(p => p.GetServiceStatus())
+                .Returns(ServiceControllerStatus.Stopped.ToString());
 
             builder.RegisterInstance(windowsServiceShell.Object).As<IWindowsServiceShell>();
             builder.RegisterType<WindowsServiceRescuer>().AsImplementedInterfaces();
@@ -39,8 +40,8 @@ namespace Rescuer.Management.Tests
             var builder = new ContainerBuilder();
             var windowsServiceShell = new Mock<IWindowsServiceShell>();
 
-            windowsServiceShell.Setup(p => p.GetServiceStatus(It.IsAny<string>()))
-                .Returns("working");
+            windowsServiceShell.Setup(p => p.GetServiceStatus())
+                .Returns(ServiceControllerStatus.Running.ToString());
 
             builder.RegisterInstance(windowsServiceShell.Object).As<IWindowsServiceShell>();
             builder.RegisterType<WindowsServiceRescuer>().AsImplementedInterfaces();
@@ -63,7 +64,7 @@ namespace Rescuer.Management.Tests
             var builder = new ContainerBuilder();
             var windowsServiceShell = new Mock<IWindowsServiceShell>();
 
-            windowsServiceShell.Setup(p => p.CheckExisting(It.IsAny<string>()))
+            windowsServiceShell.Setup(p => p.ConnectToService(It.IsAny<string>()))
                 .Returns(true);
 
             builder.RegisterInstance(windowsServiceShell.Object).As<IWindowsServiceShell>();
@@ -83,7 +84,7 @@ namespace Rescuer.Management.Tests
             var builder = new ContainerBuilder();
             var windowsServiceShell = new Mock<IWindowsServiceShell>();
 
-            windowsServiceShell.Setup(p => p.CheckExisting(It.IsAny<string>()))
+            windowsServiceShell.Setup(p => p.ConnectToService(It.IsAny<string>()))
                 .Returns(false);
 
             builder.RegisterInstance(windowsServiceShell.Object).As<IWindowsServiceShell>();
@@ -105,9 +106,9 @@ namespace Rescuer.Management.Tests
             var windowsServiceShell = new Mock<IWindowsServiceShell>();
 
             var shellHits = 0;
-            windowsServiceShell.Setup(p => p.GetServiceStatus(string.Empty))
+            windowsServiceShell.Setup(p => p.GetServiceStatus())
                 .Callback(() => { shellHits++; })
-                .Returns("working");
+                .Returns(ServiceControllerStatus.Running.ToString());
 
             builder.RegisterInstance(windowsServiceShell.Object).As<IWindowsServiceShell>();
             builder.RegisterType<WindowsServiceRescuer>().AsImplementedInterfaces();
