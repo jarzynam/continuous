@@ -94,6 +94,9 @@ namespace Rescuer.Management.WindowsService.Shell
         {
             ThrowExceptionIfNotConnectedToService();
 
+            if (_service.Status == ServiceControllerStatus.Running)
+                return false;
+
             _service.Start();
 
             _service.WaitForStatus(ServiceControllerStatus.Running, _timeout);
