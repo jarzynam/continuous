@@ -21,6 +21,9 @@ namespace Rescuer.Management.Tests
             builder.RegisterType<WindowsServiceShell>().AsImplementedInterfaces();
 
             _container = builder.Build();
+
+            //if for some reasongs, TestService is still running after last tests - try to uninstall it
+            new WindowsServiceShell().UninstallService(ServiceName);
         }
 
 
@@ -273,5 +276,7 @@ namespace Rescuer.Management.Tests
             return Path.Combine(Directory.GetCurrentDirectory(), "CompiledTestService",
                 "Rescuer.Services.EmptyTestService.exe");
         }
+
+        private const string ServiceName = "TestService23442";
     }
 }

@@ -11,16 +11,17 @@ namespace Rescuer.Management.WindowsService.Shell
         public List<string> ErrorLog { get; set; }
 
         private ServiceController _service;
+        private readonly TimeSpan _timeout;
 
         public WindowsServiceShell()
         {
             ErrorLog = new List<string>();
+            _timeout = TimeSpan.FromSeconds(5);
         }
         
         public string GetServiceStatus()
         {
-            if(_service == null)
-                throw new InvalidOperationException("Can't get service status before connect to the windows service");
+            ThrowExceptionIfNotConnectedToService();
 
             return _service.Status.ToString();
         }
@@ -36,8 +37,7 @@ namespace Rescuer.Management.WindowsService.Shell
         public bool InstallService(string serviceName, string fullServicePath)
         {
             using (var powershell = PowerShell.Create(RunspaceMode.NewRunspace))
-            {
-                
+            {                
                 powershell.AddScript($"New-Service -Name {serviceName} -BinaryPathName {fullServicePath}");
 
                 powershell.Invoke();
@@ -46,11 +46,6 @@ namespace Rescuer.Management.WindowsService.Shell
 
                 return !powershell.HadErrors;
             }
-        }
-
-        private void GetErrors(PowerShell powershell)
-        {
-            ErrorLog = powershell.Streams.Error.ReadAll().Select(p => p.Exception.ToString()).ToList();
         }
 
         public bool UninstallService(string serviceName)
@@ -74,12 +69,41 @@ namespace Rescuer.Management.WindowsService.Shell
 
         public bool StopService()
         {
-            throw new NotImplementedException();
+            ThrowExceptionIfNotConnectedToService();
+
+            if (!_service.CanStop)
+            {
+                ErrorLog.Add("service can't be stopped after start");
+                return false;
+            }
+
+            _service.Stop();
+                        
+            _service.WaitForStatus(ServiceControllerStatus.Stopped, _timeout);
+                                
+            return true;
         }
 
         public bool StartService()
         {
-            throw new NotImplementedException();
+            ThrowExceptionIfNotConnectedToService();
+
+            _service.Start();
+
+            _service.WaitForStatus(ServiceControllerStatus.Running, _timeout);
+
+            return true;
+        }
+
+        private void ThrowExceptionIfNotConnectedToService()
+        {
+            if (_service == null)
+                throw new InvalidOperationException("Can't get service status before connect to the windows service");
+        }
+
+        private void GetErrors(PowerShell powershell)
+        {
+            ErrorLog = powershell.Streams.Error.ReadAll().Select(p => p.Exception.ToString()).ToList();
         }
     }
 }
