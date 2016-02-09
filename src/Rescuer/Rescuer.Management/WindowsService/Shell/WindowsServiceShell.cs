@@ -18,7 +18,7 @@ namespace Rescuer.Management.WindowsService.Shell
             ErrorLog = new List<string>();
             _timeout = TimeSpan.FromSeconds(5);
         }
-        
+
         public string GetServiceStatus()
         {
             ThrowExceptionIfNotConnectedToService();
@@ -29,7 +29,7 @@ namespace Rescuer.Management.WindowsService.Shell
         public bool ConnectToService(string serviceName)
         {
             _service = ServiceController.GetServices()
-            .FirstOrDefault(s => s.ServiceName == serviceName);
+                .FirstOrDefault(s => s.ServiceName == serviceName);
 
             return _service != null;
         }
@@ -37,7 +37,7 @@ namespace Rescuer.Management.WindowsService.Shell
         public bool InstallService(string serviceName, string fullServicePath)
         {
             using (var powershell = PowerShell.Create(RunspaceMode.NewRunspace))
-            {                
+            {
                 powershell.AddScript($"New-Service -Name {serviceName} -BinaryPathName {fullServicePath}");
 
                 powershell.Invoke();
@@ -50,17 +50,23 @@ namespace Rescuer.Management.WindowsService.Shell
 
         public bool UninstallService(string serviceName)
         {
+
             using (var powershell = PowerShell.Create(RunspaceMode.NewRunspace))
             {
-                powershell.AddScript($"$service = Get-WmiObject -Class Win32_Service -Filter \"Name = '{serviceName}'\"; if($service){{$service.delete()}}");
+                powershell.AddScript(
+                    $"$service = Get-WmiObject -Class Win32_Service -Filter \"Name = '{serviceName}'\";" +
+                    $"$id = $id = $service | select -expand ProcessId;" +
+                    $" if($id){{( Get-Process -Id $id).Kill()}} ;" +
+                    $" if($service){{$service.delete()}}");
 
                 powershell.Invoke();
-                
+
                 GetErrors(powershell);
 
                 return !powershell.HadErrors;
             }
         }
+
 
         public void ClearErrorLog()
         {
@@ -78,9 +84,9 @@ namespace Rescuer.Management.WindowsService.Shell
             }
 
             _service.Stop();
-                        
+
             _service.WaitForStatus(ServiceControllerStatus.Stopped, _timeout);
-                                
+
             return true;
         }
 
@@ -105,5 +111,6 @@ namespace Rescuer.Management.WindowsService.Shell
         {
             ErrorLog = powershell.Streams.Error.ReadAll().Select(p => p.Exception.ToString()).ToList();
         }
+
     }
 }

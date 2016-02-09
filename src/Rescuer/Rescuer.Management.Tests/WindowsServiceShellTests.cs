@@ -42,7 +42,7 @@ namespace Rescuer.Management.Tests
         }
 
         private const string ServiceName = "TestService23442";
-
+        
         [Test]
         public void Can_Check_ServiceStatus_Test()
         {

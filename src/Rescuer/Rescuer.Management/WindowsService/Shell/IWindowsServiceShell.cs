@@ -7,7 +7,7 @@ namespace Rescuer.Management.WindowsService.Shell
         string GetServiceStatus();
         bool ConnectToService(string serviceName);
         bool InstallService(string serviceName, string fullServicePath);
-        bool UninstallService(string serviceName);
+        bool UninstallService(string serviceName);        
         List<string> ErrorLog { get; set; }
         void ClearErrorLog();
         bool StopService();
