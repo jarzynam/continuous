@@ -1,8 +1,9 @@
+using System;
 using System.Collections.Generic;
 
 namespace Rescuer.Management.WindowsService.Shell
 {
-    public interface IWindowsServiceShell
+    public interface IWindowsServiceShell : IDisposable
     {
         string GetServiceStatus();
         bool ConnectToService(string serviceName);

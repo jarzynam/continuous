@@ -115,5 +115,9 @@ namespace Rescuer.Management.WindowsService.Shell
             ErrorLog = powershell.Streams.Error.ReadAll().Select(p => p.Exception.ToString()).ToList();
         }
 
+        public void Dispose()
+        {
+            _service?.Dispose();
+        }
     }
 }
