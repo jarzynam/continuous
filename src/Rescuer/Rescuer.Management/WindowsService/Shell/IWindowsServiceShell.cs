@@ -10,5 +10,7 @@ namespace Rescuer.Management.WindowsService.Shell
         bool UninstallService(string serviceName);
         List<string> ErrorLog { get; set; }
         void ClearErrorLog();
+        bool StopService();
+        bool StartService();
     }
 }

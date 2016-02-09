@@ -71,5 +71,15 @@ namespace Rescuer.Management.WindowsService.Shell
         {
             ErrorLog = new List<string>();
         }
+
+        public bool StopService()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool StartService()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
