@@ -35,8 +35,10 @@ namespace Rescuer.Management.Tests
 
         private static string GetTestServicePath()
         {
-            return Path.Combine(Directory.GetCurrentDirectory(), "CompiledTestService",
+            var path =  Path.Combine(Directory.GetCurrentDirectory(), "CompiledTestService",
                 "Rescuer.Services.EmptyTestService.exe");
+
+            return path;
         }
 
         private const string ServiceName = "TestService23442";

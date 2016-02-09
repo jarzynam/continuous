@@ -68,7 +68,9 @@
     <Compile Include="WindowsServiceShellTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="CompiledTestService\Rescuer.Services.EmptyTestService.exe.config" />
+    <None Include="CompiledTestService\Rescuer.Services.EmptyTestService.exe.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -78,7 +80,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CompiledTestService\Rescuer.Services.EmptyTestService.exe" />
+    <Content Include="CompiledTestService\Rescuer.Services.EmptyTestService.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
