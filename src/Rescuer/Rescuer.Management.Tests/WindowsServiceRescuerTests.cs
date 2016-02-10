@@ -1,8 +1,10 @@
-﻿using System.ServiceProcess;
+﻿using System.Collections.Generic;
+using System.ServiceProcess;
 using Autofac;
 using Moq;
 using NUnit.Framework;
 using Rescuer.Management.WindowsService;
+using Rescuer.Management.WindowsService.Exceptions;
 using Rescuer.Management.WindowsService.Shell;
 
 namespace Rescuer.Management.Tests
@@ -24,9 +26,7 @@ namespace Rescuer.Management.Tests
 
             using (var container = builder.Build())
             {
-                IRescuer rescuer = container.Resolve<IWindowsServiceRescuer>();
-
-                rescuer.ConnectToService("RescuerTestService");
+                IRescuer rescuer = container.Resolve<IWindowsServiceRescuer>();            
                 var healthStatus = rescuer.CheckHealth();
 
                 Assert.IsNotNull(healthStatus);
@@ -49,8 +49,7 @@ namespace Rescuer.Management.Tests
             using (var container = builder.Build())
             {
                 IRescuer rescuer = container.Resolve<IWindowsServiceRescuer>();
-
-                rescuer.ConnectToService("RescuerTestService");
+                
                 var healthStatus = rescuer.CheckHealth();
 
                 Assert.IsNotNull(healthStatus);
@@ -86,6 +85,7 @@ namespace Rescuer.Management.Tests
 
             windowsServiceShell.Setup(p => p.ConnectToService(It.IsAny<string>()))
                 .Returns(false);
+            windowsServiceShell.Setup(p => p.ErrorLog).Returns(new List<string> {"Service connection exception"});
 
             builder.RegisterInstance(windowsServiceShell.Object).As<IWindowsServiceShell>();
             builder.RegisterType<WindowsServiceRescuer>().AsImplementedInterfaces();
@@ -94,7 +94,7 @@ namespace Rescuer.Management.Tests
             {
                 var rescuer = container.Resolve<IWindowsServiceRescuer>();
 
-                Assert.Catch<ServiceNotFoundException>(() => rescuer.ConnectToService("test"));
+                Assert.Catch<ServiceConnectionException>(() => rescuer.ConnectToService("test"));
             }
         }
 
@@ -117,10 +117,50 @@ namespace Rescuer.Management.Tests
             {
                 var rescuer = container.Resolve<IWindowsServiceRescuer>();
 
-                rescuer.ConnectToService("RescuerTestService");
                 rescuer.CheckHealth();
 
                 Assert.IsTrue(shellHits > 0, "Windows service rescuer should hit mocked shell at least once.");
+            }
+        }
+
+        [Test]
+        public void Can_Rescue_Service_Test()
+        {
+            var builder = new ContainerBuilder();
+            var shell = new Mock<IWindowsServiceShell>();
+
+            shell.Setup(p => p.StartService()).Returns(true);
+
+            builder.RegisterInstance(shell.Object).As<IWindowsServiceShell>();
+            builder.RegisterType<WindowsServiceRescuer>().AsImplementedInterfaces();
+
+            using (var container = builder.Build())
+            {
+                var rescuer = container.Resolve<IWindowsServiceRescuer>();
+
+                var result = rescuer.Rescue();
+
+                Assert.IsTrue(result);
+            }
+        }
+
+        [Test]
+        public void Can_Handle_FailedResuce_Test()
+        {
+            var builder = new ContainerBuilder();
+            var shell = new Mock<IWindowsServiceShell>();
+
+            shell.Setup(p => p.StartService()).Returns(false);
+            shell.Setup(p => p.ErrorLog).Returns(new List<string>{"cant start service"});
+
+            builder.RegisterInstance(shell.Object).As<IWindowsServiceShell>();
+            builder.RegisterType<WindowsServiceRescuer>().AsImplementedInterfaces();
+
+            using (var container = builder.Build())
+            {
+                var rescuer = container.Resolve<IWindowsServiceRescuer>();
+
+                Assert.Throws<ServiceRescueException>(() => rescuer.Rescue());
             }
         }
     }

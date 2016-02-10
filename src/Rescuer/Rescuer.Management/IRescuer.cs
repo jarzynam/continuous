@@ -1,8 +1,12 @@
+using System;
+
 namespace Rescuer.Management
 {
-    public interface IRescuer
+    public interface IRescuer : IDisposable
     {
-        HealthStatus CheckHealth();        
+        HealthStatus CheckHealth();
+        bool Rescue();
         void ConnectToService(string serviceName);
+
     }
 }
