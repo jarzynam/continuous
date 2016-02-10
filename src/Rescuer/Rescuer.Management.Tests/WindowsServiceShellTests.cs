@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Security.Principal;
 using System.ServiceProcess;
 using Autofac;
@@ -73,6 +74,15 @@ namespace Rescuer.Management.Tests
         }
 
         [Test]
+        public void Can_Handle_Check_ServiceStatus_Before_InstallService_Test()
+        {
+            using (var shell = _container.Resolve<IWindowsServiceShell>())
+            {
+                Assert.Throws<InvalidOperationException>(() => shell.GetServiceStatus());
+            }
+        }
+
+        [Test]
         public void Can_Connect_To_InstalledService_Test()
         {
             var serviceName = RandomServiceName;
@@ -93,6 +103,22 @@ namespace Rescuer.Management.Tests
                 {
                     shell.UninstallService(serviceName);
                 }
+            }
+        }
+
+        [Test]
+        public void Can_Handle_Invalid_ServiceName_InConnection_Test()
+        {
+            var serviceName = "ReallyBadServiceName12323432";
+            using (var shell = _container.Resolve<IWindowsServiceShell>())
+            {
+                if (shell.ErrorLog.Any())
+                    Assert.Inconclusive("ErrorLog should be empty before connection attempt");
+                
+                var connectionResult = shell.ConnectToService(serviceName);
+
+                Assert.IsFalse(connectionResult, "connectionResult should be false");
+                Assert.IsTrue(shell.ErrorLog.Any(), "Error log should contains any message after connection attempt");
             }
         }
 

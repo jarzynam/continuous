@@ -31,6 +31,10 @@ namespace Rescuer.Management.WindowsService.Shell
             _service = ServiceController.GetServices()
                 .FirstOrDefault(s => s.ServiceName == serviceName);
 
+            if (_service == null)
+            {
+                ErrorLog.Add("can't find service with name "+ serviceName);
+            }
             return _service != null;
         }
 
