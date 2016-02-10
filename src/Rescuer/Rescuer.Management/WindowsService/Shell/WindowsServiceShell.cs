@@ -19,11 +19,11 @@ namespace Rescuer.Management.WindowsService.Shell
             _timeout = TimeSpan.FromSeconds(5);
         }
 
-        public string GetServiceStatus()
+        public ServiceControllerStatus GetServiceStatus()
         {
             ThrowExceptionIfNotConnectedToService();
 
-            return _service.Status.ToString();
+            return _service.Status;
         }
 
         public bool ConnectToService(string serviceName)

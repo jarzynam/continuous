@@ -17,7 +17,7 @@ namespace Rescuer.Management.Tests
             var windowsServiceShell = new Mock<IWindowsServiceShell>();
             
             windowsServiceShell.Setup(p => p.GetServiceStatus())
-                .Returns(ServiceControllerStatus.Stopped.ToString());
+                .Returns(ServiceControllerStatus.Stopped);
 
             builder.RegisterInstance(windowsServiceShell.Object).As<IWindowsServiceShell>();
             builder.RegisterType<WindowsServiceRescuer>().AsImplementedInterfaces();
@@ -41,7 +41,7 @@ namespace Rescuer.Management.Tests
             var windowsServiceShell = new Mock<IWindowsServiceShell>();
 
             windowsServiceShell.Setup(p => p.GetServiceStatus())
-                .Returns(ServiceControllerStatus.Running.ToString());
+                .Returns(ServiceControllerStatus.Running);
 
             builder.RegisterInstance(windowsServiceShell.Object).As<IWindowsServiceShell>();
             builder.RegisterType<WindowsServiceRescuer>().AsImplementedInterfaces();
@@ -108,7 +108,7 @@ namespace Rescuer.Management.Tests
             var shellHits = 0;
             windowsServiceShell.Setup(p => p.GetServiceStatus())
                 .Callback(() => { shellHits++; })
-                .Returns(ServiceControllerStatus.Running.ToString());
+                .Returns(ServiceControllerStatus.Running);
 
             builder.RegisterInstance(windowsServiceShell.Object).As<IWindowsServiceShell>();
             builder.RegisterType<WindowsServiceRescuer>().AsImplementedInterfaces();

@@ -60,10 +60,10 @@ namespace Rescuer.Management.Tests
 
                     var serviceStatus = shell.GetServiceStatus();
 
-                    Assert.IsNotNullOrEmpty(serviceStatus, "service status shoudn't be empty");
+                    Assert.IsNotNull(serviceStatus, "service status shoudn't be null");                    
 
-                    Assert.IsTrue(serviceStatus == ServiceControllerStatus.Stopped.ToString() ||
-                                  serviceStatus == ServiceControllerStatus.Running.ToString());
+                    Assert.IsTrue(serviceStatus == ServiceControllerStatus.Stopped ||
+                                  serviceStatus == ServiceControllerStatus.Running);
                 }
                 finally
                 {
@@ -194,7 +194,7 @@ namespace Rescuer.Management.Tests
                         Assert.Inconclusive("unable to make test due to failed connect to service");
 
                     var serviceStatus = shell.GetServiceStatus();
-                    if (ServiceControllerStatus.Stopped.ToString() != serviceStatus)
+                    if (ServiceControllerStatus.Stopped != serviceStatus)
                         Assert.Inconclusive(
                             $"unable to make test due to incorrect windows service status (should be runnig but was {serviceStatus})");
 
@@ -270,7 +270,7 @@ namespace Rescuer.Management.Tests
                         Assert.Inconclusive("unable to make test due to failed connect to service");
 
                     var serviceStatus = shell.GetServiceStatus();
-                    if (ServiceControllerStatus.Stopped.ToString() != serviceStatus)
+                    if (ServiceControllerStatus.Stopped != serviceStatus)
                         Assert.Inconclusive(
                             $"unable to make test due to incorrect windows service status (should be stopped but was {serviceStatus}");
 

@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.ServiceProcess;
 
 namespace Rescuer.Management.WindowsService.Shell
 {
     public interface IWindowsServiceShell : IDisposable
     {
-        string GetServiceStatus();
+        ServiceControllerStatus GetServiceStatus();
         bool ConnectToService(string serviceName);
         bool InstallService(string serviceName, string fullServicePath);
         bool UninstallService(string serviceName);        
