@@ -55,7 +55,7 @@ namespace Rescuer.Management.WindowsService.Shell
             {
                 powershell.AddScript(
                     $"$service = Get-WmiObject -Class Win32_Service -Filter \"Name = '{serviceName}'\";" +
-                    $"$id = $id = $service | select -expand ProcessId;" +
+                    $"$id = $service | select -expand ProcessId;" +
                     $" if($id){{( Get-Process -Id $id).Kill()}} ;" +
                     $" if($service){{$service.delete()}}");
 
