@@ -8,16 +8,17 @@ namespace Rescuer.Management.WindowsService.Shell
 {
     public class WindowsServiceShell : IWindowsServiceShell
     {
-        public List<string> ErrorLog { get; set; }
+        private readonly TimeSpan _timeout;
 
         private ServiceController _service;
-        private readonly TimeSpan _timeout;
 
         public WindowsServiceShell()
         {
             ErrorLog = new List<string>();
             _timeout = TimeSpan.FromSeconds(5);
         }
+
+        public List<string> ErrorLog { get; set; }
 
         public ServiceControllerStatus GetServiceStatus()
         {
@@ -33,7 +34,7 @@ namespace Rescuer.Management.WindowsService.Shell
 
             if (_service == null)
             {
-                ErrorLog.Add("can't find service with name "+ serviceName);
+                ErrorLog.Add("can't find service with name " + serviceName);
             }
             return _service != null;
         }
@@ -54,7 +55,6 @@ namespace Rescuer.Management.WindowsService.Shell
 
         public bool UninstallService(string serviceName)
         {
-
             using (var powershell = PowerShell.Create(RunspaceMode.NewRunspace))
             {
                 powershell.AddScript(
@@ -108,6 +108,11 @@ namespace Rescuer.Management.WindowsService.Shell
             return true;
         }
 
+        public void Dispose()
+        {
+            _service?.Dispose();
+        }
+
         private void ThrowExceptionIfNotConnectedToService()
         {
             if (_service == null)
@@ -117,11 +122,6 @@ namespace Rescuer.Management.WindowsService.Shell
         private void GetErrors(PowerShell powershell)
         {
             ErrorLog = powershell.Streams.Error.ReadAll().Select(p => p.Exception.ToString()).ToList();
-        }
-
-        public void Dispose()
-        {
-            _service?.Dispose();
         }
     }
 }

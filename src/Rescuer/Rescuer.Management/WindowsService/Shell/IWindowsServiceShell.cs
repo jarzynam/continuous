@@ -6,11 +6,11 @@ namespace Rescuer.Management.WindowsService.Shell
 {
     public interface IWindowsServiceShell : IDisposable
     {
+        List<string> ErrorLog { get; set; }
         ServiceControllerStatus GetServiceStatus();
         bool ConnectToService(string serviceName);
         bool InstallService(string serviceName, string fullServicePath);
-        bool UninstallService(string serviceName);        
-        List<string> ErrorLog { get; set; }
+        bool UninstallService(string serviceName);
         void ClearErrorLog();
         bool StopService();
         bool StartService();

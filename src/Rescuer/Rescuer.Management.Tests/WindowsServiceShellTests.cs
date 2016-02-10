@@ -21,7 +21,7 @@ namespace Rescuer.Management.Tests
 
             _container = builder.Build();
 
-            _random = new Random();                        
+            _random = new Random();
         }
 
         [TearDown]
@@ -35,7 +35,7 @@ namespace Rescuer.Management.Tests
 
         private static string GetTestServicePath()
         {
-            var path =  Path.Combine(Directory.GetCurrentDirectory(), "CompiledTestService",
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "CompiledTestService",
                 "Rescuer.Services.EmptyTestService.exe");
 
             return path;
@@ -61,7 +61,7 @@ namespace Rescuer.Management.Tests
 
                     var serviceStatus = shell.GetServiceStatus();
 
-                    Assert.IsNotNull(serviceStatus, "service status shoudn't be null");                    
+                    Assert.IsNotNull(serviceStatus, "service status shoudn't be null");
 
                     Assert.IsTrue(serviceStatus == ServiceControllerStatus.Stopped ||
                                   serviceStatus == ServiceControllerStatus.Running);
@@ -74,21 +74,11 @@ namespace Rescuer.Management.Tests
         }
 
         [Test]
-        public void Can_Handle_Check_ServiceStatus_Before_InstallService_Test()
-        {
-            using (var shell = _container.Resolve<IWindowsServiceShell>())
-            {
-                Assert.Throws<InvalidOperationException>(() => shell.GetServiceStatus());
-            }
-        }
-
-        [Test]
         public void Can_Connect_To_InstalledService_Test()
         {
             var serviceName = RandomServiceName;
             using (var shell = _container.Resolve<IWindowsServiceShell>())
             {
-
                 var installationResult = shell.InstallService(serviceName, GetTestServicePath());
                 if (!installationResult)
                     Assert.Inconclusive("unable to make test due to failed windows service installation");
@@ -107,6 +97,15 @@ namespace Rescuer.Management.Tests
         }
 
         [Test]
+        public void Can_Handle_Check_ServiceStatus_Before_InstallService_Test()
+        {
+            using (var shell = _container.Resolve<IWindowsServiceShell>())
+            {
+                Assert.Throws<InvalidOperationException>(() => shell.GetServiceStatus());
+            }
+        }
+
+        [Test]
         public void Can_Handle_Invalid_ServiceName_InConnection_Test()
         {
             var serviceName = "ReallyBadServiceName12323432";
@@ -114,7 +113,7 @@ namespace Rescuer.Management.Tests
             {
                 if (shell.ErrorLog.Any())
                     Assert.Inconclusive("ErrorLog should be empty before connection attempt");
-                
+
                 var connectionResult = shell.ConnectToService(serviceName);
 
                 Assert.IsFalse(connectionResult, "connectionResult should be false");
@@ -143,7 +142,7 @@ namespace Rescuer.Management.Tests
 
         [Test]
         public void Can_Install_And_Uninstall_Service_Test()
-        {            
+        {
             if (!new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator))
             {
                 Assert.Fail("user invoking this test must has admiministrator role");
@@ -154,7 +153,6 @@ namespace Rescuer.Management.Tests
 
             using (var shell = _container.Resolve<IWindowsServiceShell>())
             {
-
                 var installResult = shell.InstallService(serviceName, servicePath);
 
                 Assert.IsTrue(installResult, $"cant install windows service: {serviceName}");
