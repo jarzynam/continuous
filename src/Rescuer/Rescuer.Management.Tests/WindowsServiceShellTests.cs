@@ -165,7 +165,7 @@ namespace Rescuer.Management.Tests
                     Assert.IsFalse(startResult, "starting running service should return false");
 
                     var serviceStatus = shell.GetServiceStatus();
-                    Assert.AreEqual(ServiceControllerStatus.Running.ToString(), serviceStatus,
+                    Assert.AreEqual(ServiceControllerStatus.Running, serviceStatus,
                         $"service should be still running but was {serviceStatus}");
                 }
                 finally
@@ -202,7 +202,7 @@ namespace Rescuer.Management.Tests
                     Assert.IsTrue(startResult, "start result should be true");
 
                     serviceStatus = shell.GetServiceStatus();
-                    Assert.AreEqual(ServiceControllerStatus.Running.ToString(), serviceStatus,
+                    Assert.AreEqual(ServiceControllerStatus.Running, serviceStatus,
                         $"after positive start result, service status should be 'running', but was {serviceStatus}");
                 }
                 finally
@@ -241,7 +241,7 @@ namespace Rescuer.Management.Tests
 
                     var serviceStatus = shell.GetServiceStatus();
 
-                    Assert.AreEqual(ServiceControllerStatus.Stopped.ToString(), serviceStatus,
+                    Assert.AreEqual(ServiceControllerStatus.Stopped, serviceStatus,
                         $"after positive stop result, service status should be also as 'stopped' but was {serviceStatus}");
                 }
                 finally
@@ -278,7 +278,7 @@ namespace Rescuer.Management.Tests
                     Assert.IsFalse(stopResult, "stopping stopped service should return false");
 
                     serviceStatus = shell.GetServiceStatus();
-                    Assert.AreEqual(ServiceControllerStatus.Stopped.ToString(), serviceStatus,
+                    Assert.AreEqual(ServiceControllerStatus.Stopped, serviceStatus,
                         $"service should be still stopped but was {serviceStatus}");
                 }
                 finally
