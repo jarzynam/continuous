@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.ServiceProcess;
 using Autofac;
 using Moq;
@@ -73,7 +74,7 @@ namespace Rescuer.Management.Tests
             {
                 var rescuer = container.Resolve<IWindowsServiceRescuer>();
 
-                Assert.DoesNotThrow(() => rescuer.ConnectToService("test"));
+                Assert.DoesNotThrow(() => rescuer.Connect("test"));
             }
         }
 
@@ -94,7 +95,7 @@ namespace Rescuer.Management.Tests
             {
                 var rescuer = container.Resolve<IWindowsServiceRescuer>();
 
-                Assert.Catch<ServiceConnectionException>(() => rescuer.ConnectToService("test"));
+                Assert.Catch<ServiceConnectionException>(() => rescuer.Connect("test"));
             }
         }
 
@@ -161,6 +162,43 @@ namespace Rescuer.Management.Tests
                 var rescuer = container.Resolve<IWindowsServiceRescuer>();
 
                 Assert.Throws<ServiceRescueException>(() => rescuer.Rescue());
+            }
+        }
+
+        [Test]
+        public void Can_Monitor_And_Rescue_RunningService_Test()
+        {
+            var builder = new ContainerBuilder();
+            var shell = new Mock<IWindowsServiceShell>();
+
+            shell.Setup(p => p.GetServiceStatus()).Returns(ServiceControllerStatus.Running);
+
+            builder.RegisterInstance(shell.Object);
+            builder.RegisterType<WindowsServiceRescuer>().AsImplementedInterfaces();
+
+            using (var container = builder.Build())
+            {
+                var rescuer = container.Resolve<IWindowsServiceRescuer>();
+                Assert.DoesNotThrow(() =>rescuer.MonitorAndRescue());
+            }
+        }
+
+        [Test]
+        public void Can_Monitor_And_Rescue_StoppedService_Test()
+        {
+            var builder = new ContainerBuilder();
+            var shell = new Mock<IWindowsServiceShell>();
+
+            shell.Setup(p => p.GetServiceStatus()).Returns(ServiceControllerStatus.Running);
+            shell.Setup(p => p.StartService()).Returns(true);
+
+            builder.RegisterInstance(shell.Object);
+            builder.RegisterType<WindowsServiceRescuer>().AsImplementedInterfaces();
+
+            using (var container = builder.Build())
+            {
+                var rescuer = container.Resolve<IWindowsServiceRescuer>();
+                Assert.DoesNotThrow(() => rescuer.MonitorAndRescue());
             }
         }
     }

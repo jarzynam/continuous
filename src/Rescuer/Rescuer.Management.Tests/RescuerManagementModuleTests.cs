@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using NUnit.Framework;
+using Rescuer.Management.Factory;
 using Rescuer.Management.WindowsService;
 
 namespace Rescuer.Management.Tests
@@ -25,6 +26,21 @@ namespace Rescuer.Management.Tests
                     
 
                 Assert.IsNotNull(rescuer, "rescuer instance cant be null");
+            }
+        }
+
+        [Test]
+        public void Can_Get_WindowsServiceRescuer_FromFactory_Test()
+        {
+            var builder = new ContainerBuilder();
+
+            builder.RegisterModule<RescuerManagementModule>();
+            using (var container = builder.Build())
+            {
+                var rescuer = container.ResolveKeyed<IRescuerFactory>(new NamedParameter("RescuerFactoryType",
+                    RescuerFactoryType.WindowsServiceRescuer));
+
+                Assert.AreEqual(typeof(WindowsServiceRescuerFactory), rescuer.GetType());
             }
         }
     }

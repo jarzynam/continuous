@@ -318,7 +318,7 @@ namespace Rescuer.Management.Tests
             using (var shell = _container.Resolve<IWindowsServiceShell>())
             {
                 Assert.Throws<InvalidOperationException>(() => shell.GetServiceStatus(),
-                    "invoking GetServiceStatus before ConnectToService() should throw an exception, but didn't");
+                    "invoking GetServiceStatus before Connect() should throw an exception, but didn't");
             }
         }
     }

@@ -6,7 +6,8 @@ namespace Rescuer.Management
     {
         HealthStatus CheckHealth();
         bool Rescue();
-        void ConnectToService(string serviceName);
+        void Connect(string serviceName);
+        void MonitorAndRescue();
 
     }
 }

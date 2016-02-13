@@ -33,12 +33,20 @@ namespace Rescuer.Management.WindowsService
             return true;
         }
 
-        public void ConnectToService(string serviceName)
+        public void Connect(string serviceName)
         {
             var connectionResult = _serviceShell.ConnectToService(serviceName);
 
             if(!connectionResult)
                 throw new ServiceConnectionException(_serviceShell.ErrorLog.LastOrDefault());
+        }
+
+        public void MonitorAndRescue()
+        {
+            var status = CheckHealth();
+
+            if (status != HealthStatus.Working)
+                Rescue();            
         }
 
         public void Dispose()
