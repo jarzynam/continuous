@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ServiceProcess;
 
-namespace Rescuer.Management.WindowsService.Shell
+namespace Rescuer.Management.Rescuers.WindowsService.Shell
 {
     public interface IWindowsServiceShell : IDisposable
     {

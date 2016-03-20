@@ -1,4 +1,4 @@
-﻿namespace Rescuer.Management.Factory
+﻿namespace Rescuer.Management.Rescuers
 {
     public enum RescuerType
     {

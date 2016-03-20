@@ -1,9 +1,7 @@
 ﻿using System.Configuration;
 using System.ServiceProcess;
 using System.Threading;
-using Autofac;
-using Rescuer.Management;
-using Rescuer.Management.Factory;
+using Rescuer.Management.Controller;
 
 
 namespace Rescuer.Service

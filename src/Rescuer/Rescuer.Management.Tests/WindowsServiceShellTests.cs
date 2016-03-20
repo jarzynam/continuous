@@ -5,7 +5,7 @@ using System.Security.Principal;
 using System.ServiceProcess;
 using Autofac;
 using NUnit.Framework;
-using Rescuer.Management.WindowsService.Shell;
+using Rescuer.Management.Rescuers.WindowsService.Shell;
 
 namespace Rescuer.Management.Tests
 {

@@ -1,4 +1,4 @@
-﻿namespace Rescuer.Management.Factory.WindowsService
+﻿namespace Rescuer.Management.Rescuers.WindowsService.Factory
 {
     public interface IWindowsServiceRescuerFactory : IRescuerFactory
     {

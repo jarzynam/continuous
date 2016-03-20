@@ -51,23 +51,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Factory\IRescuerFactory.cs" />
-    <Compile Include="Factory\RescuerControllerFactory.cs" />
-    <Compile Include="Factory\WindowsService\IWindowsServiceRescuerFactory.cs" />
-    <Compile Include="Factory\RescuerType.cs" />
-    <Compile Include="Factory\WindowsService\WindowsServiceRescuerFactory.cs" />
-    <Compile Include="HealthStatus.cs" />
-    <Compile Include="IRescuer.cs" />
-    <Compile Include="IRescuerController.cs" />
-    <Compile Include="RescuerController.cs" />
+    <Compile Include="Rescuers\IRescuerFactory.cs" />
+    <Compile Include="Controller\RescuerControllerFactory.cs" />
+    <Compile Include="Rescuers\WindowsService\Factory\IWindowsServiceRescuerFactory.cs" />
+    <Compile Include="Rescuers\RescuerType.cs" />
+    <Compile Include="Rescuers\WindowsService\Factory\WindowsServiceRescuerFactory.cs" />
+    <Compile Include="Transit\HealthStatus.cs" />
+    <Compile Include="Rescuers\IRescuer.cs" />
+    <Compile Include="Controller\IRescuerController.cs" />
+    <Compile Include="Controller\RescuerController.cs" />
     <Compile Include="RescuerManagementModule.cs" />
-    <Compile Include="WindowsService\Exceptions\ServiceConnectionException.cs" />
-    <Compile Include="WindowsService\Exceptions\ServiceRescueException.cs" />
-    <Compile Include="WindowsService\IWindowsServiceRescuer.cs" />
-    <Compile Include="WindowsService\Shell\IWindowsServiceShell.cs" />
+    <Compile Include="Rescuers\WindowsService\Exceptions\ServiceConnectionException.cs" />
+    <Compile Include="Rescuers\WindowsService\Exceptions\ServiceRescueException.cs" />
+    <Compile Include="Rescuers\WindowsService\IWindowsServiceRescuer.cs" />
+    <Compile Include="Rescuers\WindowsService\Shell\IWindowsServiceShell.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WindowsService\Shell\WindowsServiceShell.cs" />
-    <Compile Include="WindowsService\WindowsServiceRescuer.cs" />
+    <Compile Include="Rescuers\WindowsService\Shell\WindowsServiceShell.cs" />
+    <Compile Include="Rescuers\WindowsService\WindowsServiceRescuer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

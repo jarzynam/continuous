@@ -1,4 +1,4 @@
-namespace Rescuer.Management
+namespace Rescuer.Management.Transit
 {
     public enum HealthStatus
     {

@@ -1,8 +1,7 @@
 ﻿using Autofac;
 using NUnit.Framework;
-using Rescuer.Management.Factory;
-using Rescuer.Management.Factory.WindowsService;
-using Rescuer.Management.WindowsService;
+using Rescuer.Management.Rescuers.WindowsService;
+using Rescuer.Management.Rescuers.WindowsService.Factory;
 
 namespace Rescuer.Management.Tests
 {

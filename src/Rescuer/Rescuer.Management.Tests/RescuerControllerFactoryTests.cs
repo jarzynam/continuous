@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
-using Rescuer.Management.Factory;
+using Rescuer.Management.Controller;
+using Rescuer.Management.Rescuers;
 
 namespace Rescuer.Management.Tests
 {

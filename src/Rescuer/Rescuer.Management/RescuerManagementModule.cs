@@ -1,8 +1,8 @@
 ﻿using Autofac;
-using Rescuer.Management.Factory;
-using Rescuer.Management.Factory.WindowsService;
-using Rescuer.Management.WindowsService;
-using Rescuer.Management.WindowsService.Shell;
+using Rescuer.Management.Controller;
+using Rescuer.Management.Rescuers.WindowsService;
+using Rescuer.Management.Rescuers.WindowsService.Factory;
+using Rescuer.Management.Rescuers.WindowsService.Shell;
 
 namespace Rescuer.Management
 {

@@ -1,6 +1,6 @@
-using Rescuer.Management.Factory;
+using Rescuer.Management.Rescuers;
 
-namespace Rescuer.Management
+namespace Rescuer.Management.Controller
 {
     public class RescuerController : IRescuerController
     {                

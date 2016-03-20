@@ -1,8 +1,9 @@
 ﻿using System;
 using Autofac;
-using Rescuer.Management.Factory.WindowsService;
+using Rescuer.Management.Rescuers;
+using Rescuer.Management.Rescuers.WindowsService.Factory;
 
-namespace Rescuer.Management.Factory
+namespace Rescuer.Management.Controller
 {
     public class RescuerControllerFactory : IDisposable
     {        

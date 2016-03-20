@@ -4,7 +4,7 @@ using System.Linq;
 using System.Management.Automation;
 using System.ServiceProcess;
 
-namespace Rescuer.Management.WindowsService.Shell
+namespace Rescuer.Management.Rescuers.WindowsService.Shell
 {
     public class WindowsServiceShell : IWindowsServiceShell
     {

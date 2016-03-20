@@ -1,7 +1,6 @@
 ﻿using Autofac;
-using Rescuer.Management.WindowsService;
 
-namespace Rescuer.Management.Factory.WindowsService
+namespace Rescuer.Management.Rescuers.WindowsService.Factory
 {
     public class WindowsServiceRescuerFactory : IWindowsServiceRescuerFactory
     {        

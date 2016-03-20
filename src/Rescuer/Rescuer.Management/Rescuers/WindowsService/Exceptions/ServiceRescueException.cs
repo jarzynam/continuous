@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Rescuer.Management.WindowsService.Exceptions
+namespace Rescuer.Management.Rescuers.WindowsService.Exceptions
 {
     public class ServiceRescueException : Exception
     {

@@ -1,6 +1,7 @@
 using System;
+using Rescuer.Management.Transit;
 
-namespace Rescuer.Management
+namespace Rescuer.Management.Rescuers
 {
     public interface IRescuer : IDisposable
     {

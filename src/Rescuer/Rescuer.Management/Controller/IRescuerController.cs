@@ -1,4 +1,6 @@
-namespace Rescuer.Management
+using Rescuer.Management.Rescuers;
+
+namespace Rescuer.Management.Controller
 {
     public interface IRescuerController
     {

@@ -1,12 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ServiceProcess;
 using Autofac;
 using Moq;
 using NUnit.Framework;
-using Rescuer.Management.WindowsService;
-using Rescuer.Management.WindowsService.Exceptions;
-using Rescuer.Management.WindowsService.Shell;
+using Rescuer.Management.Rescuers;
+using Rescuer.Management.Rescuers.WindowsService;
+using Rescuer.Management.Rescuers.WindowsService.Exceptions;
+using Rescuer.Management.Rescuers.WindowsService.Shell;
+using Rescuer.Management.Transit;
 
 namespace Rescuer.Management.Tests
 {

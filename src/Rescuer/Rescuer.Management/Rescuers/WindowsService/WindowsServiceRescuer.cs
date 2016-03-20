@@ -1,9 +1,10 @@
 using System.Linq;
 using System.ServiceProcess;
-using Rescuer.Management.WindowsService.Exceptions;
-using Rescuer.Management.WindowsService.Shell;
+using Rescuer.Management.Rescuers.WindowsService.Exceptions;
+using Rescuer.Management.Rescuers.WindowsService.Shell;
+using Rescuer.Management.Transit;
 
-namespace Rescuer.Management.WindowsService
+namespace Rescuer.Management.Rescuers.WindowsService
 {
     public class WindowsServiceRescuer : IWindowsServiceRescuer
     {
