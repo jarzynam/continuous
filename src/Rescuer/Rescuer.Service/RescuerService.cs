@@ -1,46 +1,88 @@
-﻿using System.Configuration;
+﻿using System;
 using System.ServiceProcess;
 using System.Threading;
+using System.Threading.Tasks;
+using NLog;
 using Rescuer.Management.Controller;
-
 
 namespace Rescuer.Service
 {
     public partial class RescuerService : ServiceBase
-    {        
-        private Timer _workTimer;
-        private RescuerControllerFactory _controllerFactory;
+    {                
+        private Configuration _configuration;
+
+        private readonly RescuerControllerFactory _controllerFactory;
+        private readonly Logger _logger;
+        private Task _task;
+        private CancellationTokenSource _tokenSource;
 
         public RescuerService()
         {
-            InitializeComponent();     
-        }
-        
-        protected override void OnStart(string[] args)
-        {
+            InitializeComponent();            
+            _logger = LogManager.GetCurrentClassLogger();
             _controllerFactory = new RescuerControllerFactory();
 
-            var controller = _controllerFactory.Create();            
-            
-            var monitoredServices = GetMonitoredEntities("monitoredServices");
-
-            var rescuers = controller.IntializeRescuers(monitoredServices);
-
-            _workTimer = new Timer(p => controller.DoWork(rescuers), null, 5000, 5000);
+            _tokenSource = new CancellationTokenSource();
         }
+      
+        protected override void OnStart(string[] args)
+        {            
+            try
+            {
+                _logger.Info("starting service");
+
+                _configuration = new Configuration();
+                var controller = _controllerFactory.Create();                
+                
+                _logger.Info($"Found {_configuration.MonitoredEntities.Length} services to monitor");                
+         
+                var rescuers = controller.IntializeRescuers(_configuration.MonitoredEntities);
+
+                _task = Task.Factory.StartNew(() =>
+                {
+                    while (!_tokenSource.IsCancellationRequested)
+                    {
+                        _logger.Info("Cheking health");
+                        controller.DoWork(rescuers);
+                        _task.Wait(TimeSpan.FromSeconds(5));
+                        _logger.Info("Health checked");
+                    }                                        
+                }, _tokenSource.Token);
+
+            }
+            catch (Exception ex)
+            {
+                
+                _logger.Fatal($"Unable to work due to error: {ex}");
+                throw;
+            }            
+        }
+
+        
 
         protected override void OnStop()
         {
-            _workTimer.Dispose();
-            _controllerFactory.Dispose();
+            _tokenSource.Cancel(false);
+            try
+            {
+                _task.Wait();
+            }
+            catch (AggregateException agx)
+            {
+                foreach (var exception in agx.InnerExceptions)
+                {
+                    _logger.Error(exception);
+                }
+            }
+            finally
+            {
+                _tokenSource.Dispose();                
+                _controllerFactory.Dispose();
+                _logger.Info("service stopped");
+            }
+            
+            
+            
         }
-
-        private string[] GetMonitoredEntities(string settingsKey)
-        {
-            var monitoredServices = ConfigurationManager.AppSettings[settingsKey].Split(',');
-            return monitoredServices;
-        }
-
-
     }
 }
