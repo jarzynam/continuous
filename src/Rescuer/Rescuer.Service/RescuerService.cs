@@ -9,25 +9,20 @@ using Rescuer.Management.Factory;
 namespace Rescuer.Service
 {
     public partial class RescuerService : ServiceBase
-    {
-        private readonly IContainer _container;        
+    {        
         private Timer _workTimer;
+        private RescuerControllerFactory _controllerFactory;
 
         public RescuerService()
         {
-            InitializeComponent();
-            var builder = new ContainerBuilder();
-
-            builder.RegisterModule<RescuerManagementModule>();
-
-            _container = builder.Build();
-
+            InitializeComponent();     
         }
         
         protected override void OnStart(string[] args)
         {
-            var factory = _container.ResolveKeyed<IRescuerFactory>(RescuerFactoryType.WindowsServiceRescuer);
-            var controller = _container.Resolve<IRescuerController>(new NamedParameter("factory", factory));
+            _controllerFactory = new RescuerControllerFactory();
+
+            var controller = _controllerFactory.Create();            
             
             var monitoredServices = GetMonitoredEntities("monitoredServices");
 
@@ -39,7 +34,7 @@ namespace Rescuer.Service
         protected override void OnStop()
         {
             _workTimer.Dispose();
-            _container.Dispose();
+            _controllerFactory.Dispose();
         }
 
         private string[] GetMonitoredEntities(string settingsKey)

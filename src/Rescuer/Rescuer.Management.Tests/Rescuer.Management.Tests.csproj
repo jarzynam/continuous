@@ -63,7 +63,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="RescuerControllerTests.cs" />
+    <Compile Include="RescuerControllerFactoryTests.cs" />
     <Compile Include="RescuerManagementModuleTests.cs" />
     <Compile Include="WindowsServiceRescuerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

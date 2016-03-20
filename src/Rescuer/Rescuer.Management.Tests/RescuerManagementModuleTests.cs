@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using NUnit.Framework;
 using Rescuer.Management.Factory;
+using Rescuer.Management.Factory.WindowsService;
 using Rescuer.Management.WindowsService;
 
 namespace Rescuer.Management.Tests
@@ -15,13 +16,13 @@ namespace Rescuer.Management.Tests
 
             builder.RegisterModule<RescuerManagementModule>();
 
-            using (var container = builder.Build())
+            using (var scope = builder.Build().BeginLifetimeScope())
             {
                 IWindowsServiceRescuer rescuer = null;
 
                 Assert.DoesNotThrow(() =>
                 {
-                    rescuer = container.Resolve<IWindowsServiceRescuer>();
+                    rescuer = scope.Resolve<IWindowsServiceRescuer>();
                 }, "Cant load all components to windows service rescuer" );
                     
 
@@ -33,12 +34,11 @@ namespace Rescuer.Management.Tests
         public void Can_Get_WindowsServiceRescuer_FromFactory_Test()
         {
             var builder = new ContainerBuilder();
-
             builder.RegisterModule<RescuerManagementModule>();
-            using (var container = builder.Build())
+            
+            using (var scope = builder.Build().BeginLifetimeScope())
             {
-                var rescuer = container.ResolveKeyed<IRescuerFactory>(new NamedParameter("RescuerFactoryType",
-                    RescuerFactoryType.WindowsServiceRescuer));
+                var rescuer = scope.Resolve<IWindowsServiceRescuerFactory>();
 
                 Assert.AreEqual(typeof(WindowsServiceRescuerFactory), rescuer.GetType());
             }

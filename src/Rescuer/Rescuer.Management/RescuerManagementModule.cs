@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Rescuer.Management.Factory;
+using Rescuer.Management.Factory.WindowsService;
 using Rescuer.Management.WindowsService;
 using Rescuer.Management.WindowsService.Shell;
 
@@ -12,11 +13,9 @@ namespace Rescuer.Management
             builder.RegisterType<WindowsServiceRescuer>().As<IWindowsServiceRescuer>();
             builder.RegisterType<WindowsServiceShell>().As<IWindowsServiceShell>();
 
-            builder.RegisterType<IRescuerController>().AsImplementedInterfaces();
+            builder.RegisterType<RescuerController>().AsImplementedInterfaces();
 
-            builder.RegisterType<WindowsServiceRescuerFactory>()
-                .AsImplementedInterfaces()
-                .Keyed<RescuerFactoryType>(RescuerFactoryType.WindowsServiceRescuer);
+            builder.RegisterType<WindowsServiceRescuerFactory>().As<IWindowsServiceRescuerFactory>();
         }
     }
 }

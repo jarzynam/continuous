@@ -1,6 +1,6 @@
 ﻿namespace Rescuer.Management.Factory
 {
-    public enum RescuerFactoryType
+    public enum RescuerType
     {
         WindowsServiceRescuer
     }
