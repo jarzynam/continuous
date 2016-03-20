@@ -24,6 +24,8 @@ namespace Rescuer.Management.Rescuers.WindowsService.Shell
         {
             ThrowExceptionIfNotConnectedToService();
 
+            _service.Refresh();
+
             return _service.Status;
         }
 
