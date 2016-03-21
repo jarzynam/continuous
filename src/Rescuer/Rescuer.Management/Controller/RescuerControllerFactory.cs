@@ -13,17 +13,23 @@ namespace Rescuer.Management.Controller
         public RescuerControllerFactory() : this(RescuerType.WindowsServiceRescuer)
         {
             
-        }
+        }        
 
         public RescuerControllerFactory(RescuerType type)
         {            
             var builder = new ContainerBuilder();
 
             builder.RegisterModule<RescuerManagementModule>();
-
+            
             _scope = builder.Build().BeginLifetimeScope();
 
             _rescuerType = type;
+        }
+
+        public RescuerControllerFactory(ILifetimeScope scope)
+        {
+            _scope = scope;
+            _rescuerType = RescuerType.WindowsServiceRescuer;
         }
 
         private IRescuerFactory GetFactory()
