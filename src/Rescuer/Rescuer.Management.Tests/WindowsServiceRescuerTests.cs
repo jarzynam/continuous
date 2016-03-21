@@ -202,5 +202,52 @@ namespace Rescuer.Management.Tests
                 Assert.DoesNotThrow(() => rescuer.MonitorAndRescue());
             }
         }
+
+        [Test]
+        public void Can_Increase_Rescue_Counter_Test()
+        {
+            var builder = new ContainerBuilder();
+            var shell = new Mock<IWindowsServiceShell>();
+            
+            shell.Setup(p => p.StartService()).Returns(true);
+
+            builder.RegisterInstance(shell.Object);
+            builder.RegisterType<WindowsServiceRescuer>().AsImplementedInterfaces();
+
+            using (var container = builder.Build())
+            {
+                var rescuer = container.Resolve<IWindowsServiceRescuer>();
+
+                Assert.AreEqual(0, rescuer.RescueCounter, "Invalid initial RescueCounter value");
+
+                rescuer.Rescue();
+
+                Assert.AreEqual(1, rescuer.RescueCounter, "RescueCounter should increase after successfull rescue");
+            }
+
+        }
+
+        [Test]
+        public void Dont_Increase_Counter_After_Invalid_Rescue_Test()
+        {
+            var builder = new ContainerBuilder();
+            var shell = new Mock<IWindowsServiceShell>();
+
+            shell.Setup(p => p.StartService()).Returns(false);
+            shell.Setup(p => p.ErrorLog).Returns(new List<string>());
+            builder.RegisterInstance(shell.Object);
+            builder.RegisterType<WindowsServiceRescuer>().AsImplementedInterfaces();
+
+            using (var container = builder.Build())
+            {
+                var rescuer = container.Resolve<IWindowsServiceRescuer>();
+
+                Assert.AreEqual(0, rescuer.RescueCounter, "Invalid initial RescueCounter value");
+                 
+                Assert.Throws<ServiceRescueException>( () => rescuer.Rescue(), "In this test, Rescue() should throw exception");
+                    
+                Assert.AreEqual(0, rescuer.RescueCounter, "RescueCounter be still 0 after unsuccessfull rescue");
+            }
+        }
     }
 }

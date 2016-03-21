@@ -9,6 +9,7 @@ namespace Rescuer.Management.Rescuers
         bool Rescue();
         void Connect(string serviceName);
         void MonitorAndRescue();
+        int RescueCounter { get;  }
 
     }
 }

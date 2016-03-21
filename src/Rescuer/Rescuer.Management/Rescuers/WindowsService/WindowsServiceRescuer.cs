@@ -8,11 +8,13 @@ namespace Rescuer.Management.Rescuers.WindowsService
 {
     public class WindowsServiceRescuer : IWindowsServiceRescuer
     {
-        private readonly IWindowsServiceShell _serviceShell;
+        private readonly IWindowsServiceShell _serviceShell;        
+
+        public int RescueCounter { get; private set; }
 
         public WindowsServiceRescuer(IWindowsServiceShell serviceShell)
         {
-            _serviceShell = serviceShell;
+            _serviceShell = serviceShell;            
         }
 
         public HealthStatus CheckHealth()
@@ -31,6 +33,8 @@ namespace Rescuer.Management.Rescuers.WindowsService
             if(startResult == false)
                 throw new ServiceRescueException(_serviceShell.ErrorLog.LastOrDefault());
 
+            RescueCounter++;
+
             return true;
         }
 
@@ -48,7 +52,7 @@ namespace Rescuer.Management.Rescuers.WindowsService
 
             if (status != HealthStatus.Working)
                 Rescue();            
-        }
+        }        
 
         public void Dispose()
         {
