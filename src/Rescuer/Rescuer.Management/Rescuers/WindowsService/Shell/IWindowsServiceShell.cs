@@ -6,7 +6,7 @@ namespace Rescuer.Management.Rescuers.WindowsService.Shell
 {
     public interface IWindowsServiceShell : IDisposable
     {
-        List<string> ErrorLog { get; set; }
+        List<string> ErrorLog { get; set; }        
         ServiceControllerStatus GetServiceStatus();
         bool ConnectToService(string serviceName);
         bool InstallService(string serviceName, string fullServicePath);

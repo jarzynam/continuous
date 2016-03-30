@@ -140,9 +140,7 @@ namespace Rescuer.Management.Tests
             {
                 var rescuer = container.Resolve<IWindowsServiceRescuer>();
 
-                var result = rescuer.Rescue();
-
-                Assert.IsTrue(result);
+                Assert.DoesNotThrow( () => rescuer.Rescue());                
             }
         }
 
@@ -180,7 +178,15 @@ namespace Rescuer.Management.Tests
             using (var container = builder.Build())
             {
                 var rescuer = container.Resolve<IWindowsServiceRescuer>();
-                Assert.DoesNotThrow(() =>rescuer.MonitorAndRescue());
+
+                var rescueStatus = RescueStatus.NothingToRescue;
+
+                Assert.DoesNotThrow(() =>
+                {
+                    rescueStatus = rescuer.MonitorAndRescue();
+                });
+
+                Assert.AreEqual(RescueStatus.NothingToRescue, rescueStatus);
             }
         }
 
@@ -190,7 +196,7 @@ namespace Rescuer.Management.Tests
             var builder = new ContainerBuilder();
             var shell = new Mock<IWindowsServiceShell>();
 
-            shell.Setup(p => p.GetServiceStatus()).Returns(ServiceControllerStatus.Running);
+            shell.Setup(p => p.GetServiceStatus()).Returns(ServiceControllerStatus.Stopped);
             shell.Setup(p => p.StartService()).Returns(true);
 
             builder.RegisterInstance(shell.Object);
@@ -199,7 +205,15 @@ namespace Rescuer.Management.Tests
             using (var container = builder.Build())
             {
                 var rescuer = container.Resolve<IWindowsServiceRescuer>();
-                Assert.DoesNotThrow(() => rescuer.MonitorAndRescue());
+
+                var rescueStatus = RescueStatus.NothingToRescue;
+
+                Assert.DoesNotThrow(() =>
+                {
+                    rescueStatus = rescuer.MonitorAndRescue();
+                });
+
+                Assert.AreEqual(RescueStatus.Rescued, rescueStatus);
             }
         }
 
@@ -249,5 +263,29 @@ namespace Rescuer.Management.Tests
                 Assert.AreEqual(0, rescuer.RescueCounter, "RescueCounter be still 0 after unsuccessfull rescue");
             }
         }
+
+        [Test]
+        public void Can_Get_ConnectedService_Name_Test()
+        {
+
+            var serviceName = "Test";
+            var builder = new ContainerBuilder();
+            var shell = new Mock<IWindowsServiceShell>();
+
+            shell.Setup(p => p.ConnectToService(It.IsAny<string>())).Returns(true);
+                        
+            builder.RegisterInstance(shell.Object);
+            builder.RegisterType<WindowsServiceRescuer>().AsImplementedInterfaces();
+
+
+            using (var container = builder.Build())
+            {
+                var rescuer = container.Resolve<IWindowsServiceRescuer>();
+
+                rescuer.Connect(serviceName);
+
+                Assert.AreEqual(serviceName, rescuer.ConnectedServiceName);
+            }
+        }                
     }
 }

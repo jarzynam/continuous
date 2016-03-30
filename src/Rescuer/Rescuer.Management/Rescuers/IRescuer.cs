@@ -6,10 +6,12 @@ namespace Rescuer.Management.Rescuers
     public interface IRescuer : IDisposable
     {
         HealthStatus CheckHealth();
-        bool Rescue();
+        void Rescue();
         void Connect(string serviceName);
-        void MonitorAndRescue();
+        RescueStatus MonitorAndRescue();
         int RescueCounter { get;  }
+
+        string ConnectedServiceName { get; }
 
     }
 }

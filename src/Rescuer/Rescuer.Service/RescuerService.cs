@@ -12,9 +12,9 @@ namespace Rescuer.Service
         private Configuration _configuration;
 
         private readonly RescuerControllerFactory _controllerFactory;
-        private readonly Logger _logger;
+        private readonly ILogger _logger;
         private Task _task;
-        private CancellationTokenSource _tokenSource;
+        private readonly CancellationTokenSource _tokenSource;
 
         public RescuerService()
         {
@@ -34,25 +34,23 @@ namespace Rescuer.Service
                 _configuration = new Configuration();
                 var controller = _controllerFactory.Create();                
                 
-                _logger.Info($"Found {_configuration.MonitoredEntities.Length} services to monitor");                
+                _logger.Info($"Found {_configuration.MonitoredEntities.Length} services to monitor"); 
          
                 var rescuers = controller.IntializeRescuers(_configuration.MonitoredEntities);
 
                 _task = Task.Factory.StartNew(() =>
                 {
                     while (!_tokenSource.IsCancellationRequested)
-                    {
-                        _logger.Info("Cheking health");
-                        controller.DoWork(rescuers);
+                    {                        
+                        controller.DoWork(rescuers);                        
+
                         _task.Wait(TimeSpan.FromSeconds(5));
-                        _logger.Info("Health checked");
                     }                                        
                 }, _tokenSource.Token);
 
             }
             catch (Exception ex)
-            {
-                
+            {                
                 _logger.Fatal($"Unable to work due to error: {ex}");
                 throw;
             }            

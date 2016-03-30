@@ -11,6 +11,7 @@ namespace Rescuer.Management.Rescuers.WindowsService
         private readonly IWindowsServiceShell _serviceShell;        
 
         public int RescueCounter { get; private set; }
+        public string ConnectedServiceName { get; private set; }
 
         public WindowsServiceRescuer(IWindowsServiceShell serviceShell)
         {
@@ -26,32 +27,35 @@ namespace Rescuer.Management.Rescuers.WindowsService
                 : HealthStatus.Stopped;
         }
 
-        public bool Rescue()
+        public void Rescue()
         {
             var startResult = _serviceShell.StartService();
 
             if(startResult == false)
                 throw new ServiceRescueException(_serviceShell.ErrorLog.LastOrDefault());
 
-            RescueCounter++;
-
-            return true;
+            RescueCounter++;            
         }
 
         public void Connect(string serviceName)
         {
+            ConnectedServiceName = serviceName;
+
             var connectionResult = _serviceShell.ConnectToService(serviceName);
 
             if(!connectionResult)
-                throw new ServiceConnectionException(_serviceShell.ErrorLog.LastOrDefault());
+                throw new ServiceConnectionException(_serviceShell.ErrorLog.LastOrDefault());            
         }
 
-        public void MonitorAndRescue()
+        public RescueStatus MonitorAndRescue()
         {
             var status = CheckHealth();
 
-            if (status != HealthStatus.Working)
-                Rescue();            
+            if (status == HealthStatus.Working) return RescueStatus.NothingToRescue;
+
+            Rescue();
+
+            return  RescueStatus.Rescued;
         }        
 
         public void Dispose()

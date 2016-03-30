@@ -320,6 +320,6 @@ namespace Rescuer.Management.Tests
                 Assert.Throws<InvalidOperationException>(() => shell.GetServiceStatus(),
                     "invoking GetServiceStatus before Connect() should throw an exception, but didn't");
             }
-        }
+        }              
     }
 }
