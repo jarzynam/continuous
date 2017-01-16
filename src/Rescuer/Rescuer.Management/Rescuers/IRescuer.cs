@@ -9,8 +9,8 @@ namespace Rescuer.Management.Rescuers
         void Rescue();
         void Connect(string serviceName);
         RescueStatus MonitorAndRescue();
-        int RescueCounter { get;  }
 
+        int RescueCounter { get;  }
         string ConnectedServiceName { get; }
 
     }

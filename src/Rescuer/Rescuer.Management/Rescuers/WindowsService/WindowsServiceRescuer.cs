@@ -51,7 +51,8 @@ namespace Rescuer.Management.Rescuers.WindowsService
         {
             var status = CheckHealth();
 
-            if (status == HealthStatus.Working) return RescueStatus.NothingToRescue;
+            if (status == HealthStatus.Working)
+                return RescueStatus.NothingToRescue;
 
             Rescue();
 
