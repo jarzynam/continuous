@@ -64,6 +64,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="CompiledServiceTestHelper.cs" />
     <Compile Include="RescuerControllerFactoryTests.cs" />
     <Compile Include="RescuerControllerTests.cs" />
     <Compile Include="RescuerManagementModuleTests.cs" />
@@ -85,7 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="CompiledTestService\Rescuer.Services.EmptyTestService.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <Choose>
