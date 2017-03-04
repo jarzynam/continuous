@@ -1,6 +1,6 @@
 using System;
 
-namespace Rescuer.Management.Rescuers.WindowsService.Exceptions
+namespace Rescuer.Management.WindowsService.Exceptions
 {
     public class ServiceConnectionException : Exception
     {

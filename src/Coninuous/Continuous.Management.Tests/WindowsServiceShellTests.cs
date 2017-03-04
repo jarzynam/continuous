@@ -3,7 +3,7 @@ using System.Linq;
 using System.Security.Principal;
 using System.ServiceProcess;
 using NUnit.Framework;
-using Rescuer.Management.Rescuers.WindowsService.Shell;
+using Rescuer.Management.WindowsService.Shell;
 
 namespace Rescuer.Management.Tests
 {
@@ -32,9 +32,8 @@ namespace Rescuer.Management.Tests
         {
             var serviceName = _helper.RandomServiceName;
 
-            var installationResult = _shell.InstallService(serviceName, _helper.GetTestServicePath());
-            if (!installationResult)
-                Assert.Inconclusive("unable to make test due to failed windows service installation");
+            _shell.InstallService(serviceName, _helper.GetTestServicePath());
+            
             try
             {
                 var connectionResult = _shell.ConnectToService(serviceName);
@@ -60,10 +59,8 @@ namespace Rescuer.Management.Tests
         {
             var serviceName = _helper.RandomServiceName;
 
-            var installationResult = _shell.InstallService(serviceName, _helper.GetTestServicePath());
-            if (!installationResult)
-                Assert.Inconclusive("unable to make test due to failed windows service installation");
-
+            _shell.InstallService(serviceName, _helper.GetTestServicePath());
+           
             try
             {
                 var connectionResult = _shell.ConnectToService(serviceName);
@@ -118,13 +115,27 @@ namespace Rescuer.Management.Tests
             var serviceName = _helper.RandomServiceName;
             var servicePath = _helper.GetTestServicePath();
 
-            var installResult = _shell.InstallService(serviceName, servicePath);
+            TestDelegate intallDelegate = () =>_shell.InstallService(serviceName, servicePath);
 
-            Assert.IsTrue(installResult, $"cant install windows service: {serviceName}");
+            Assert.DoesNotThrow(intallDelegate);
+            
+            TestDelegate uninstallDelegate =  () => _shell.UninstallService(serviceName);
 
-            var uninstallResult = _shell.UninstallService(serviceName);
+            Assert.DoesNotThrow(uninstallDelegate);
+        }
 
-            Assert.IsTrue(uninstallResult, $"can't uninstall existing service: {serviceName}");
+        [Test]
+        public void Can_Ununinstall_NoExistinx_Service_Test()
+        {
+            if (!new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator))
+                Assert.Fail("user invoking this test must has admiministrator role");
+
+            var serviceName = _helper.RandomServiceName;
+
+            TestDelegate act = () => _shell.UninstallService(serviceName);
+
+            Assert.Throws<System.Management.Automation.RuntimeException>(act, $"{serviceName} not found");
+
         }
 
         [Test]
@@ -132,9 +143,7 @@ namespace Rescuer.Management.Tests
         {
             var serviceName = _helper.RandomServiceName;
 
-            var installationResult = _shell.InstallService(serviceName, _helper.GetTestServicePath());
-            if (!installationResult)
-                Assert.Inconclusive("unable to make test due to failed windows service installation");
+            _shell.InstallService(serviceName, _helper.GetTestServicePath());
 
             try
             {
@@ -165,10 +174,8 @@ namespace Rescuer.Management.Tests
         {
             var serviceName = _helper.RandomServiceName;
 
-            var installationResult = _shell.InstallService(serviceName, _helper.GetTestServicePath());
-            if (!installationResult)
-                Assert.Inconclusive("unable to make test due to failed windows service installation");
-
+            _shell.InstallService(serviceName, _helper.GetTestServicePath());
+            
             try
             {
                 var connectionResult = _shell.ConnectToService(serviceName);
@@ -199,10 +206,8 @@ namespace Rescuer.Management.Tests
         {
             var serviceName = _helper.RandomServiceName;
 
-            var installationResult = _shell.InstallService(serviceName, _helper.GetTestServicePath());
-            if (!installationResult)
-                Assert.Inconclusive("unable to make test due to failed windows service installation");
-
+             _shell.InstallService(serviceName, _helper.GetTestServicePath());
+           
             try
             {
                 var connectionResult = _shell.ConnectToService(serviceName);
@@ -235,10 +240,8 @@ namespace Rescuer.Management.Tests
         {
             var serviceName = _helper.RandomServiceName;
 
-            var installationResult = _shell.InstallService(serviceName, _helper.GetTestServicePath());
-            if (!installationResult)
-                Assert.Inconclusive("unable to make test due to failed windows service installation");
-
+            _shell.InstallService(serviceName, _helper.GetTestServicePath());
+          
             try
             {
                 var connectionResult = _shell.ConnectToService(serviceName);

@@ -1,21 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Management.Automation;
+using System.Management.Automation.Runspaces;
 using System.ServiceProcess;
 
-namespace Rescuer.Management.Rescuers.WindowsService.Shell
+namespace Rescuer.Management.WindowsService.Shell
 {
     public class WindowsServiceShell : IWindowsServiceShell
     {
         private readonly TimeSpan _timeout;
 
         private ServiceController _service;
+        private readonly ScriptExecutor _executor;
+        private readonly string _scriptsPath;
+
+        private const string UninstallServiceScriptName = "UninstallService.ps1";
+        private const string InstallServiceScriptName = "InstallService.ps1";
 
         public WindowsServiceShell()
         {
             ErrorLog = new List<string>();
             _timeout = TimeSpan.FromSeconds(5);
+            _executor = new ScriptExecutor();
+
+            var currentPath = AppDomain.CurrentDomain.BaseDirectory;
+
+            _scriptsPath = Path.Combine(currentPath, "WindowsService", "Scripts");
         }
 
         public List<string> ErrorLog { get; set; }
@@ -41,36 +53,26 @@ namespace Rescuer.Management.Rescuers.WindowsService.Shell
             return _service != null;
         }
 
-        public bool InstallService(string serviceName, string fullServicePath)
+        public void InstallService(string serviceName, string fullServicePath)
         {
-            using (var powershell = PowerShell.Create(RunspaceMode.NewRunspace))
+            var parameters = new List<CommandParameter>
             {
-                powershell.AddScript($"New-Service -Name {serviceName} -BinaryPathName {fullServicePath}");
+                new CommandParameter(nameof(serviceName), serviceName),
+                new CommandParameter(nameof(fullServicePath), fullServicePath)
+            };
+            var path = GetPath(InstallServiceScriptName);
 
-                powershell.Invoke();
-
-                GetErrors(powershell);
-
-                return !powershell.HadErrors;
-            }
+            _executor.Execute(path, parameters);
         }
 
-        public bool UninstallService(string serviceName)
+        public void UninstallService(string serviceName)
         {
-            using (var powershell = PowerShell.Create(RunspaceMode.NewRunspace))
-            {
-                powershell.AddScript(
-                    $"$service = Get-WmiObject -Class Win32_Service -Filter \"Name = '{serviceName}'\";" +
-                    $"$id = $service | select -expand ProcessId;" +
-                    $" if($id){{( Get-Process -Id $id).Kill()}} ;" +
-                    $" if($service){{$service.delete()}}");
+            
+                var parameters = new List<CommandParameter> {new CommandParameter(nameof(serviceName), serviceName)};
+                var path = GetPath(UninstallServiceScriptName);
 
-                powershell.Invoke();
-
-                GetErrors(powershell);
-
-                return !powershell.HadErrors;
-            }
+                _executor.Execute(path, parameters);
+              
         }
 
 
@@ -124,6 +126,11 @@ namespace Rescuer.Management.Rescuers.WindowsService.Shell
         private void GetErrors(PowerShell powershell)
         {
             ErrorLog = powershell.Streams.Error.ReadAll().Select(p => p.Exception.ToString()).ToList();
+        }
+
+        private string GetPath(string scriptName)
+        {
+            return Path.Combine(_scriptsPath, scriptName);
         }
     }
 }
