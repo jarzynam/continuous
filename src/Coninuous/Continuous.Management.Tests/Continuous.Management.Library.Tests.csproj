@@ -71,7 +71,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Rescuer.Management\Continuous.Management.Library.csproj">
+    <ProjectReference Include="..\Continuous.Management\Continuous.Management.Library.csproj">
       <Project>{39BEC5C6-0D24-4F81-8BFE-2040A38C8CC9}</Project>
       <Name>Continuous.Management.Library</Name>
     </ProjectReference>
