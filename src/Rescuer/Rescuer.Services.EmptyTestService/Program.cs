@@ -11,7 +11,7 @@ namespace Rescuer.Services.EmptyTestService
         {
             var servicesToRun = new ServiceBase[]
             {
-                new RescuerTestService()
+                new ContinuousTestService()
             };
             ServiceBase.Run(servicesToRun);
         }

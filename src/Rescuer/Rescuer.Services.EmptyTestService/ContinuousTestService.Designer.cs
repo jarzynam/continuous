@@ -1,6 +1,6 @@
 ﻿namespace Rescuer.Services.EmptyTestService
 {
-    partial class RescuerTestService
+    partial class ContinuousTestService
     {
         /// <summary> 
         /// Required designer variable.

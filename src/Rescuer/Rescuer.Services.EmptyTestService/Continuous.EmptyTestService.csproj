@@ -43,11 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="RescuerTestService.cs">
+    <Compile Include="ContinuousTestService.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="RescuerTestService.Designer.cs">
-      <DependentUpon>RescuerTestService.cs</DependentUpon>
+    <Compile Include="ContinuousTestService.Designer.cs">
+      <DependentUpon>ContinuousTestService.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

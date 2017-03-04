@@ -2,9 +2,9 @@
 
 namespace Rescuer.Services.EmptyTestService
 {
-    public partial class RescuerTestService : ServiceBase
+    public partial class ContinuousTestService : ServiceBase
     {        
-        public RescuerTestService()
+        public ContinuousTestService()
         {
             InitializeComponent();            
         }

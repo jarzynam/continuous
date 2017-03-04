@@ -1,15 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26206.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rescuer.Management", "Rescuer.Management\Rescuer.Management.csproj", "{39BEC5C6-0D24-4F81-8BFE-2040A38C8CC9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Continuous.Management.Library", "Rescuer.Management\Continuous.Management.Library.csproj", "{39BEC5C6-0D24-4F81-8BFE-2040A38C8CC9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rescuer.Management.Tests", "Rescuer.Management.Tests\Rescuer.Management.Tests.csproj", "{FE2550F1-2C3F-4774-B239-53368F5FC84C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Continuous.Management.Library.Tests", "Rescuer.Management.Tests\Continuous.Management.Library.Tests.csproj", "{FE2550F1-2C3F-4774-B239-53368F5FC84C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rescuer.Services.EmptyTestService", "Rescuer.Services.EmptyTestService\Rescuer.Services.EmptyTestService.csproj", "{F3011F7F-43BC-4F70-83AA-B62EC5E8BB10}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rescuer.Service", "Rescuer.Service\Rescuer.Service.csproj", "{069C01A7-5342-4AFA-90A0-6F8E6233BBED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Continuous.EmptyTestService", "Rescuer.Services.EmptyTestService\Continuous.EmptyTestService.csproj", "{F3011F7F-43BC-4F70-83AA-B62EC5E8BB10}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{D2D8BC21-84D2-4941-BFDA-52F097B4F1C5}"
 EndProject
@@ -33,10 +31,6 @@ Global
 		{F3011F7F-43BC-4F70-83AA-B62EC5E8BB10}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3011F7F-43BC-4F70-83AA-B62EC5E8BB10}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3011F7F-43BC-4F70-83AA-B62EC5E8BB10}.Release|Any CPU.Build.0 = Release|Any CPU
-		{069C01A7-5342-4AFA-90A0-6F8E6233BBED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{069C01A7-5342-4AFA-90A0-6F8E6233BBED}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{069C01A7-5342-4AFA-90A0-6F8E6233BBED}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{069C01A7-5342-4AFA-90A0-6F8E6233BBED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,6 +38,5 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{FE2550F1-2C3F-4774-B239-53368F5FC84C} = {855FBA9A-955D-48FF-8719-9F427D4E23A1}
 		{F3011F7F-43BC-4F70-83AA-B62EC5E8BB10} = {D2D8BC21-84D2-4941-BFDA-52F097B4F1C5}
-		{069C01A7-5342-4AFA-90A0-6F8E6233BBED} = {D2D8BC21-84D2-4941-BFDA-52F097B4F1C5}
 	EndGlobalSection
 EndGlobal

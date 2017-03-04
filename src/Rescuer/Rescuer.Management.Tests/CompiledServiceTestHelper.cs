@@ -12,12 +12,11 @@ namespace Rescuer.Management.Tests
             _random = new Random();
         }
 
-
         internal string GetTestServicePath()
         {
             var location = AppDomain.CurrentDomain.BaseDirectory;
             var path = Path.Combine(location, "CompiledTestService",
-             "Rescuer.Services.EmptyTestService.exe");
+             "Continuous.EmptyTestService.exe");
 
             return path;
         }
