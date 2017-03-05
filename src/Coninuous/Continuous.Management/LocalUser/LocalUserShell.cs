@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
@@ -13,6 +12,11 @@ namespace Continuous.Management.LocalUser
     {
         private readonly ScriptExecutor _executor;
         private readonly ScriptsBoundle _scripts;
+        private readonly Regex _userLineRegex = new Regex(@"[\s]{2,}");
+
+        private readonly int nameIndex = 0;
+        private readonly int valueIndex = 1;
+
 
         public LocalUserShell()
         {
@@ -28,7 +32,7 @@ namespace Continuous.Management.LocalUser
                 new CommandParameter("password", user.Password),
                 new CommandParameter("description", user.Description),
                 new CommandParameter("fullName", user.FullName),
-                new CommandParameter("expires", user.Expires?.ToString("dd/MM/yyyy") ?? "never"),
+                new CommandParameter("expires", user.Expires?.ToString("dd/MM/yyyy") ?? "never")
             };
 
             var result = _executor.Execute(_scripts.CreateUser, parameters);
@@ -48,8 +52,6 @@ namespace Continuous.Management.LocalUser
             ThrowServiceExceptionIfNecessary(result, nameof(RemoveUser));
         }
 
-        private readonly Regex _regex = new Regex(@"[\s]{2,}");
-
         public Model.LocalUser GetUser(string userName)
         {
             var parameters = new List<CommandParameter>
@@ -59,38 +61,49 @@ namespace Continuous.Management.LocalUser
 
             var results = _executor.Execute(_scripts.GetUser, parameters);
 
-            if (results.Count > 0)
-            {
-                var dict = new Dictionary<string, string>();
-                foreach (var result in results)
-                {
-                   var m =  _regex.Split(result.BaseObject.ToString());
+            if (!results.Any()) return null;
 
-                    if(m.Length == 2)
-                        dict.Add(m[0], m[1]);
-                }
-
-                return new Model.LocalUser
-                {
-                    Name = dict["User name"],
-                    FullName = dict["Full Name"],
-                    Description = dict["Comment"],
-                    Password = "",
-                    Expires = DateTime.Parse(dict["Account expires"])
-                };
-            }
-
-
-            return null;
+            return MapToLocalUser(results);
         }
 
-       private static void ThrowServiceExceptionIfNecessary(ICollection<PSObject> result, string commandName)
+        private Model.LocalUser MapToLocalUser(ICollection<PSObject> results)
         {
-            var returnValue = (result.FirstOrDefault()?.BaseObject as string);
+            var properties = new Dictionary<string, string>();
+
+            foreach (var result in results)
+            {
+                var propertyLine = _userLineRegex.Split(result.BaseObject.ToString());
+
+                if (HasNameAndValue(propertyLine))
+                    properties.Add(propertyLine[nameIndex], propertyLine[valueIndex]);
+            }
+
+            return MapToLocalUser(properties);
+        }
+
+        private static bool HasNameAndValue(string[] propertyLine)
+        {
+            return propertyLine.Length == 2;
+        }
+
+        private static Model.LocalUser MapToLocalUser(Dictionary<string, string> properties)
+        {
+            return new Model.LocalUser
+            {
+                Name = properties["User name"],
+                FullName = properties["Full Name"],
+                Description = properties["Comment"],
+                Password = "",
+                Expires = DateTime.Parse(properties["Account expires"])
+            };
+        }
+
+        private static void ThrowServiceExceptionIfNecessary(ICollection<PSObject> result, string commandName)
+        {
+            var returnValue = result.FirstOrDefault()?.BaseObject as string;
 
             if (returnValue != "The command completed successfully.")
                 throw new InvalidOperationException($"Cannot invoke command {commandName}. Reason: " + returnValue);
         }
-
     }
 }
