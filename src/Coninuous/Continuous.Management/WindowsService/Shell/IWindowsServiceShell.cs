@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.ServiceProcess;
-using Rescuer.Management.Transit;
+using Continuous.Management.WindowsService.Model;
 
-namespace Rescuer.Management.WindowsService.Shell
+namespace Continuous.Management.WindowsService.Shell
 {
     public interface IWindowsServiceShell : IDisposable
     {

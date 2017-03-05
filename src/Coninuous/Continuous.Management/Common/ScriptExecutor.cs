@@ -2,7 +2,7 @@
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 
-namespace Rescuer.Management
+namespace Continuous.Management.Common
 {
    public  class ScriptExecutor
     {

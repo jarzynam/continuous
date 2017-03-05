@@ -1,4 +1,4 @@
-﻿namespace Rescuer.Services.EmptyTestService
+﻿namespace Continuous.Services.EmptyTestService
 {
     partial class ContinuousTestService
     {

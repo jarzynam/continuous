@@ -1,4 +1,4 @@
-namespace Rescuer.Management.Transit
+namespace Continuous.Management.WindowsService.Model
 {
     public enum HealthStatus
     {

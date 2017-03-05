@@ -1,6 +1,4 @@
-﻿using System.Security.Policy;
-
-namespace Rescuer.Management.Transit
+﻿namespace Continuous.Management.WindowsService.Model
 {
     public class WindowsServiceInfo
     {

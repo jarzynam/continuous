@@ -7,8 +7,8 @@
     <ProjectGuid>{39BEC5C6-0D24-4F81-8BFE-2040A38C8CC9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Rescuer.Management</RootNamespace>
-    <AssemblyName>Rescuer.Management</AssemblyName>
+    <RootNamespace>Continuous.Management</RootNamespace>
+    <AssemblyName>Continuous.Management</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -47,10 +47,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ScriptExecutor.cs" />
-    <Compile Include="Transit\HealthStatus.cs" />
-    <Compile Include="Transit\WindowsServiceInfo.cs" />
-    <Compile Include="WindowsService\Exceptions\ServiceConnectionException.cs" />
+    <Compile Include="Common\ScriptExecutor.cs" />
+    <Compile Include="WindowsService\Model\HealthStatus.cs" />
+    <Compile Include="WindowsService\Model\WindowsServiceInfo.cs" />
+    <None Include="LocalUser\Scripts\CreateUser.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="WindowsService\Scripts\GetService.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -62,15 +64,19 @@
     </None>
     <Compile Include="WindowsService\Shell\IWindowsServiceShell.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WindowsService\Shell\ScriptPathProvider.cs" />
+    <Compile Include="WindowsService\Shell\ScriptsBoundle.cs" />
+    <Compile Include="LocalUser\UserShell.cs" />
     <Compile Include="WindowsService\Shell\WindowsServiceShell.cs" />
-    <Compile Include="Transit\RescueStatus.cs" />
+    <Compile Include="WindowsService\Model\RescueStatus.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="WindowsService\Scripts\UninstallService.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="LocalUser\Model\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

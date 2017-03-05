@@ -4,9 +4,10 @@ using System.Linq;
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 using System.ServiceProcess;
-using Rescuer.Management.Transit;
+using Continuous.Management.Common;
+using Continuous.Management.WindowsService.Model;
 
-namespace Rescuer.Management.WindowsService.Shell
+namespace Continuous.Management.WindowsService.Shell
 {
     public class WindowsServiceShell : IWindowsServiceShell
     {
@@ -14,7 +15,7 @@ namespace Rescuer.Management.WindowsService.Shell
 
         private ServiceController _service;
         private readonly ScriptExecutor _executor;
-        private readonly ScriptPathProvider _scriptsPath;
+        private readonly ScriptsBoundle _scripts;
 
       
         public WindowsServiceShell()
@@ -23,7 +24,7 @@ namespace Rescuer.Management.WindowsService.Shell
             _timeout = TimeSpan.FromSeconds(5);
             _executor = new ScriptExecutor();
 
-            _scriptsPath = new ScriptPathProvider();
+            _scripts = new ScriptsBoundle();
         }
 
         public List<string> ErrorLog { get; set; }
@@ -53,7 +54,7 @@ namespace Rescuer.Management.WindowsService.Shell
                 new CommandParameter(nameof(fullServicePath), fullServicePath)
             };
 
-            _executor.Execute(_scriptsPath.InstallService, parameters);
+            _executor.Execute(_scripts.InstallService, parameters);
         }
 
         public void UninstallService(string serviceName)
@@ -63,7 +64,7 @@ namespace Rescuer.Management.WindowsService.Shell
                 new CommandParameter(nameof(serviceName), serviceName)
             };
             
-            _executor.Execute(_scriptsPath.UninstallService, parameters);   
+            _executor.Execute(_scripts.UninstallService, parameters);   
         }
 
         public void ClearErrorLog()
@@ -113,7 +114,7 @@ namespace Rescuer.Management.WindowsService.Shell
                 new CommandParameter("newPassword", password)
             };
 
-            var result = _executor.Execute(_scriptsPath.ChangeUser, parameters);
+            var result = _executor.Execute(_scripts.ChangeUser, parameters);
 
             ThrowServiceExceptionIfNecessary(result);
         }
@@ -127,7 +128,7 @@ namespace Rescuer.Management.WindowsService.Shell
                 new CommandParameter("serviceName", _service.ServiceName)
             };
 
-            var result = _executor.Execute(_scriptsPath.GetService, parameters).FirstOrDefault();
+            var result = _executor.Execute(_scripts.GetService, parameters).FirstOrDefault();
 
             if (result == null) return null;
 

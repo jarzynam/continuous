@@ -1,6 +1,6 @@
 ﻿using System.ServiceProcess;
 
-namespace Rescuer.Services.EmptyTestService
+namespace Continuous.Services.EmptyTestService
 {
     static class Program
     {

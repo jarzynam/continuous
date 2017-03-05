@@ -2,10 +2,10 @@
 using System.Linq;
 using System.Security.Principal;
 using System.ServiceProcess;
+using Continuous.Management.WindowsService.Shell;
 using NUnit.Framework;
-using Rescuer.Management.WindowsService.Shell;
 
-namespace Rescuer.Management.Tests
+namespace Continuous.Management.Tests
 {
     [TestFixture]
     public class WindowsServiceShellTests

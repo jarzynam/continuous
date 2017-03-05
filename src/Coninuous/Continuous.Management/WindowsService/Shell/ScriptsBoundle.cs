@@ -1,13 +1,13 @@
 ﻿using System;
 using System.IO;
 
-namespace Rescuer.Management.WindowsService.Shell
+namespace Continuous.Management.WindowsService.Shell
 {
-    public class ScriptPathProvider
+    public class ScriptsBoundle
     {
         private readonly string _currentPath;
         
-        public ScriptPathProvider()
+        public ScriptsBoundle()
         {
             _currentPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "WindowsService", "Scripts");
         }

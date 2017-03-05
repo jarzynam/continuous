@@ -7,8 +7,8 @@
     <ProjectGuid>{F3011F7F-43BC-4F70-83AA-B62EC5E8BB10}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Rescuer.Services.EmptyTestService</RootNamespace>
-    <AssemblyName>Rescuer.Services.EmptyTestService</AssemblyName>
+    <RootNamespace>Continuous.Services.EmptyTestService</RootNamespace>
+    <AssemblyName>Continuous.Services.EmptyTestService</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

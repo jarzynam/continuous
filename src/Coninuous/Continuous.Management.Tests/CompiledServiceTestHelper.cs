@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Rescuer.Management.Tests
+namespace Continuous.Management.Tests
 {
     internal class CompiledServiceTestHelper
     {
