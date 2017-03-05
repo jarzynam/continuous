@@ -8,7 +8,7 @@ namespace Rescuer.Management.WindowsService.Shell
     {
         List<string> ErrorLog { get; set; }        
         ServiceControllerStatus GetServiceStatus();
-        bool ConnectToService(string serviceName);
+        void ConnectToService(string serviceName);
         void InstallService(string serviceName, string fullServicePath);
         void UninstallService(string serviceName);
         void ClearErrorLog();

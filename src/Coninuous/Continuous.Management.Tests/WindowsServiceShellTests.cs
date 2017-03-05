@@ -36,10 +36,7 @@ namespace Rescuer.Management.Tests
             
             try
             {
-                var connectionResult = _shell.ConnectToService(serviceName);
-
-                if (!connectionResult)
-                    Assert.Inconclusive("unable to make test due to failed connect to service");
+                _shell.ConnectToService(serviceName);
 
                 var serviceStatus = _shell.GetServiceStatus();
 
@@ -63,9 +60,9 @@ namespace Rescuer.Management.Tests
            
             try
             {
-                var connectionResult = _shell.ConnectToService(serviceName);
+                TestDelegate act = () => _shell.ConnectToService(serviceName);
 
-                Assert.IsTrue(connectionResult, "Can't connect to properly installed service");
+                Assert.DoesNotThrow(act);
             }
             finally
             {
@@ -87,10 +84,9 @@ namespace Rescuer.Management.Tests
             if (_shell.ErrorLog.Any())
                 Assert.Inconclusive("ErrorLog should be empty before connection attempt");
 
-            var connectionResult = _shell.ConnectToService(serviceName);
+            TestDelegate act  = () => _shell.ConnectToService(serviceName);
 
-            Assert.IsFalse(connectionResult, "connectionResult should be false");
-            Assert.IsTrue(_shell.ErrorLog.Any(), "Error log should contains any message after connection attempt");
+            Assert.Throws<InvalidOperationException>(act, "Service is not connected");
         }
 
         [Test]
@@ -147,10 +143,7 @@ namespace Rescuer.Management.Tests
 
             try
             {
-                var connectionResult = _shell.ConnectToService(serviceName);
-
-                if (!connectionResult)
-                    Assert.Inconclusive("unable to make test due to failed connect to service");
+                _shell.ConnectToService(serviceName);
 
                 var startResult = _shell.StartService();
                 if (!startResult)
@@ -178,11 +171,8 @@ namespace Rescuer.Management.Tests
             
             try
             {
-                var connectionResult = _shell.ConnectToService(serviceName);
-
-                if (!connectionResult)
-                    Assert.Inconclusive("unable to make test due to failed connect to service");
-
+                _shell.ConnectToService(serviceName);
+                
                 var serviceStatus = _shell.GetServiceStatus();
                 if (ServiceControllerStatus.Stopped != serviceStatus)
                     Assert.Inconclusive(
@@ -210,10 +200,7 @@ namespace Rescuer.Management.Tests
            
             try
             {
-                var connectionResult = _shell.ConnectToService(serviceName);
-
-                if (!connectionResult)
-                    Assert.Inconclusive("unable to make test due to failed connect to service");
+                _shell.ConnectToService(serviceName);
 
                 var startResult = _shell.StartService();
 
@@ -244,11 +231,8 @@ namespace Rescuer.Management.Tests
           
             try
             {
-                var connectionResult = _shell.ConnectToService(serviceName);
-
-                if (!connectionResult)
-                    Assert.Inconclusive("unable to make test due to failed connect to service");
-
+                _shell.ConnectToService(serviceName);
+                
                 var serviceStatus = _shell.GetServiceStatus();
                 if (ServiceControllerStatus.Stopped != serviceStatus)
                     Assert.Inconclusive(
