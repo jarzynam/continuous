@@ -257,5 +257,59 @@ namespace Rescuer.Management.Tests
             Assert.Throws<InvalidOperationException>(() => _shell.GetServiceStatus(),
                 "invoking GetServiceStatus before Connect() should throw an exception, but didn't");
         }
+
+        [Test]
+        public void Can_ChangeUser_InExistingServer_Test()
+        {
+            string userName = "";
+            string password = "";
+            string serviceName = _helper.RandomServiceName;
+
+            _shell.InstallService(serviceName, _helper.GetTestServicePath());
+
+            try
+            {
+                _shell.ConnectToService(serviceName);
+
+                _shell.ChangeUser(userName, password);
+
+                _shell.StopService();
+                _shell.StartService();
+
+                var service = _shell.GetService();
+
+                Assert.AreEqual(userName, service.UserName);
+
+            }
+            finally
+            {
+                _shell.UninstallService(serviceName);
+            }
+
+        }
+
+        [Test]
+        public void Can_GetService_WhenExists_Test()
+        {
+            var serviceName = _helper.RandomServiceName;
+            _shell.InstallService(serviceName, _helper.GetTestServicePath());
+
+            try
+            {
+                _shell.ConnectToService(serviceName);
+
+                var service = _shell.GetService();
+
+                Assert.AreEqual(service.Name, serviceName);
+                Assert.AreEqual(service.Description, null);
+                Assert.AreEqual(service.DisplayName, serviceName);
+                Assert.AreEqual(service.ProcessId, 0);
+                Assert.AreEqual(service.UserName, "LocalSystem");
+            }
+            finally
+            {
+                _shell.UninstallService(serviceName);
+            }
+        }
     }
 }

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Rescuer.Management.WindowsService.Shell
 {
@@ -18,5 +14,7 @@ namespace Rescuer.Management.WindowsService.Shell
 
         public string UninstallService => Path.Combine(_currentPath, "UninstallService.ps1");
         public string InstallService => Path.Combine(_currentPath, "InstallService.ps1");
+        public string ChangeUser => Path.Combine(_currentPath, "ChangeUser.ps1");
+        public string GetService => Path.Combine(_currentPath, "GetService.ps1");
     }
 }

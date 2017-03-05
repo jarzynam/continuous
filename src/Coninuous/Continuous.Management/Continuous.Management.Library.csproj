@@ -49,7 +49,14 @@
   <ItemGroup>
     <Compile Include="ScriptExecutor.cs" />
     <Compile Include="Transit\HealthStatus.cs" />
+    <Compile Include="Transit\WindowsServiceInfo.cs" />
     <Compile Include="WindowsService\Exceptions\ServiceConnectionException.cs" />
+    <None Include="WindowsService\Scripts\GetService.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="WindowsService\Scripts\ChangeUser.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="WindowsService\Scripts\InstallService.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -62,7 +69,7 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="WindowsService\Scripts\UninstallService.ps1">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

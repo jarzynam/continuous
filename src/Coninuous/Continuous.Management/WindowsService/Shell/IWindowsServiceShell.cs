@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ServiceProcess;
+using Rescuer.Management.Transit;
 
 namespace Rescuer.Management.WindowsService.Shell
 {
@@ -14,5 +15,7 @@ namespace Rescuer.Management.WindowsService.Shell
         void ClearErrorLog();
         bool StopService();
         bool StartService();
+        void ChangeUser(string userName, string password, string domain = ".");
+        WindowsServiceInfo GetService();
     }
 }

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 using System.ServiceProcess;
+using Rescuer.Management.Transit;
 
 namespace Rescuer.Management.WindowsService.Shell
 {
@@ -64,7 +66,6 @@ namespace Rescuer.Management.WindowsService.Shell
             _executor.Execute(_scriptsPath.UninstallService, parameters);   
         }
 
-
         public void ClearErrorLog()
         {
             ErrorLog = new List<string>();
@@ -101,6 +102,50 @@ namespace Rescuer.Management.WindowsService.Shell
             return true;
         }
 
+        public void ChangeUser(string userName, string password, string domain = ".")
+        {
+            ThrowExceptionIfNotConnectedToService();
+
+            var parameters = new List<CommandParameter>
+            {
+                new CommandParameter("serviceName", _service.ServiceName),
+                new CommandParameter("newAccount", String.Join(@"\", domain, userName)),
+                new CommandParameter("newPassword", password)
+            };
+
+            var result = _executor.Execute(_scriptsPath.ChangeUser, parameters);
+
+            ThrowServiceExceptionIfNecessary(result);
+        }
+
+        public WindowsServiceInfo GetService()
+        {
+            ThrowExceptionIfNotConnectedToService();
+
+            var parameters = new List<CommandParameter>
+            {
+                new CommandParameter("serviceName", _service.ServiceName)
+            };
+
+            var result = _executor.Execute(_scriptsPath.GetService, parameters).FirstOrDefault();
+
+            if (result == null) return null;
+
+            return new WindowsServiceInfo
+            {
+                Name = result.Properties["Name"].Value as String,
+                DisplayName = result.Properties["DisplayName"].Value as String,
+                Description = result.Properties["Description"].Value as String,
+                ProcessId = (result.Properties["ProcessId"].Value as int?).GetValueOrDefault(),
+                UserName = result.Properties["StartName"].Value as string,
+                ServiceType = result.Properties["ServiceType"].Value as string,
+                StartMode = result.Properties["StartMode"].Value as string,
+                State = result.Properties["State"].Value as string,
+                Status = result.Properties["Status"].Value as string
+            };
+
+        }
+
         public void Dispose()
         {
             _service?.Dispose();
@@ -110,6 +155,14 @@ namespace Rescuer.Management.WindowsService.Shell
         {
             if (_service == null)
                 throw new InvalidOperationException("Service is not connected");
+        }
+
+        private static void ThrowServiceExceptionIfNecessary(ICollection<PSObject> result)
+        {
+            var returnValue = result.FirstOrDefault()?.Properties["ReturnValue"].Value as int?;
+
+            if (returnValue.GetValueOrDefault() != 0)
+                throw new InvalidOperationException("Cannont change user. Reason: " + returnValue.GetValueOrDefault());
         }
     }
 }
