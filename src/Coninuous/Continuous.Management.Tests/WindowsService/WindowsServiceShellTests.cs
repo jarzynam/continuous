@@ -5,7 +5,7 @@ using System.ServiceProcess;
 using Continuous.Management.WindowsService.Shell;
 using NUnit.Framework;
 
-namespace Continuous.Management.Tests
+namespace Continuous.Management.Tests.WindowsService
 {
     [TestFixture]
     public class WindowsServiceShellTests

@@ -1,6 +1,6 @@
-﻿# Create new local user 
-# Compability only with pwershell 5.1 or higher
+﻿# 
+# Create new local user by username
 #
-param([string]$name, [string] $fullName, [string] $description, [string] $password)
+param([string]$name, [string] $fullName, [string] $description, [string] $password, [string] $expires)
   
-New-LocalUser $name -Password $password -FullName $fullName -Description $description
+net user $name $password /add /fullname:"$fullName" /comment:"$description" /expires:"$expires"

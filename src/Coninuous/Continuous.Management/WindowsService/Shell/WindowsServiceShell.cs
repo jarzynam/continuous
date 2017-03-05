@@ -158,12 +158,12 @@ namespace Continuous.Management.WindowsService.Shell
                 throw new InvalidOperationException("Service is not connected");
         }
 
-        private static void ThrowServiceExceptionIfNecessary(ICollection<PSObject> result)
-        {
-            var returnValue = result.FirstOrDefault()?.Properties["ReturnValue"].Value as int?;
+            private static void ThrowServiceExceptionIfNecessary(ICollection<PSObject> result)
+            {
+                var returnValue = result.FirstOrDefault()?.Properties["ReturnValue"].Value as int?;
 
-            if (returnValue.GetValueOrDefault() != 0)
-                throw new InvalidOperationException("Cannont change user. Reason: " + returnValue.GetValueOrDefault());
-        }
+                if (returnValue.GetValueOrDefault() != 0)
+                    throw new InvalidOperationException("Cannont change user. Reason: " + returnValue.GetValueOrDefault());
+            }
     }
 }

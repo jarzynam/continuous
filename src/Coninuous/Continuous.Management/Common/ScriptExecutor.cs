@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
+using System.Text;
 
 namespace Continuous.Management.Common
 {
@@ -8,23 +10,43 @@ namespace Continuous.Management.Common
     {
         public ICollection<PSObject> Execute(string scriptFullPath, ICollection<CommandParameter> parameters)
         {
-            var runspace = RunspaceFactory.CreateRunspace();
-            runspace.Open();
-            var pipeline = runspace.CreatePipeline();
-            var cmd = new Command(scriptFullPath);
-            if (parameters != null)
+            using (var runspace = RunspaceFactory.CreateRunspace())
             {
-                foreach (var p in parameters)
+                runspace.Open();
+                using (var pipeline = runspace.CreatePipeline())
                 {
-                    cmd.Parameters.Add(p);
+                    var cmd = new Command(scriptFullPath);
+                    if (parameters != null)
+                    {
+                        foreach (var p in parameters)
+                        {
+                            cmd.Parameters.Add(p);
+                        }
+                    }
+                    pipeline.Commands.Add(cmd);
+
+                    var results = pipeline.Invoke();
+
+                    ThrowErrorIfNecessary(pipeline);
+
+                    return results;
                 }
             }
-            pipeline.Commands.Add(cmd);
-            var results = pipeline.Invoke();
+        }
 
-            pipeline.Dispose();
-            runspace.Dispose();
-            return results;
+        private void ThrowErrorIfNecessary(Pipeline pipeline)
+        {
+            if (pipeline.HadErrors)
+            {
+                var errors = pipeline.Error.ReadToEnd();
+                var errorBuilder = new StringBuilder();
+                foreach (var error in errors)
+                {
+                    errorBuilder.AppendLine(error.ToString());
+                }
+                
+                throw new InvalidOperationException(errorBuilder.ToString());
+            }
         }
     }
 }
