@@ -48,10 +48,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\ScriptExecutor.cs" />
+    <Compile Include="LocalUserGroup\LocalUserGroupShell.cs" />
+    <Compile Include="LocalUserGroup\Model\LocalUserGroup.cs" />
+    <Compile Include="LocalUserGroup\ScriptsBoundle.cs" />
     <Compile Include="LocalUser\Model\LocalUser.cs" />
     <Compile Include="LocalUser\ScriptsBoundle.cs" />
     <Compile Include="WindowsService\Model\HealthStatus.cs" />
     <Compile Include="WindowsService\Model\WindowsServiceInfo.cs" />
+    <None Include="LocalUserGroup\Scripts\RemoveUsersFromLocalGroup.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="LocalUserGroup\Scripts\AddUsersToLocalGroup.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="LocalUserGroup\Scripts\CreateLocalUserGroup.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="LocalUserGroup\Scripts\GetLocalUserGroup.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="LocalUserGroup\Scripts\RemoveLocalUserGroup.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="LocalUser\Scripts\GetUser.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

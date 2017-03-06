@@ -1,6 +1,6 @@
 ﻿#  
-# get local user by username
+# get local user group by name
 #
 param([string]$name)
   
-net user $name
+net localgroup $name

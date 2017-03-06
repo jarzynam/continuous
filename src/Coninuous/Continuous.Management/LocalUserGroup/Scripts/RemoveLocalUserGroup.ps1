@@ -1,5 +1,5 @@
 ﻿#  
-# Remove local user by username
+# Remove local user group by name
 #
 param([string]$name)
   

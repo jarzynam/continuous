@@ -1,6 +1,6 @@
 ﻿# 
-# Create new local user by username
+# Create new local user gorup
 #
-param([string]$name, [string] $fullName, [string] $description, [string] $password, [string] $expires)
+param([string]$name, [string] $description)
   
-net user $name $password /add /fullname:"$fullName" /comment:"$description" /expires:"$expires"
+net localgroup $name /add /comment:"$description"

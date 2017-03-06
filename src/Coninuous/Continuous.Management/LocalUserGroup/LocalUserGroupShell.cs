@@ -33,8 +33,6 @@ namespace Continuous.Management.LocalUserGroup
                 new CommandParameter("name", localGroup.Name),
                 
                 new CommandParameter("description", localGroup.Description),
-                
-                new CommandParameter("members", FlattenCollectionToString(localGroup.Members))
             };
 
             var result = _executor.Execute(_scripts.CreateLocalUserGroup, parameters);
@@ -68,35 +66,30 @@ namespace Continuous.Management.LocalUserGroup
             return Map(results);
         }
 
-        public void AddUserToGroup(string groupName, string userName, string userDomain = null)
+        public void AssignUsers(string groupName, List<string> userNames)
         {
-            userName = SplitDomainWithUserName(userName, userDomain);
-
             var parameters = new List<CommandParameter>
             {
                 new CommandParameter("name", groupName),
-                new CommandParameter("userName", userName)
+                new CommandParameter("members", FlattenCollectionToString(userNames))
             };
 
-            var results = _executor.Execute(_scripts.AddUserToLocalGroup, parameters);
+            var results = _executor.Execute(_scripts.AddUsersToLocalGroup, parameters);
 
-            ThrowServiceExceptionIfNecessary(results, nameof(AddUserToGroup));
+            ThrowServiceExceptionIfNecessary(results, nameof(AssignUsers));
         }
 
-        public void RemoveUserFromGroup(string groupName, string userName, string userDomain = null)
+        public void RemoveUserFromGroup(string groupName, List<string> userNames) 
         {
-            userName = SplitDomainWithUserName(userName, userDomain);
-
             var parameters = new List<CommandParameter>
             {
                 new CommandParameter("name", groupName),
-                new CommandParameter("userName", userName)
+                new CommandParameter("members", FlattenCollectionToString(userNames))
             };
 
-            var result = _executor.Execute(_scripts.RemoveUserFromLocalGroup, parameters);
+            var result = _executor.Execute(_scripts.RemoveUsersFromLocalGroup, parameters);
 
             ThrowServiceExceptionIfNecessary(result, nameof(RemoveUserFromGroup));
-
         }
 
         private Model.LocalUserGroup Map(ICollection<PSObject> results)
@@ -144,13 +137,6 @@ namespace Continuous.Management.LocalUserGroup
             }
 
             return builder.ToString();
-        }
-
-        private static string SplitDomainWithUserName(string userName, string userDomain)
-        {
-            if (userDomain != null)
-                userName = userDomain + @"\" + userName;
-            return userName;
         }
     }
 }
