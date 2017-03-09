@@ -4,7 +4,7 @@ using Continuous.Management.LocalUser;
 using Continuous.Management.LocalUserGroup;
 using NUnit.Framework;
 
-namespace Continuous.Management.Tests.LocalUserGroup
+namespace Continuous.Management.Library.Tests.LocalUserGroup
 {
     [TestFixture]
     public class LocalUserGroupShellTests
@@ -96,7 +96,7 @@ namespace Continuous.Management.Tests.LocalUserGroup
                 Name = RandomName + "User",
                 Description = "test to delete"
             };
-            _userShell.CreateUser(user);
+            _userShell.Create(user);
             var groupName = CreateGroup();
 
             try
@@ -109,7 +109,7 @@ namespace Continuous.Management.Tests.LocalUserGroup
             finally
             {
                 _shell.Remove(groupName);
-                _userShell.RemoveUser(user.Name);
+                _userShell.Remove(user.Name);
             }
         }
 

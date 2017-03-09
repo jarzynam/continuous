@@ -24,7 +24,7 @@ namespace Continuous.Management.WindowsService.Shell
             _scripts = new ScriptsBoundle();
         }
 
-        public ServiceControllerStatus GetServiceStatus(string serviceName)
+        public ServiceControllerStatus GetStatus(string serviceName)
         {
             using (var service = new ServiceController(serviceName))
             {
@@ -32,7 +32,7 @@ namespace Continuous.Management.WindowsService.Shell
             }
         }
 
-        public void InstallService(string serviceName, string fullServicePath)
+        public void Install(string serviceName, string fullServicePath)
         {
             var parameters = new List<CommandParameter>
             {
@@ -43,7 +43,7 @@ namespace Continuous.Management.WindowsService.Shell
             _executor.Execute(_scripts.InstallService, parameters);
         }
 
-        public void UninstallService(string serviceName)
+        public void Uninstall(string serviceName)
         {
             var parameters = new List<CommandParameter>
             {
@@ -53,7 +53,7 @@ namespace Continuous.Management.WindowsService.Shell
             _executor.Execute(_scripts.UninstallService, parameters);
         }
 
-        public bool StopService(string serviceName)
+        public bool Stop(string serviceName)
         {
             using (var service = new ServiceController(serviceName))
             {
@@ -68,7 +68,7 @@ namespace Continuous.Management.WindowsService.Shell
             }
         }
 
-        public bool StartService(string serviceName)
+        public bool Start(string serviceName)
         {
             using (var service = new ServiceController(serviceName))
             {
@@ -83,7 +83,7 @@ namespace Continuous.Management.WindowsService.Shell
             }
         }
 
-        public WindowsServiceInfo GetService(string serviceName)
+        public WindowsServiceInfo Get(string serviceName)
         {
             var parameters = new List<CommandParameter>
             {

@@ -24,7 +24,7 @@ namespace Continuous.Management.LocalUser
             _scripts = new ScriptsBoundle();
         }
 
-        public void CreateUser(Model.LocalUser user)
+        public void Create(Model.LocalUser user)
         {
             var parameters = new List<CommandParameter>
             {
@@ -37,10 +37,10 @@ namespace Continuous.Management.LocalUser
 
             var result = _executor.Execute(_scripts.CreateUser, parameters);
 
-            ThrowServiceExceptionIfNecessary(result, nameof(CreateUser));
+            ThrowServiceExceptionIfNecessary(result, nameof(Create));
         }
 
-        public void RemoveUser(string userName)
+        public void Remove(string userName)
         {
             var parameters = new List<CommandParameter>
             {
@@ -49,10 +49,10 @@ namespace Continuous.Management.LocalUser
 
             var result = _executor.Execute(_scripts.RemoveUser, parameters);
 
-            ThrowServiceExceptionIfNecessary(result, nameof(RemoveUser));
+            ThrowServiceExceptionIfNecessary(result, nameof(Remove));
         }
 
-        public Model.LocalUser GetUser(string userName)
+        public Model.LocalUser Get(string userName)
         {
             var parameters = new List<CommandParameter>
             {

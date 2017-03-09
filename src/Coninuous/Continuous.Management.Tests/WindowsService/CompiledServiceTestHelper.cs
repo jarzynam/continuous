@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Continuous.Management.Tests.WindowsService
+namespace Continuous.Management.Library.Tests.WindowsService
 {
     internal class CompiledServiceTestHelper
     {

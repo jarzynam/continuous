@@ -7,7 +7,7 @@ using Continuous.Management.Common.Extensions;
 
 namespace Continuous.Management.LocalUserGroup
 {
-    public class Mapper
+    internal class Mapper
     {
         private readonly Regex _wihteSpaceSeparatorRegex = new Regex(@"[\s]{2,}");
         private readonly Regex _lineBeforeUsersRegex = new Regex("[-]{2,}");

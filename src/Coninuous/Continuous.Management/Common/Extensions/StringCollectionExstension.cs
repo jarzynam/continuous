@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Continuous.Management.Common.Extensions
 {
-    public static class StringCollectionExstension
+    internal static class StringCollectionExstension
     {
         public static string ToFlatString(this List<string> collection, string elementSeparator = " ")
         {

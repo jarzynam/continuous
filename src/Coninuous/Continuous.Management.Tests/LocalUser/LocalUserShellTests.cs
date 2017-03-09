@@ -2,7 +2,7 @@
 using Continuous.Management.LocalUser;
 using NUnit.Framework;
 
-namespace Continuous.Management.Tests.LocalUser
+namespace Continuous.Management.Library.Tests.LocalUser
 {
     [TestFixture]
     public class LocalUserShellTests
@@ -24,8 +24,8 @@ namespace Continuous.Management.Tests.LocalUser
         {
             var user = BuildLocalUser();
 
-            TestDelegate addUserDelagate = () => _shell.CreateUser(user);
-            TestDelegate removeUserDelegate = () => _shell.RemoveUser(user.Name);
+            TestDelegate addUserDelagate = () => _shell.Create(user);
+            TestDelegate removeUserDelegate = () => _shell.Remove(user.Name);
 
             Assert.DoesNotThrow(addUserDelagate);
             Assert.DoesNotThrow(removeUserDelegate);
@@ -36,12 +36,12 @@ namespace Continuous.Management.Tests.LocalUser
         {
             var user = BuildLocalUser();
 
-            TestDelegate act = () => _shell.CreateUser(user);
+            TestDelegate act = () => _shell.Create(user);
 
             Assert.DoesNotThrow(act);
             Assert.Throws<InvalidOperationException>(act);
 
-            _shell.RemoveUser(user.Name);
+            _shell.Remove(user.Name);
         }
 
         [Test]
@@ -49,7 +49,7 @@ namespace Continuous.Management.Tests.LocalUser
         {
             var userName = RandomUserName;
 
-            TestDelegate act = () => _shell.RemoveUser(userName);
+            TestDelegate act = () => _shell.Remove(userName);
 
             Assert.Throws<InvalidOperationException>(act);
         }
@@ -60,11 +60,11 @@ namespace Continuous.Management.Tests.LocalUser
         {
             var originalUser = BuildLocalUser();
 
-            _shell.CreateUser(originalUser);
+            _shell.Create(originalUser);
 
             try
             {
-                var actualUser = _shell.GetUser(originalUser.Name);
+                var actualUser = _shell.Get(originalUser.Name);
 
                 Assert.AreEqual(originalUser.Name, actualUser.Name);
                 Assert.AreEqual(originalUser.Description, actualUser.Description);
@@ -74,7 +74,7 @@ namespace Continuous.Management.Tests.LocalUser
             }
             finally
             {
-                _shell.RemoveUser(originalUser.Name);
+                _shell.Remove(originalUser.Name);
             }
 
         }
@@ -84,7 +84,7 @@ namespace Continuous.Management.Tests.LocalUser
         {
             var userName = RandomUserName;
 
-            TestDelegate act = () => _shell.GetUser(userName);
+            TestDelegate act = () => _shell.Get(userName);
 
             Assert.Throws<InvalidOperationException>(act);
         }

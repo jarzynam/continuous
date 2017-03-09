@@ -2,8 +2,8 @@
 {
     public interface ILocalUserShell
     {
-        void CreateUser(Model.LocalUser user);
-        void RemoveUser(string userName);
-        Model.LocalUser GetUser(string userName);
+        void Create(Model.LocalUser user);
+        void Remove(string userName);
+        Model.LocalUser Get(string userName);
     }
 }

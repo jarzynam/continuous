@@ -6,12 +6,12 @@ namespace Continuous.Management.WindowsService.Shell
 {
     public interface IWindowsServiceShell
     {
-        ServiceControllerStatus GetServiceStatus(string serviceName);
-        void InstallService(string serviceName, string fullServicePath);
-        void UninstallService(string serviceName);
-        bool StopService(string serviceName);
-        bool StartService(string serviceName);
+        ServiceControllerStatus GetStatus(string serviceName);
+        void Install(string serviceName, string fullServicePath);
+        void Uninstall(string serviceName);
+        bool Stop(string serviceName);
+        bool Start(string serviceName);
         void ChangeUser(string serviceName, string userName, string password, string domain = ".");
-        WindowsServiceInfo GetService(string serviceName);
+        WindowsServiceInfo Get(string serviceName);
     }
 }

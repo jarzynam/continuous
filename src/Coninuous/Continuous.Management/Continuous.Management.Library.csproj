@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="Common\Extensions\StringCollectionExstension.cs" />
     <Compile Include="Common\ScriptExecutor.cs" />
+    <Compile Include="ContinuousManagementFactory.cs" />
     <Compile Include="LocalUserGroup\ILocalUserGroupShell.cs" />
     <Compile Include="LocalUserGroup\LocalUserGroupShell.cs" />
     <Compile Include="LocalUserGroup\Mapper.cs" />

@@ -3,7 +3,7 @@ using System.IO;
 
 namespace Continuous.Management.LocalUser
 {
-    public class ScriptsBoundle
+    internal class ScriptsBoundle
     {
         private readonly string _currentPath;
         
