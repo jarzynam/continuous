@@ -3,36 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
-using System.Text;
-using System.Text.RegularExpressions;
 using Continuous.Management.Common;
+using Continuous.Management.Common.Extensions;
 
 namespace Continuous.Management.LocalUserGroup
 {
-    public class LocalUserGroupShell
+    public class LocalUserGroupShell : ILocalUserGroupShell
     {
         private readonly ScriptExecutor _executor;
         private readonly ScriptsBoundle _scripts;
-        private readonly Regex _wihteSpaceSeparatorRegex = new Regex(@"[\s]{2,}");
-
-        private readonly int nameIndex = 0;
-        private readonly int valueIndex = 1;
-
+        private readonly Mapper _mapper;
 
         public LocalUserGroupShell()
         {
             _executor = new ScriptExecutor();
             _scripts = new ScriptsBoundle();
+            _mapper = new Mapper();
         }
 
-        public void Create(Model.LocalUserGroup localGroup)
+        public void Create(string name, string description)
         {
-
             var parameters = new List<CommandParameter>
             {
-                new CommandParameter("name", localGroup.Name),
-                
-                new CommandParameter("description", localGroup.Description),
+                new CommandParameter("name", name),       
+                new CommandParameter("description", description),
             };
 
             var result = _executor.Execute(_scripts.CreateLocalUserGroup, parameters);
@@ -61,9 +55,7 @@ namespace Continuous.Management.LocalUserGroup
 
             var results = _executor.Execute(_scripts.GetLocalUserGroup, parameters);
 
-            if (!results.Any()) return null;
-
-            return Map(results);
+            return !results.Any() ? null : _mapper.Map(results);
         }
 
         public void AssignUsers(string groupName, List<string> userNames)
@@ -71,7 +63,7 @@ namespace Continuous.Management.LocalUserGroup
             var parameters = new List<CommandParameter>
             {
                 new CommandParameter("name", groupName),
-                new CommandParameter("members", FlattenCollectionToString(userNames))
+                new CommandParameter("members", userNames.ToFlatString())
             };
 
             var results = _executor.Execute(_scripts.AddUsersToLocalGroup, parameters);
@@ -79,41 +71,17 @@ namespace Continuous.Management.LocalUserGroup
             ThrowServiceExceptionIfNecessary(results, nameof(AssignUsers));
         }
 
-        public void RemoveUserFromGroup(string groupName, List<string> userNames) 
+        public void RemoveUsers(string groupName, List<string> userNames) 
         {
             var parameters = new List<CommandParameter>
             {
                 new CommandParameter("name", groupName),
-                new CommandParameter("members", FlattenCollectionToString(userNames))
+                new CommandParameter("members", userNames.ToFlatString())
             };
 
             var result = _executor.Execute(_scripts.RemoveUsersFromLocalGroup, parameters);
 
-            ThrowServiceExceptionIfNecessary(result, nameof(RemoveUserFromGroup));
-        }
-
-        private Model.LocalUserGroup Map(ICollection<PSObject> results)
-        {
-            var properties = new Dictionary<string, string>();
-
-            foreach (var result in results)
-            {
-                var propertyLine = _wihteSpaceSeparatorRegex.Split(result.BaseObject.ToString());
-
-                properties.Add(propertyLine[nameIndex], propertyLine[valueIndex]);
-            }
-
-            return new Model.LocalUserGroup
-            {
-                Name = properties["Alias name"],
-                Description = properties["Comment"],
-                Members = properties["Members"]
-                    .Replace("-", "")
-                    .Replace("The command completed successfully.", "")
-                    .Split('\n')
-                    .Where(p => !String.IsNullOrEmpty(p))
-                    .ToList()
-            };
+            ThrowServiceExceptionIfNecessary(result, nameof(RemoveUsers));
         }
 
         private static void ThrowServiceExceptionIfNecessary(ICollection<PSObject> result, string commandName)
@@ -122,21 +90,6 @@ namespace Continuous.Management.LocalUserGroup
 
             if (returnValue != "The command completed successfully.")
                 throw new InvalidOperationException($"Cannot invoke command {commandName}. Reason: " + returnValue);
-        }
-
-        private static string FlattenCollectionToString(List<string> collection)
-        {
-            var builder = new StringBuilder();
-
-            for (var i = 0; i < collection.Count; i++)
-            {
-                builder.Append(collection[i]);
-
-                if (i < collection.Count - 1)
-                    builder.Append(" ");
-            }
-
-            return builder.ToString();
         }
     }
 }

@@ -3,4 +3,4 @@
 #
 param([string]$name)
   
-net user $name /delete
+net localgroup $name /delete

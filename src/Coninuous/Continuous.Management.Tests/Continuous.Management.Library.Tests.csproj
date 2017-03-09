@@ -60,6 +60,8 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="Common\Extensions\StringCollectionExtensionsTests.cs" />
+    <Compile Include="LocalUserGroup\LocalUserGroupShellTests.cs" />
     <Compile Include="LocalUser\LocalUserShellTests.cs" />
     <Compile Include="WindowsService\CompiledServiceTestHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

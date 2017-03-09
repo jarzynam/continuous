@@ -47,8 +47,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Extensions\StringCollectionExstension.cs" />
     <Compile Include="Common\ScriptExecutor.cs" />
+    <Compile Include="LocalUserGroup\ILocalUserGroupShell.cs" />
     <Compile Include="LocalUserGroup\LocalUserGroupShell.cs" />
+    <Compile Include="LocalUserGroup\Mapper.cs" />
     <Compile Include="LocalUserGroup\Model\LocalUserGroup.cs" />
     <Compile Include="LocalUserGroup\ScriptsBoundle.cs" />
     <Compile Include="LocalUser\Model\LocalUser.cs" />
