@@ -1,21 +1,17 @@
 using System;
-using System.Collections.Generic;
 using System.ServiceProcess;
 using Continuous.Management.WindowsService.Model;
 
 namespace Continuous.Management.WindowsService.Shell
 {
-    public interface IWindowsServiceShell : IDisposable
+    public interface IWindowsServiceShell
     {
-        List<string> ErrorLog { get; set; }        
-        ServiceControllerStatus GetServiceStatus();
-        void ConnectToService(string serviceName);
+        ServiceControllerStatus GetServiceStatus(string serviceName);
         void InstallService(string serviceName, string fullServicePath);
         void UninstallService(string serviceName);
-        void ClearErrorLog();
-        bool StopService();
-        bool StartService();
-        void ChangeUser(string userName, string password, string domain = ".");
-        WindowsServiceInfo GetService();
+        bool StopService(string serviceName);
+        bool StartService(string serviceName);
+        void ChangeUser(string serviceName, string userName, string password, string domain = ".");
+        WindowsServiceInfo GetService(string serviceName);
     }
 }

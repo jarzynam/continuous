@@ -11,39 +11,25 @@ namespace Continuous.Management.WindowsService.Shell
 {
     public class WindowsServiceShell : IWindowsServiceShell
     {
-        private readonly TimeSpan _timeout;
-
-        private ServiceController _service;
         private readonly ScriptExecutor _executor;
         private readonly ScriptsBoundle _scripts;
+        private readonly TimeSpan _timeout;
 
-      
+
         public WindowsServiceShell()
         {
-            ErrorLog = new List<string>();
             _timeout = TimeSpan.FromSeconds(5);
             _executor = new ScriptExecutor();
 
             _scripts = new ScriptsBoundle();
         }
 
-        public List<string> ErrorLog { get; set; }
-
-        public ServiceControllerStatus GetServiceStatus()
+        public ServiceControllerStatus GetServiceStatus(string serviceName)
         {
-            ThrowExceptionIfNotConnectedToService();
-
-            _service.Refresh();
-
-            return _service.Status;
-        }
-
-        public void ConnectToService(string serviceName)
-        {
-            _service = ServiceController.GetServices()
-                .FirstOrDefault(s => s.ServiceName == serviceName);
-
-           ThrowExceptionIfNotConnectedToService();
+            using (var service = new ServiceController(serviceName))
+            {
+                return service.Status;
+            }
         }
 
         public void InstallService(string serviceName, string fullServicePath)
@@ -58,74 +44,50 @@ namespace Continuous.Management.WindowsService.Shell
         }
 
         public void UninstallService(string serviceName)
-        { 
+        {
             var parameters = new List<CommandParameter>
             {
                 new CommandParameter(nameof(serviceName), serviceName)
             };
-            
-            _executor.Execute(_scripts.UninstallService, parameters);   
+
+            _executor.Execute(_scripts.UninstallService, parameters);
         }
 
-        public void ClearErrorLog()
+        public bool StopService(string serviceName)
         {
-            ErrorLog = new List<string>();
-        }
-
-        public bool StopService()
-        {
-            ThrowExceptionIfNotConnectedToService();
-
-            if (!_service.CanStop)
+            using (var service = new ServiceController(serviceName))
             {
-                ErrorLog.Add("service can't be stopped after start");
-                return false;
+                if (!service.CanStop)
+                    return false;
+
+                service.Stop();
+
+                service.WaitForStatus(ServiceControllerStatus.Stopped, _timeout);
+
+                return true;
             }
-
-            _service.Stop();
-
-            _service.WaitForStatus(ServiceControllerStatus.Stopped, _timeout);
-
-            return true;
         }
 
-        public bool StartService()
+        public bool StartService(string serviceName)
         {
-            ThrowExceptionIfNotConnectedToService();
+            using (var service = new ServiceController(serviceName))
+            {
+                if (service.Status == ServiceControllerStatus.Running)
+                    return false;
 
-            if (_service.Status == ServiceControllerStatus.Running)
-                return false;
+                service.Start();
 
-            _service.Start();
+                service.WaitForStatus(ServiceControllerStatus.Running, _timeout);
 
-            _service.WaitForStatus(ServiceControllerStatus.Running, _timeout);
-
-            return true;
+                return true;
+            }
         }
 
-        public void ChangeUser(string userName, string password, string domain = ".")
+        public WindowsServiceInfo GetService(string serviceName)
         {
-            ThrowExceptionIfNotConnectedToService();
-
             var parameters = new List<CommandParameter>
             {
-                new CommandParameter("serviceName", _service.ServiceName),
-                new CommandParameter("newAccount", String.Join(@"\", domain, userName)),
-                new CommandParameter("newPassword", password)
-            };
-
-            var result = _executor.Execute(_scripts.ChangeUser, parameters);
-
-            ThrowServiceExceptionIfNecessary(result);
-        }
-
-        public WindowsServiceInfo GetService()
-        {
-            ThrowExceptionIfNotConnectedToService();
-
-            var parameters = new List<CommandParameter>
-            {
-                new CommandParameter("serviceName", _service.ServiceName)
+                new CommandParameter("serviceName", serviceName)
             };
 
             var result = _executor.Execute(_scripts.GetService, parameters).FirstOrDefault();
@@ -134,9 +96,9 @@ namespace Continuous.Management.WindowsService.Shell
 
             return new WindowsServiceInfo
             {
-                Name = result.Properties["Name"].Value as String,
-                DisplayName = result.Properties["DisplayName"].Value as String,
-                Description = result.Properties["Description"].Value as String,
+                Name = result.Properties["Name"].Value as string,
+                DisplayName = result.Properties["DisplayName"].Value as string,
+                Description = result.Properties["Description"].Value as string,
                 ProcessId = (result.Properties["ProcessId"].Value as int?).GetValueOrDefault(),
                 UserName = result.Properties["StartName"].Value as string,
                 ServiceType = result.Properties["ServiceType"].Value as string,
@@ -144,26 +106,29 @@ namespace Continuous.Management.WindowsService.Shell
                 State = result.Properties["State"].Value as string,
                 Status = result.Properties["Status"].Value as string
             };
-
         }
 
-        public void Dispose()
+        public void ChangeUser(string serviceName, string userName, string password, string domain = ".")
         {
-            _service?.Dispose();
-        }
-
-        private void ThrowExceptionIfNotConnectedToService()
-        {
-            if (_service == null)
-                throw new InvalidOperationException("Service is not connected");
-        }
-
-            private static void ThrowServiceExceptionIfNecessary(ICollection<PSObject> result)
+            var parameters = new List<CommandParameter>
             {
-                var returnValue = result.FirstOrDefault()?.Properties["ReturnValue"].Value as int?;
+                new CommandParameter("serviceName", serviceName),
+                new CommandParameter("newAccount", string.Join(@"\", domain, userName)),
+                new CommandParameter("newPassword", password)
+            };
 
-                if (returnValue.GetValueOrDefault() != 0)
-                    throw new InvalidOperationException("Cannont change user. Reason: " + returnValue.GetValueOrDefault());
-            }
+            var result = _executor.Execute(_scripts.ChangeUser, parameters);
+
+            ThrowServiceExceptionIfNecessary(result);
+        }
+
+        private static void ThrowServiceExceptionIfNecessary(ICollection<PSObject> result)
+        {
+            var returnValue = result.FirstOrDefault()?.Properties["ReturnValue"].Value as int?;
+
+            if (returnValue.GetValueOrDefault() != 0)
+                throw new InvalidOperationException("Cannont change user. Reason: " + returnValue.GetValueOrDefault());
+        }
+
     }
 }

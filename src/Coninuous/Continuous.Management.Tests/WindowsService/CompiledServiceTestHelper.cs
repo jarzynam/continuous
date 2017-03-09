@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Continuous.Management.Tests
+namespace Continuous.Management.Tests.WindowsService
 {
     internal class CompiledServiceTestHelper
     {
@@ -15,7 +15,7 @@ namespace Continuous.Management.Tests
         internal string GetTestServicePath()
         {
             var location = AppDomain.CurrentDomain.BaseDirectory;
-            var path = Path.Combine(location, "CompiledTestService",
+            var path = Path.Combine(location, "WindowsService", "CompiledTestService",
              "Continuous.EmptyTestService.exe");
 
             return path;
