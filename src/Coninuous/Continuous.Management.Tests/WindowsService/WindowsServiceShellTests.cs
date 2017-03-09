@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Security.Principal;
 using System.ServiceProcess;
+using Continuous.Management.LocalUser;
 using Continuous.Management.WindowsService.Shell;
 using NUnit.Framework;
 
@@ -10,10 +11,16 @@ namespace Continuous.Management.Tests.WindowsService
     [TestFixture]
     public class WindowsServiceShellTests
     {
+        private CompiledServiceTestHelper _helper;
+        private IWindowsServiceShell _shell;
+        private ILocalUserShell _userShell;
+
         [SetUp]
         public void Configure()
         {
             _shell = new WindowsServiceShell();
+            _userShell = new LocalUserShell();
+
             _helper = new CompiledServiceTestHelper();
         }
 
@@ -22,9 +29,6 @@ namespace Continuous.Management.Tests.WindowsService
         {
             _shell.Dispose();
         }
-
-        private CompiledServiceTestHelper _helper;
-        private WindowsServiceShell _shell;
 
 
         [Test]
@@ -261,29 +265,26 @@ namespace Continuous.Management.Tests.WindowsService
         [Test]
         public void Can_ChangeUser_InExistingServer_Test()
         {
-            string userName = "";
-            string password = "";
-            string serviceName = _helper.RandomServiceName;
+            var user = new Management.LocalUser.Model.LocalUser {Name = _helper.RandomServiceName + "User"};
+            _userShell.CreateUser(user);
 
+            string serviceName = _helper.RandomServiceName;
             _shell.InstallService(serviceName, _helper.GetTestServicePath());
 
             try
             {
                 _shell.ConnectToService(serviceName);
 
-                _shell.ChangeUser(userName, password);
-
-                _shell.StopService();
-                _shell.StartService();
+                _shell.ChangeUser(user.Name, user.Password);
 
                 var service = _shell.GetService();
 
-                Assert.AreEqual(userName, service.UserName);
-
+                Assert.AreEqual($".\\{user.Name}", service.UserName);
             }
             finally
             {
                 _shell.UninstallService(serviceName);
+                _userShell.RemoveUser(user.Name);
             }
 
         }
