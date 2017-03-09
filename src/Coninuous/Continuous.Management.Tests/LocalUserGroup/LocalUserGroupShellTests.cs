@@ -10,7 +10,7 @@ namespace Continuous.Management.Tests.LocalUserGroup
     public class LocalUserGroupShellTests
     {
         private ILocalUserGroupShell _shell;
-        private LocalUserShell _userShell;
+        private ILocalUserShell _userShell;
         private Random _random;
 
         private const string DefaultDescription = "test group to delete";

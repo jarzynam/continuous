@@ -1,22 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
 using Continuous.Management.LocalUser;
 using NUnit.Framework;
-using NUnit.Framework.Internal;
 
 namespace Continuous.Management.Tests.LocalUser
 {
     [TestFixture]
     public class LocalUserShellTests
     {
-        private LocalUserShell _shell;
+        private ILocalUserShell _shell;
         private Random _random;
 
-        private string RandomUserName => "TestUser" + _random.Next(0, 5000);
+        private string RandomUserName => "Test" + _random.Next(0, 5000);
 
         [SetUp]
         public void Configure()
@@ -97,7 +91,7 @@ namespace Continuous.Management.Tests.LocalUser
 
         private Management.LocalUser.Model.LocalUser BuildLocalUser()
         {
-            return new Management.LocalUser.Model.LocalUser()
+            return new Management.LocalUser.Model.LocalUser
             {
                 Name = RandomUserName,
                 FullName = "Test User 1",

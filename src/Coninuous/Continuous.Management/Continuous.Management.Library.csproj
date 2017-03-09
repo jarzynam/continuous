@@ -54,6 +54,7 @@
     <Compile Include="LocalUserGroup\Mapper.cs" />
     <Compile Include="LocalUserGroup\Model\LocalUserGroup.cs" />
     <Compile Include="LocalUserGroup\ScriptsBoundle.cs" />
+    <Compile Include="LocalUser\ILocalUserShell.cs" />
     <Compile Include="LocalUser\Model\LocalUser.cs" />
     <Compile Include="LocalUser\ScriptsBoundle.cs" />
     <Compile Include="WindowsService\Model\HealthStatus.cs" />

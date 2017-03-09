@@ -8,7 +8,7 @@ using Continuous.Management.Common;
 
 namespace Continuous.Management.LocalUser
 {
-    public class LocalUserShell
+    public class LocalUserShell : ILocalUserShell
     {
         private readonly ScriptExecutor _executor;
         private readonly ScriptsBoundle _scripts;
