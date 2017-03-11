@@ -6,6 +6,7 @@ using System.Management.Automation.Runspaces;
 using System.ServiceProcess;
 using Continuous.Management.Common;
 using Continuous.Management.WindowsService.Model;
+using Continuous.Management.WindowsService.Resources;
 
 namespace Continuous.Management.WindowsService.Shell
 {

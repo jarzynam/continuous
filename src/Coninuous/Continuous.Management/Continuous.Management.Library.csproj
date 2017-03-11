@@ -93,7 +93,7 @@
     <None Include="WindowsService\Scripts\InstallService.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <Compile Include="WindowsService\Win32ServiceMessages.cs" />
+    <Compile Include="WindowsService\Resources\Win32ServiceMessages.cs" />
     <Compile Include="WindowsService\Shell\IWindowsServiceShell.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WindowsService\Shell\ScriptsBoundle.cs" />
