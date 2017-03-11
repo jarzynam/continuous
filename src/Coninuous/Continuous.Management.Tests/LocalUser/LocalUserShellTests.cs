@@ -1,5 +1,6 @@
 ﻿using System;
 using Continuous.Management.LocalUser;
+using FluentAssertions;
 using NUnit.Framework;
 
 namespace Continuous.Management.Library.Tests.LocalUser
@@ -22,58 +23,71 @@ namespace Continuous.Management.Library.Tests.LocalUser
         [Test]
         public void Can_Create_And_Remeove_User()
         {
+            // arrange
             var user = BuildLocalUser();
 
-            TestDelegate addUserDelagate = () => _shell.Create(user);
-            TestDelegate removeUserDelegate = () => _shell.Remove(user.Name);
+            // act
+            Action addUserDelagate = () => _shell.Create(user);
+            Action removeUserDelegate = () => _shell.Remove(user.Name);
 
-            Assert.DoesNotThrow(addUserDelagate);
-            Assert.DoesNotThrow(removeUserDelegate);
+            // assert
+            addUserDelagate.ShouldNotThrow();
+            removeUserDelegate.ShouldNotThrow();
         }
 
         [Test]
         public void Cant_CreateSameUser_Twice()
         {
+            // arrange
             var user = BuildLocalUser();
 
-            TestDelegate act = () => _shell.Create(user);
+            // act
+            Action act = () => _shell.Create(user);
 
-            Assert.DoesNotThrow(act);
-            Assert.Throws<InvalidOperationException>(act);
-
+            // assert
+            act.ShouldNotThrow();
+            act.ShouldThrow<InvalidOperationException>();
+            
+            // cleanup
             _shell.Remove(user.Name);
         }
 
         [Test]
         public void Cant_Remove_NotExistingUser()
         {
+            // arrange
             var userName = RandomUserName;
 
-            TestDelegate act = () => _shell.Remove(userName);
+            // act
+            Action act = () => _shell.Remove(userName);
 
-            Assert.Throws<InvalidOperationException>(act);
+            // assert
+            act.ShouldThrow<InvalidOperationException>();
         }
 
 
         [Test]
         public void Can_Get_User()
         {
+            // arrange
             var originalUser = BuildLocalUser();
-
             _shell.Create(originalUser);
 
             try
             {
+                // act
                 var actualUser = _shell.Get(originalUser.Name);
 
-                Assert.AreEqual(originalUser.Name, actualUser.Name);
-                Assert.AreEqual(originalUser.Description, actualUser.Description);
-                Assert.AreEqual(originalUser.Expires, actualUser.Expires);
-                Assert.AreEqual(originalUser.FullName, actualUser.FullName);
-                Assert.AreEqual(String.Empty, actualUser.Password);
+                // assert
+                actualUser.Name.Should().Be(originalUser.Name);
+                actualUser.Description.Should().Be(originalUser.Description);
+                actualUser.Expires.Should().Be(originalUser.Expires);
+                actualUser.FullName.Should().Be(originalUser.FullName);
+                actualUser.Password.Should().Be(String.Empty);
             }
             finally
             {
+                // cleanup
                 _shell.Remove(originalUser.Name);
             }
 
@@ -82,11 +96,14 @@ namespace Continuous.Management.Library.Tests.LocalUser
         [Test]
         public void Cant_GetUser_WhenNotExisting()
         {
+            // arrange 
             var userName = RandomUserName;
 
-            TestDelegate act = () => _shell.Get(userName);
+            // act
+            Action act = () => _shell.Get(userName);
 
-            Assert.Throws<InvalidOperationException>(act);
+            // assert
+            act.ShouldThrow<InvalidOperationException>();
         }
 
         private Management.LocalUser.Model.LocalUser BuildLocalUser()

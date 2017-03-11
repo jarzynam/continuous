@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Continuous.Management.LocalUser;
 using Continuous.Management.LocalUserGroup;
+using FluentAssertions;
 using NUnit.Framework;
 
 namespace Continuous.Management.Library.Tests.LocalUserGroup
@@ -27,53 +28,67 @@ namespace Continuous.Management.Library.Tests.LocalUserGroup
         [Test]
         public void Can_Create_And_Remeove_Group()
         {
+            // arrange
             string name = RandomName;
 
-            TestDelegate addDelegate = () => _shell.Create(name, DefaultDescription);
-            TestDelegate removeDelegate = () => _shell.Remove(name);
+            // act
+            Action addAction = () => _shell.Create(name, DefaultDescription);
+            Action removeAction = () => _shell.Remove(name);
 
-            Assert.DoesNotThrow(addDelegate);
-            Assert.DoesNotThrow(removeDelegate);
+            // assert
+            addAction.ShouldNotThrow();
+            removeAction.ShouldNotThrow();
         }
 
         [Test]
         public void Cant_CreateSameGroup_Twice()
         {
+            // arrange
             var name = RandomName;
 
-            TestDelegate act = () => _shell.Create(name, DefaultDescription);
+            // act
+            Action act = () => _shell.Create(name, DefaultDescription);
 
-            Assert.DoesNotThrow(act);
-            Assert.Throws<InvalidOperationException>(act);
-
+            // assert
+            act.ShouldNotThrow();
+            act.ShouldThrow<InvalidOperationException>();
+            
+            // cleanup
             _shell.Remove(name);
         }
 
         [Test]
         public void Cant_Remove_NotExistingGroup()
         {
+            // arrange
             var name = RandomName;
 
-            TestDelegate act = () => _shell.Remove(name);
+            // action
+            Action act = () => _shell.Remove(name);
 
-            Assert.Throws<InvalidOperationException>(act);
+            // assert
+            act.ShouldThrow<InvalidOperationException>();
         }
 
 
         [Test]
         public void Can_Get_Group()
         {
+            // arrange
             var name = CreateGroup();
 
             try
             {
+                // act
                 var actualGroup = _shell.Get(name);
 
-                Assert.AreEqual(name, actualGroup.Name);
-                Assert.AreEqual(DefaultDescription, actualGroup.Description);
+                // assert
+                actualGroup.Name.Should().Be(name);
+                actualGroup.Description.Should().Be(DefaultDescription);
             }
             finally
             {
+                // cleanup
                 _shell.Remove(name);
             }
         }
@@ -81,16 +96,20 @@ namespace Continuous.Management.Library.Tests.LocalUserGroup
         [Test]
         public void Cant_GetGroup_WhenNotExisting()
         {
+            // arrange
             var group = RandomName;
 
-            TestDelegate act = () => _shell.Get(group);
+            // act
+            Action act = () => _shell.Get(group);
 
-            Assert.Throws<InvalidOperationException>(act);
+            // assert
+            act.ShouldThrow<InvalidOperationException>();
         }
 
         [Test]
         public void Can_Assign_User_ToGroup()
         {
+            // arrange
             var user = new Management.LocalUser.Model.LocalUser
             {
                 Name = RandomName + "User",
@@ -101,13 +120,16 @@ namespace Continuous.Management.Library.Tests.LocalUserGroup
 
             try
             {
+                // act
                _shell.AssignUsers(groupName, new List<string>{user.Name});
 
+                // assert
                 var group = _shell.Get(groupName);
-                Assert.IsTrue(group.Members.Contains(user.Name));
+                group.Members.Should().Contain(user.Name);
             }
             finally
             {
+                // cleanup
                 _shell.Remove(groupName);
                 _userShell.Remove(user.Name);
             }

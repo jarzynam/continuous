@@ -4,6 +4,7 @@ using System.Security.Principal;
 using System.ServiceProcess;
 using Continuous.Management.LocalUser;
 using Continuous.Management.WindowsService.Shell;
+using FluentAssertions;
 using NUnit.Framework;
 
 namespace Continuous.Management.Library.Tests.WindowsService
@@ -27,6 +28,7 @@ namespace Continuous.Management.Library.Tests.WindowsService
         [Test]
         public void Can_ChangeUser_InExistingServer_Test()
         {
+            // arrange
             var user = new Management.LocalUser.Model.LocalUser {Name = _helper.RandomServiceName + "User"};
             _userShell.Create(user);
 
@@ -35,15 +37,18 @@ namespace Continuous.Management.Library.Tests.WindowsService
 
             try
             {
+                // act
                 _shell.ChangeUser(serviceName, user.Name, user.Password);
 
+                // assert
                 var service = _shell.Get(serviceName);
 
-                Assert.AreEqual(user.Name, service.UserName);
-                Assert.AreEqual(".", service.UserDomain);
+                service.UserDomain.Should().Be(".");
+                service.UserName.Should().Be(user.Name);
             }
             finally
             {
+                // cleanup
                 _shell.Uninstall(serviceName);
                 _userShell.Remove(user.Name);
             }
@@ -53,21 +58,21 @@ namespace Continuous.Management.Library.Tests.WindowsService
         [Test]
         public void Can_Check_ServiceStatus_Test()
         {
+            // arrange
             var serviceName = _helper.RandomServiceName;
-
             _shell.Install(serviceName, _helper.GetTestServicePath());
 
             try
             {
+                // act
                 var serviceStatus = _shell.GetStatus(serviceName);
 
-                Assert.IsNotNull(serviceStatus, "service status shoudn't be null");
-
-                Assert.IsTrue(serviceStatus == ServiceControllerStatus.Stopped ||
-                              serviceStatus == ServiceControllerStatus.Running);
+                // assert
+                serviceStatus.Should().Be(ServiceControllerStatus.Stopped);
             }
             finally
             {
+                // cleanup
                 _shell.Uninstall(serviceName);
             }
         }
@@ -75,21 +80,26 @@ namespace Continuous.Management.Library.Tests.WindowsService
         [Test]
         public void Can_GetService_WhenExists_Test()
         {
+            // arrange
             var serviceName = _helper.RandomServiceName;
             _shell.Install(serviceName, _helper.GetTestServicePath());
 
             try
             {
+                //act
                 var service = _shell.Get(serviceName);
 
-                Assert.AreEqual(service.Name, serviceName);
-                Assert.AreEqual(service.Description, null);
-                Assert.AreEqual(service.DisplayName, serviceName);
-                Assert.AreEqual(service.ProcessId, 0);
-                Assert.AreEqual(service.UserName, "LocalSystem");
+                // assert
+                service.Name.Should().Be(serviceName);
+                service.Description.Should().BeNull();
+                service.DisplayName.Should().Be(serviceName);
+                service.ProcessId.Should().Be(0);
+                service.UserDomain.Should().Be(null);
+                service.UserName.Should().Be("LocalSystem");
             }
             finally
             {
+                // cleanup
                 _shell.Uninstall(serviceName);
             }
         }
@@ -97,53 +107,58 @@ namespace Continuous.Management.Library.Tests.WindowsService
         [Test]
         public void Can_GetService_WhenNotExist()
         {
+            // arrange
             var serviceName = "--sdatestas";
 
+            // act
             var service = _shell.Get(serviceName);
 
-            Assert.IsNull(service);
+            // assert
+            service.Should().BeNull();
         }
 
         [Test]
         public void Can_Install_And_Uninstall_Service_Test()
         {
-            if (!new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator))
-                Assert.Fail("user invoking this test must has admiministrator role");
+            // arrange
+            new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator)
+                .Should()
+                .BeTrue();
 
             var serviceName = _helper.RandomServiceName;
             var servicePath = _helper.GetTestServicePath();
 
-            TestDelegate intallDelegate = () => _shell.Install(serviceName, servicePath);
+            // act
+            Action installAction = () => _shell.Install(serviceName, servicePath);
+            Action uninstallAction = () => _shell.Uninstall(serviceName);
 
-            Assert.DoesNotThrow(intallDelegate);
-
-            TestDelegate uninstallDelegate = () => _shell.Uninstall(serviceName);
-
-            Assert.DoesNotThrow(uninstallDelegate);
+            // assert
+            installAction.ShouldNotThrow();
+            uninstallAction.ShouldNotThrow();
         }
 
         [Test]
         public void Can_Start_RunningService_Test()
         {
+            // arrange
             var serviceName = _helper.RandomServiceName;
 
             _shell.Install(serviceName, _helper.GetTestServicePath());
 
             try
             {
-                var startResult = _shell.Start(serviceName);
-                if (!startResult)
-                    Assert.Inconclusive("unable to make test due to falied start service");
+                // act
+                Func<bool> startAction = () => _shell.Start(serviceName);
+                Func<ServiceControllerStatus> statusAction = () => _shell.GetStatus(serviceName);
 
-                startResult = _shell.Start(serviceName);
-                Assert.IsFalse(startResult, "starting running service should return false");
-
-                var serviceStatus = _shell.GetStatus(serviceName);
-                Assert.AreEqual(ServiceControllerStatus.Running, serviceStatus,
-                    $"service should be still running but was {serviceStatus}");
+                // assert
+                startAction.Invoke().Should().Be(true);
+                startAction.Invoke().Should().Be(false);
+                statusAction.Invoke().Should().Be(ServiceControllerStatus.Running);
             }
             finally
             {
+                // cleanup
                 _shell.Uninstall(serviceName);
             }
         }
@@ -151,6 +166,7 @@ namespace Continuous.Management.Library.Tests.WindowsService
         [Test]
         public void Can_Start_StoppedService_Test()
         {
+            // arrange
             var serviceName = _helper.RandomServiceName;
 
             _shell.Install(serviceName, _helper.GetTestServicePath());
@@ -158,19 +174,19 @@ namespace Continuous.Management.Library.Tests.WindowsService
             try
             {
                 var serviceStatus = _shell.GetStatus(serviceName);
-                if (ServiceControllerStatus.Stopped != serviceStatus)
-                    Assert.Inconclusive(
-                        $"unable to make test due to incorrect windows service status (should be runnig but was {serviceStatus})");
+                serviceStatus.Should().Be(ServiceControllerStatus.Stopped);
 
-                var startResult = _shell.Start(serviceName);
-                Assert.IsTrue(startResult, "start result should be true");
+                // act
+                Func<bool> startFunct = () => _shell.Start(serviceName);
+                Func<ServiceControllerStatus> getStatusFunc = () => _shell.GetStatus(serviceName);
 
-                serviceStatus = _shell.GetStatus(serviceName);
-                Assert.AreEqual(ServiceControllerStatus.Running, serviceStatus,
-                    $"after positive start result, service status should be 'running', but was {serviceStatus}");
+                // assert
+                startFunct.Invoke().Should().BeTrue();
+                getStatusFunc.Invoke().Should().Be(ServiceControllerStatus.Running);
             }
             finally
             {
+                // cleanup
                 _shell.Uninstall(serviceName);
             }
         }
@@ -178,28 +194,28 @@ namespace Continuous.Management.Library.Tests.WindowsService
         [Test]
         public void Can_Stop_RunningService_Test()
         {
+            // arrange
             var serviceName = _helper.RandomServiceName;
 
             _shell.Install(serviceName, _helper.GetTestServicePath());
 
             try
             {
-                var startResult = _shell.Start(serviceName);
+                // act
+                Func<bool> startAction = () => _shell.Start(serviceName);
+                Func<bool> stopAction = () => _shell.Stop(serviceName);
+                Func<ServiceControllerStatus> statusAction = () => _shell.GetStatus(serviceName);
 
-                if (!startResult)
-                    Assert.Inconclusive("unable to make test due to failed windows service start");
+                // assert
+                startAction.Invoke().Should().BeTrue();
+                statusAction.Invoke().Should().Be(ServiceControllerStatus.Running);
+                stopAction.Invoke().Should().BeTrue();
+                statusAction.Invoke().Should().Be(ServiceControllerStatus.Stopped);
 
-                var stopResult = _shell.Stop(serviceName);
-
-                Assert.IsTrue(stopResult, "can't get positivie result from Stop function");
-
-                var serviceStatus = _shell.GetStatus(serviceName);
-
-                Assert.AreEqual(ServiceControllerStatus.Stopped, serviceStatus,
-                    $"after positive stop result, service status should be also as 'stopped' but was {serviceStatus}");
             }
             finally
             {
+                // cleanup
                 _shell.Uninstall(serviceName);
             }
         }
@@ -207,26 +223,25 @@ namespace Continuous.Management.Library.Tests.WindowsService
         [Test]
         public void Can_Stop_StoppedService_Test()
         {
+            // arrange
             var serviceName = _helper.RandomServiceName;
 
             _shell.Install(serviceName, _helper.GetTestServicePath());
 
             try
             {
-                var serviceStatus = _shell.GetStatus(serviceName);
-                if (ServiceControllerStatus.Stopped != serviceStatus)
-                    Assert.Inconclusive(
-                        $"unable to make test due to incorrect windows service status (should be stopped but was {serviceStatus}");
+                // act
+                Func<ServiceControllerStatus> statusAction = () => _shell.GetStatus(serviceName);
+                Func<bool> stopAction = () => _shell.Stop(serviceName);
 
-                var stopResult = _shell.Stop(serviceName);
-                Assert.IsFalse(stopResult, "stopping stopped service should return false");
-
-                serviceStatus = _shell.GetStatus(serviceName);
-                Assert.AreEqual(ServiceControllerStatus.Stopped, serviceStatus,
-                    $"service should be still stopped but was {serviceStatus}");
+                // assert
+                statusAction.Invoke().Should().Be(ServiceControllerStatus.Stopped);
+                stopAction.Invoke().Should().BeFalse();
+                statusAction.Invoke().Should().Be(ServiceControllerStatus.Stopped);
             }
             finally
             {
+                // cleanup
                 _shell.Uninstall(serviceName);
             }
         }
@@ -234,21 +249,31 @@ namespace Continuous.Management.Library.Tests.WindowsService
         [Test]
         public void Can_Throw_Exception_If_CheckStatus_Before_ConnectingToService_Test()
         {
-            Assert.Throws<InvalidOperationException>(() => _shell.GetStatus("TEST213214"),
-                "invoking GetStatus before Connect() should throw an exception, but didn't");
+            // arrange
+            var serviceName = "TEST213214";
+
+            // act
+            Action act = () => _shell.GetStatus(serviceName);
+
+            // assert
+            act.ShouldThrow<InvalidOperationException>();
         }
 
         [Test]
-        public void Can_Ununinstall_NoExistinx_Service_Test()
+        public void Can_Ununinstall_NotExisting_Service_Test()
         {
-            if (!new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator))
-                Assert.Fail("user invoking this test must has admiministrator role");
+            // assert
+            new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator)
+                .Should()
+                .BeTrue();
 
             var serviceName = _helper.RandomServiceName;
 
-            TestDelegate act = () => _shell.Uninstall(serviceName);
+            // act
+            Action act = () => _shell.Uninstall(serviceName);
 
-            Assert.Throws<RuntimeException>(act, $"{serviceName} not found");
+            // assert
+            act.ShouldThrow<RuntimeException>().WithMessage($"{serviceName} service not found");
         }
     }
 }

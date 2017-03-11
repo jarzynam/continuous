@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
-using Continuous.Management.WindowsService.Resources;
-using NUnit.Framework.Internal;
+﻿using Continuous.Management.WindowsService.Resources;
+using FluentAssertions;
 using NUnit.Framework;
 
 namespace Continuous.Management.Library.Tests.WindowsService.Resources
@@ -24,23 +18,28 @@ namespace Continuous.Management.Library.Tests.WindowsService.Resources
         [Test]
         public void Can_GetMessage_FromProperCode()
         {
+            // arrange
             int code = 6;
             string expectedMessage = "The service has not been started";
 
+            // act
             var actualMessage = _messages.GetMessage(code);
 
-            Assert.AreEqual(expectedMessage, actualMessage);
+            // assert
+            actualMessage.Should().Be(expectedMessage);
         }
 
         [Test]
         public void Can_GetDefaultMessage_FromUnvalidCode()
         {
+            // arrange
             int code = -999;
             string expectedMessage = "unknown code -999";
 
+            // act
             var actualMessage = _messages.GetMessage(code);
 
-            Assert.AreEqual(expectedMessage, actualMessage);
-        }
+            // assert
+            actualMessage.Should().Be(expectedMessage);        }
     }
 }
