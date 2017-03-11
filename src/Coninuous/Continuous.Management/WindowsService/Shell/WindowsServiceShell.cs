@@ -5,7 +5,9 @@ using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 using System.ServiceProcess;
 using Continuous.Management.Common;
+using Continuous.Management.Common.Extensions;
 using Continuous.Management.WindowsService.Model;
+using Continuous.Management.WindowsService.Model.Enums;
 using Continuous.Management.WindowsService.Resources;
 
 namespace Continuous.Management.WindowsService.Shell
@@ -105,10 +107,10 @@ namespace Continuous.Management.WindowsService.Shell
                 Description = result.Properties["Description"].Value as string,
                 ProcessId = (result.Properties["ProcessId"].Value as int?).GetValueOrDefault(),
                 UserName = result.Properties["StartName"].Value as string,
-                ServiceType = result.Properties["ServiceType"].Value as string,
-                StartMode = result.Properties["StartMode"].Value as string,
-                State = result.Properties["State"].Value as string,
-                Status = result.Properties["Status"].Value as string
+                WindowsServiceType = (result.Properties["ServiceType"].Value as string).ToEnum<WindowsServiceType>(),
+                StartMode = (result.Properties["StartMode"].Value as string).ToEnum<WindowsServiceStartMode>(),
+                State = (result.Properties["State"].Value as string).ToEnum<WindowsServiceState>(),
+                Status = (result.Properties["Status"].Value as string).ToEnum<WindowsServiceStatus>()
             };
         }
 
