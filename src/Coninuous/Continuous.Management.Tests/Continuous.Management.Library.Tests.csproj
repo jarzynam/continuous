@@ -65,6 +65,7 @@
     <Compile Include="LocalUser\LocalUserShellTests.cs" />
     <Compile Include="WindowsService\CompiledServiceTestHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WindowsService\Resources\Win32ServiceMessagesTests.cs" />
     <Compile Include="WindowsService\WindowsServiceShellTests.cs" />
   </ItemGroup>
   <ItemGroup>
