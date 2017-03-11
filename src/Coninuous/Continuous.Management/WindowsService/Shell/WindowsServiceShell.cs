@@ -15,6 +15,8 @@ namespace Continuous.Management.WindowsService.Shell
         private readonly ScriptsBoundle _scripts;
         private readonly TimeSpan _timeout;
 
+        private readonly IWin32ServiceMessages _messages;
+
 
         public WindowsServiceShell()
         {
@@ -22,6 +24,7 @@ namespace Continuous.Management.WindowsService.Shell
             _executor = new ScriptExecutor();
 
             _scripts = new ScriptsBoundle();
+            _messages = new Win32ServiceMessages();
         }
 
         public ServiceControllerStatus GetStatus(string serviceName)
@@ -122,12 +125,12 @@ namespace Continuous.Management.WindowsService.Shell
             ThrowServiceExceptionIfNecessary(result);
         }
 
-        private static void ThrowServiceExceptionIfNecessary(ICollection<PSObject> result)
+        private void ThrowServiceExceptionIfNecessary(ICollection<PSObject> result)
         {
             var returnValue = result.FirstOrDefault()?.Properties["ReturnValue"].Value as int?;
 
             if (returnValue.GetValueOrDefault() != 0)
-                throw new InvalidOperationException("Cannont change user. Reason: " + returnValue.GetValueOrDefault());
+                throw new InvalidOperationException("Error occured Reason: " + _messages.GetMessage(returnValue.GetValueOrDefault()));
         }
 
     }
