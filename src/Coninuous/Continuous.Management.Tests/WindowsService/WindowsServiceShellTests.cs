@@ -94,6 +94,15 @@ namespace Continuous.Management.Library.Tests.WindowsService
             }
         }
 
+        [Test]
+        public void Can_GetService_WhenNotExist()
+        {
+            var serviceName = "--sdatestas";
+
+            var service = _shell.Get(serviceName);
+
+            Assert.IsNull(service);
+        }
 
         [Test]
         public void Can_Install_And_Uninstall_Service_Test()
