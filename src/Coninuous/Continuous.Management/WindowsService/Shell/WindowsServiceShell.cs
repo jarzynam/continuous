@@ -5,9 +5,7 @@ using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 using System.ServiceProcess;
 using Continuous.Management.Common;
-using Continuous.Management.Common.Extensions;
 using Continuous.Management.WindowsService.Model;
-using Continuous.Management.WindowsService.Model.Enums;
 using Continuous.Management.WindowsService.Resources;
 
 namespace Continuous.Management.WindowsService.Shell
@@ -19,6 +17,7 @@ namespace Continuous.Management.WindowsService.Shell
         private readonly TimeSpan _timeout;
 
         private readonly IWin32ServiceMessages _messages;
+        private readonly Mapper _mapper;
 
 
         public WindowsServiceShell()
@@ -28,6 +27,7 @@ namespace Continuous.Management.WindowsService.Shell
 
             _scripts = new ScriptsBoundle();
             _messages = new Win32ServiceMessages();
+            _mapper = new Mapper();
         }
 
         public ServiceControllerStatus GetStatus(string serviceName)
@@ -88,7 +88,7 @@ namespace Continuous.Management.WindowsService.Shell
                 return true;
             }
         }
-
+    
         public WindowsServiceInfo Get(string serviceName)
         {
             var parameters = new List<CommandParameter>
@@ -100,18 +100,7 @@ namespace Continuous.Management.WindowsService.Shell
 
             if (result == null) return null;
 
-            return new WindowsServiceInfo
-            {
-                Name = result.Properties["Name"].Value as string,
-                DisplayName = result.Properties["DisplayName"].Value as string,
-                Description = result.Properties["Description"].Value as string,
-                ProcessId = (result.Properties["ProcessId"].Value as int?).GetValueOrDefault(),
-                UserName = result.Properties["StartName"].Value as string,
-                WindowsServiceType = (result.Properties["ServiceType"].Value as string).ToEnum<WindowsServiceType>(),
-                StartMode = (result.Properties["StartMode"].Value as string).ToEnum<WindowsServiceStartMode>(),
-                State = (result.Properties["State"].Value as string).ToEnum<WindowsServiceState>(),
-                Status = (result.Properties["Status"].Value as string).ToEnum<WindowsServiceStatus>()
-            };
+            return _mapper.Map(result);
         }
 
         public void ChangeUser(string serviceName, string userName, string password, string domain = ".")

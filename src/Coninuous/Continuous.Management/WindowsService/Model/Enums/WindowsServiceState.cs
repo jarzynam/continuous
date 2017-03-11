@@ -1,4 +1,4 @@
-﻿namespace Continuous.Management.WindowsService.Model
+﻿namespace Continuous.Management.WindowsService.Model.Enums
 {
     public enum WindowsServiceState
     {

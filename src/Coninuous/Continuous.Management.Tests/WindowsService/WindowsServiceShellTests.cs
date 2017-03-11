@@ -39,7 +39,8 @@ namespace Continuous.Management.Library.Tests.WindowsService
 
                 var service = _shell.Get(serviceName);
 
-                Assert.AreEqual($".\\{user.Name}", service.UserName);
+                Assert.AreEqual(user.Name, service.UserName);
+                Assert.AreEqual(".", service.UserDomain);
             }
             finally
             {

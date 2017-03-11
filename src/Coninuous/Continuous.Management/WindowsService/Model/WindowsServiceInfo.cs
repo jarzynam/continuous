@@ -12,6 +12,8 @@ namespace Continuous.Management.WindowsService.Model
 
         public string UserName { get; set; }
 
+        public string UserDomain { get; set; }
+
         public WindowsServiceStartMode StartMode { get; set; }
 
         public WindowsServiceType WindowsServiceType { get; set; }
