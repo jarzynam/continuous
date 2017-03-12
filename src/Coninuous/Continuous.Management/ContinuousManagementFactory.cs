@@ -1,6 +1,6 @@
-﻿using Continuous.Management.LocalUser;
-using Continuous.Management.LocalUserGroup;
-using Continuous.Management.WindowsService.Shell;
+﻿using Continuous.Management.LocalUserGroups;
+using Continuous.Management.Users;
+using Continuous.Management.WindowsServices.Shell;
 
 namespace Continuous.Management
 {
@@ -11,9 +11,9 @@ namespace Continuous.Management
             return new WindowsServiceShell();
         }
 
-        public static ILocalUserShell CreateLocalUserShell()
+        public static IUserShell CreateLocalUserShell()
         {
-            return new LocalUserShell();
+            return new UserShell();
         }
 
         public static ILocalUserGroupShell CreateLocalGroupShell()

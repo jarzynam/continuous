@@ -51,63 +51,63 @@
     <Compile Include="Common\ScriptExecutor.cs" />
     <Compile Include="Common\Extensions\StringToEnumExtension.cs" />
     <Compile Include="ContinuousManagementFactory.cs" />
-    <Compile Include="LocalUserGroup\ILocalUserGroupShell.cs" />
-    <Compile Include="LocalUserGroup\LocalUserGroupShell.cs" />
-    <Compile Include="LocalUserGroup\Mapper.cs" />
-    <Compile Include="LocalUserGroup\Model\LocalUserGroup.cs" />
-    <Compile Include="LocalUserGroup\ScriptsBoundle.cs" />
-    <Compile Include="LocalUser\ILocalUserShell.cs" />
-    <Compile Include="LocalUser\Model\LocalUser.cs" />
-    <Compile Include="LocalUser\ScriptsBoundle.cs" />
-    <Compile Include="WindowsService\Model\WindowsServiceInfo.cs" />
-    <None Include="LocalUserGroup\Scripts\RemoveUsersFromLocalGroup.ps1">
+    <Compile Include="LocalUserGroups\ILocalUserGroupShell.cs" />
+    <Compile Include="LocalUserGroups\LocalUserGroupShell.cs" />
+    <Compile Include="LocalUserGroups\Mapper.cs" />
+    <Compile Include="LocalUserGroups\Model\LocalUserGroup.cs" />
+    <Compile Include="LocalUserGroups\ScriptsBoundle.cs" />
+    <Compile Include="Users\IUserShell.cs" />
+    <Compile Include="Users\Model\User.cs" />
+    <Compile Include="Users\ScriptsBoundle.cs" />
+    <Compile Include="WindowsServices\Model\WindowsServiceInfo.cs" />
+    <None Include="LocalUserGroups\Scripts\RemoveUsersFromLocalGroup.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="LocalUserGroup\Scripts\AddUsersToLocalGroup.ps1">
+    <None Include="LocalUserGroups\Scripts\AddUsersToLocalGroup.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="LocalUserGroup\Scripts\CreateLocalUserGroup.ps1">
+    <None Include="LocalUserGroups\Scripts\CreateLocalUserGroup.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="LocalUserGroup\Scripts\GetLocalUserGroup.ps1">
+    <None Include="LocalUserGroups\Scripts\GetLocalUserGroup.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="LocalUserGroup\Scripts\RemoveLocalUserGroup.ps1">
+    <None Include="LocalUserGroups\Scripts\RemoveLocalUserGroup.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="LocalUser\Scripts\GetUser.ps1">
+    <None Include="Users\Scripts\GetUser.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="LocalUser\Scripts\RemoveUser.ps1">
+    <None Include="Users\Scripts\RemoveUser.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="LocalUser\Scripts\CreateUser.ps1">
+    <None Include="Users\Scripts\CreateUser.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="WindowsService\Scripts\GetService.ps1">
+    <None Include="WindowsServices\Scripts\GetService.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="WindowsService\Scripts\ChangeUser.ps1">
+    <None Include="WindowsServices\Scripts\ChangeUser.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="WindowsService\Scripts\InstallService.ps1">
+    <None Include="WindowsServices\Scripts\InstallService.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <Compile Include="WindowsService\Model\Enums\WindowsServiceStartMode.cs" />
-    <Compile Include="WindowsService\Model\Enums\WindowsServiceState.cs" />
-    <Compile Include="WindowsService\Model\Enums\WindowsServiceStatus.cs" />
-    <Compile Include="WindowsService\Model\Enums\WindowsServiceType.cs" />
-    <Compile Include="WindowsService\Resources\Win32ServiceMessages.cs" />
-    <Compile Include="WindowsService\Shell\IWindowsServiceShell.cs" />
+    <Compile Include="WindowsServices\Model\Enums\WindowsServiceStartMode.cs" />
+    <Compile Include="WindowsServices\Model\Enums\WindowsServiceState.cs" />
+    <Compile Include="WindowsServices\Model\Enums\WindowsServiceStatus.cs" />
+    <Compile Include="WindowsServices\Model\Enums\WindowsServiceType.cs" />
+    <Compile Include="WindowsServices\Resources\Win32ServiceMessages.cs" />
+    <Compile Include="WindowsServices\Shell\IWindowsServiceShell.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WindowsService\Shell\ScriptsBoundle.cs" />
-    <Compile Include="LocalUser\LocalUserShell.cs" />
-    <Compile Include="WindowsService\Shell\Mapper.cs" />
-    <Compile Include="WindowsService\Shell\WindowsServiceShell.cs" />
+    <Compile Include="WindowsServices\Shell\ScriptsBoundle.cs" />
+    <Compile Include="Users\UserShell.cs" />
+    <Compile Include="WindowsServices\Shell\Mapper.cs" />
+    <Compile Include="WindowsServices\Shell\WindowsServiceShell.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="WindowsService\Scripts\UninstallService.ps1">
+    <None Include="WindowsServices\Scripts\UninstallService.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
