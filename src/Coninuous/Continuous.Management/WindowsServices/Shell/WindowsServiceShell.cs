@@ -127,5 +127,9 @@ namespace Continuous.Management.WindowsServices.Shell
                 throw new InvalidOperationException("Error occured Reason: " + _messages.GetMessage(returnValue.GetValueOrDefault()));
         }
 
+        public void Install(WindowsServiceInstallModel model)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

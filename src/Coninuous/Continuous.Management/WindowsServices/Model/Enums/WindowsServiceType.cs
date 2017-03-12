@@ -2,12 +2,12 @@
 {
     public enum WindowsServiceType
     {
-        KernelDriver,
-        FileSystemDriver,
-        Adapter,
-        RecognizerDriver,
-        OwnProcess,
-        ShareProcess,
-        InteractiveProcess
+        KernelDriver = 1,
+        FileSystemDriver = 2,
+        Adapter = 4,
+        RecognizerDriver = 8,
+        OwnProcess = 16,
+        ShareProcess = 32,
+        InteractiveProcess = 256
     }
 }

@@ -7,6 +7,7 @@ namespace Continuous.Management.WindowsServices.Shell
     {
         ServiceControllerStatus GetStatus(string serviceName);
         void Install(string serviceName, string fullServicePath);
+        void Install(WindowsServiceInstallModel model);
         void Uninstall(string serviceName);
         bool Stop(string serviceName);
         bool Start(string serviceName);
