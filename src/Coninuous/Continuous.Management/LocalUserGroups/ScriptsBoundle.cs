@@ -9,7 +9,7 @@ namespace Continuous.Management.LocalUserGroups
         
         public ScriptsBoundle()
         {
-            _currentPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "LocalUserGroup", "Scripts");
+            _currentPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "LocalUserGroups", "Scripts");
         }
 
         public string CreateLocalUserGroup => Path.Combine(_currentPath, "CreateLocalUserGroup.ps1");

@@ -9,7 +9,7 @@ namespace Continuous.Management.Users
         
         public ScriptsBoundle()
         {
-            _currentPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "User", "Scripts");
+            _currentPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Users", "Scripts");
         }
 
         public string CreateUser => Path.Combine(_currentPath, "CreateUser.ps1");

@@ -9,7 +9,7 @@ namespace Continuous.Management.WindowsServices.Shell
         
         public ScriptsBoundle()
         {
-            _currentPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "WindowsService", "Scripts");
+            _currentPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "WindowsServices", "Scripts");
         }
 
         public string UninstallService => Path.Combine(_currentPath, "UninstallService.ps1");

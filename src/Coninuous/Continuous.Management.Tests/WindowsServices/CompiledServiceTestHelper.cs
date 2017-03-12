@@ -15,7 +15,7 @@ namespace Continuous.Management.Library.Tests.WindowsServices
         internal string GetTestServicePath()
         {
             var location = AppDomain.CurrentDomain.BaseDirectory;
-            var path = Path.Combine(location, "WindowsService", "CompiledTestService",
+            var path = Path.Combine(location, "WindowsServices", "CompiledTestService",
              "Continuous.EmptyTestService.exe");
 
             return path;
