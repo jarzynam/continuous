@@ -4,6 +4,7 @@ using System.Security.Principal;
 using System.ServiceProcess;
 using Continuous.Management.Users;
 using Continuous.Management.Users.Model;
+using Continuous.Management.WindowsServices.Model.Enums;
 using Continuous.Management.WindowsServices.Shell;
 using FluentAssertions;
 using NUnit.Framework;
@@ -44,8 +45,8 @@ namespace Continuous.Management.Library.Tests.WindowsServices
                 // assert
                 var service = _shell.Get(serviceName);
 
-                service.UserDomain.Should().Be(".");
-                service.UserName.Should().Be(user.Name);
+                service.AccountDomain.Should().Be(".");
+                service.AccountName.Should().Be(user.Name);
             }
             finally
             {
@@ -95,8 +96,13 @@ namespace Continuous.Management.Library.Tests.WindowsServices
                 service.Description.Should().BeNull();
                 service.DisplayName.Should().Be(serviceName);
                 service.ProcessId.Should().Be(0);
-                service.UserDomain.Should().Be(null);
-                service.UserName.Should().Be("LocalSystem");
+                service.AccountDomain.Should().Be(null);
+                service.AccountName.Should().Be("LocalSystem");
+
+                service.StartMode.Should().Be(WindowsServiceStartMode.Auto);
+                service.State.Should().Be(WindowsServiceState.Stopped);
+                service.Status.Should().Be(WindowsServiceStatus.Ok);
+                service.Type.Should().Be(WindowsServiceType.OwnProcess);
             }
             finally
             {

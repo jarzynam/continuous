@@ -10,13 +10,13 @@ namespace Continuous.Management.WindowsServices.Model
 
         public WindowsServiceStatus Status { get; set; }
 
-        public string UserName { get; set; }
+        public string AccountName { get; set; }
 
-        public string UserDomain { get; set; }
+        public string AccountDomain { get; set; }
 
         public WindowsServiceStartMode StartMode { get; set; }
 
-        public WindowsServiceType WindowsServiceType { get; set; }
+        public WindowsServiceType Type { get; set; }
 
         public int ProcessId { get; set; }
 

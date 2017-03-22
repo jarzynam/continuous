@@ -8,6 +8,7 @@ namespace Continuous.Management.WindowsServices.Model
         /// Name of the service to install (max 256 characters)
         /// </summary>
         public string Name { get; set; }
+
         /// <summary>
         /// Display name of the service. (max 256 characters)
         /// </summary>
@@ -22,12 +23,12 @@ namespace Continuous.Management.WindowsServices.Model
         /// Account name under which the service runs.
         /// Can be null for local system account
         /// </summary>
-        public string UserName { get; set; }
+        public string AccountName { get; set; }
 
         /// <summary>
         /// Account domain. Can be NULL or "." for local domain
         /// </summary>
-        public string UserDomain { get; set; }
+        public string AccountDomain { get; set; }
 
         /// <summary>
         /// Driver object name for kernel and system-level drivers

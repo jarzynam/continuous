@@ -17,8 +17,8 @@ namespace Continuous.Management.WindowsServices.Shell
                 DisplayName = result.Properties["DisplayName"].Value as string,
                 Description = result.Properties["Description"].Value as string,
                 ProcessId = (result.Properties["ProcessId"].Value as int?).GetValueOrDefault(),
-                UserName = result.Properties["StartName"].Value as string,
-                WindowsServiceType = (result.Properties["ServiceType"].Value as string).ToEnum<WindowsServiceType>(),
+                AccountName = result.Properties["StartName"].Value as string,
+                Type = (result.Properties["ServiceType"].Value as string).ToEnum<WindowsServiceType>(),
                 StartMode = (result.Properties["StartMode"].Value as string).ToEnum<WindowsServiceStartMode>(),
                 State = (result.Properties["State"].Value as string).ToEnum<WindowsServiceState>(),
                 Status = (result.Properties["Status"].Value as string).ToEnum<WindowsServiceStatus>()
@@ -35,17 +35,17 @@ namespace Continuous.Management.WindowsServices.Shell
 
             if (user == null || !user.Any())
             {
-                info.UserDomain = String.Empty;
-                info.UserName = String.Empty;
+                info.AccountDomain = String.Empty;
+                info.AccountName = String.Empty;
             }
             else if (user.Length == 1)
             {
-                info.UserName = user[0];
+                info.AccountName = user[0];
             }
             else if (user.Length > 1)
             {
-                info.UserDomain = user[0];
-                info.UserName = user[1];
+                info.AccountDomain = user[0];
+                info.AccountName = user[1];
             }
         }
     }
