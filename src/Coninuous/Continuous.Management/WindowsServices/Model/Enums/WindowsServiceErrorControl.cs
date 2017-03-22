@@ -1,29 +1,30 @@
 namespace Continuous.Management.WindowsServices.Model.Enums
 {
     /// <summary>
-    /// How system is handling with service installation errors
+    /// Specifies error severity and the action taken if this service fails to start
     /// </summary>
     public enum WindowsServiceErrorControl
     {
 
         /// <summary>
-        /// User is not notified
+        /// The startup program logs the error but continues the startup operation
         /// </summary>
         Ignore = 0,
 
         /// <summary>
-        /// User is notified, usually by message box
+        /// The startup program logs the error and displays a message but continues the startup operation.
         /// </summary>
         Normal = 1,
 
         /// <summary>
-        /// System is restarded with last good configuration
+        /// The startup program logs the error. If the "last known good" configuration is started, the startup operation continues.
+        /// Otherwise, the system is restarted with the "last known good" configuration
         /// </summary>
         Severe = 2,
 
         /// <summary>
-        /// System attempts to restart with a good configuration.
-        /// If the service fails to start a second time, startup fails.
+        /// The startup program logs the error, if possible. If the "last known good" configuration is started, the system startup is cancelled. 
+        /// Otherwise, the system is restarted with the "last known good" configuration.
         /// </summary>
         Critical = 3,
 

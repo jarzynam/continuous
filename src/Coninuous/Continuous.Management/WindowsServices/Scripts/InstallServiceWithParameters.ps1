@@ -7,30 +7,12 @@ param(
 	[string] $displayName,
 	[string] $startName,
 	[string] $startPassword,
-	[uint8] $serviceType,
-	[uint8] $errorControl,
+	[sbyte] $serviceType,
+	[sbyte] $errorControl,
 	[string] $startMode,
-	[boolean] $desktopInteract,
-	[string] $loadOrderGroup,
-	[string] $loadOrderGroupDependencies,
-	[string] $serviceDependencies
+	[boolean] $desktopInteract
 )
 
-$params = @{
-	Name = $serviceName
-	DisplayName = $displayName
-	PathName  = $fullServicePath
-	StartName = $startName
-	StartPassword = $startPassword
-	ServiceType = $serviceType
-	ErrorControl = $errorControl
-	StartMode = $startMode
-	DesktopInteract = $desktopInteract
-	LoadOrderGroup = $loadOrderGroup
-	LoadOrderGroupDependencies = $loadOrderGroupDependencies
-	ServiceDependencies = $serviceDependencies
-}
-Invoke-WmiMethod 
-	  -Class win32_service
-      -name create
-      -ArgumentList $params
+$params = $desktopInteract, $displayName,	$errorControl,	$null, 	$null, 	$serviceName,	$fullServicePath,	$null,     $serviceType,	$startMode,	$startName,	$startPassword 
+
+Invoke-WmiMethod -Class "Win32_Service" -Name "Create" -ArgumentList $params

@@ -3,7 +3,7 @@
 namespace Continuous.Management.WindowsServices.Model.Enums
 {
     /// <summary>
-    /// Windows service start modes
+    /// Windows service start mode
     /// </summary>
     public enum WindowsServiceStartMode
     {
@@ -25,7 +25,7 @@ namespace Continuous.Management.WindowsServices.Model.Enums
         /// <seealso cref="IWindowsServiceShell.Start"/>
         Manual,
         /// <summary>
-        /// Service that can no longer be started.
+        /// Indicates that the service is disabled, so that it cannot be started by a user or application.
         /// </summary>
         Disabled
     }

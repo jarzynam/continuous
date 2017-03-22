@@ -1,4 +1,5 @@
-﻿using Continuous.Management.WindowsServices.Model.Enums;
+﻿using System.ServiceProcess;
+using Continuous.Management.WindowsServices.Model.Enums;
 
 namespace Continuous.Management.WindowsServices.Model
 {
@@ -68,7 +69,7 @@ namespace Continuous.Management.WindowsServices.Model
         public bool InteractWithDesktop { get; set; }
 
         /// <summary>
-        /// Path to service's executable file
+        /// Fully qualified path to the service binary file
         /// </summary>
         public string Path { get; set; }
 

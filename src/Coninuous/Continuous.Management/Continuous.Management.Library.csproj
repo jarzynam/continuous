@@ -101,7 +101,7 @@
     <Compile Include="WindowsServices\Model\Enums\WindowsServiceState.cs" />
     <Compile Include="WindowsServices\Model\Enums\WindowsServiceStatus.cs" />
     <Compile Include="WindowsServices\Model\Enums\WindowsServiceType.cs" />
-    <Compile Include="WindowsServices\Model\WindowsServiceInstallModel.cs" />
+    <Compile Include="WindowsServices\Model\WindowsServiceConfiguration.cs" />
     <Compile Include="WindowsServices\Resources\Win32ServiceMessages.cs" />
     <Compile Include="WindowsServices\Shell\IWindowsServiceShell.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

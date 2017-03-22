@@ -4,6 +4,7 @@ using System.Security.Principal;
 using System.ServiceProcess;
 using Continuous.Management.Users;
 using Continuous.Management.Users.Model;
+using Continuous.Management.WindowsServices.Model;
 using Continuous.Management.WindowsServices.Model.Enums;
 using Continuous.Management.WindowsServices.Shell;
 using FluentAssertions;
@@ -300,6 +301,53 @@ namespace Continuous.Management.Library.Tests.WindowsServices
 
             // assert
             act.ShouldThrow<RuntimeException>().WithMessage($"{serviceName} service not found");
+        }
+
+        [Test]
+        public void Can_Install_Service_With_DefaultConfiguration_Test()
+        {
+            // assert
+            new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator)
+               .Should()
+               .BeTrue();
+
+            var configuration = new WindowsServiceConfiguration()
+            {
+                Name = _helper.RandomServiceName,
+                Path = _helper.GetTestServicePath()
+            };
+            
+            // act 
+            Action act = () => _shell.Install(configuration);
+
+            // assert
+            act.ShouldNotThrow<InvalidOperationException>();
+
+            try
+            {
+                var service = _shell.Get(configuration.Name);
+
+                service.Name.Should().Be(configuration.Name);
+                service.AccountDomain.Should().Be(configuration.AccountDomain);
+                service.AccountName.Should().Be(configuration.AccountName);
+                service.InteractWithDesktop.Should().Be(configuration.InteractWithDesktop);
+                service.Path.Should().Be(configuration.Path);
+                service.StartMode.Should().Be(configuration.StartMode);
+                service.State.Should().Be(WindowsServiceState.Stopped);
+                service.Status.Should().Be(WindowsServiceStatus.Ok);
+                service.Type.Should().Be(configuration.Type);
+                service.Description.Should().Be(String.Empty);
+                service.ErrorControl.Should().Be(configuration.ErrorControl);
+                service.ProcessId.Should().Be(0);
+                service.ExitCode.Should().Be(1077);
+                service.ServiceSpecificExitCode.Should().Be(0);
+                
+            }
+            finally
+            {
+                // cleanup
+                _shell.Uninstall(configuration.Name);
+            }
         }
     }
 }

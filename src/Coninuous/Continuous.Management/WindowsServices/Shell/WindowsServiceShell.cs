@@ -6,6 +6,7 @@ using System.Management.Automation.Runspaces;
 using System.ServiceProcess;
 using Continuous.Management.Common;
 using Continuous.Management.WindowsServices.Model;
+using Continuous.Management.WindowsServices.Model.Enums;
 using Continuous.Management.WindowsServices.Resources;
 
 namespace Continuous.Management.WindowsServices.Shell
@@ -47,6 +48,38 @@ namespace Continuous.Management.WindowsServices.Shell
             };
 
             _executor.Execute(_scripts.InstallService, parameters);
+        }
+
+        public void Install(WindowsServiceConfiguration config)
+        {
+            var startName = IsTypeAServiceProcess(config)
+                ? String.Join("\\", config.AccountDomain, config.AccountName)
+                : config.DriverName;
+
+            var parameters = new List<CommandParameter>
+            {
+                new CommandParameter("serviceName", config.Name),
+                new CommandParameter("displayName", config.DisplayName),
+                new CommandParameter("errorControl", (sbyte) config.ErrorControl),
+                new CommandParameter("startMode",  config.StartMode),
+                new CommandParameter("serviceType", (sbyte) config.Type),
+                new CommandParameter("desktopInteract", config.InteractWithDesktop),
+                new CommandParameter("fullServicePath", config.Path),
+                new CommandParameter("startPassword", config.AccountPassword),
+                new CommandParameter("startName", startName),
+            };
+
+            var result = _executor.Execute(_scripts.InstallServiceWithParameters, parameters);
+
+            ThrowServiceExceptionIfNecessary(result);
+
+        }
+
+        private static bool IsTypeAServiceProcess(WindowsServiceConfiguration config)
+        {
+            return config.Type == WindowsServiceType.OwnProcess
+                   || config.Type == WindowsServiceType.ShareProcess
+                   || config.Type == WindowsServiceType.InteractiveProcess;
         }
 
         public void Uninstall(string serviceName)
@@ -119,17 +152,19 @@ namespace Continuous.Management.WindowsServices.Shell
             ThrowServiceExceptionIfNecessary(result);
         }
 
-        private void ThrowServiceExceptionIfNecessary(ICollection<PSObject> result)
-        {
-            var returnValue = result.FirstOrDefault()?.Properties["ReturnValue"].Value as int?;
+      
 
-            if (returnValue.GetValueOrDefault() != 0)
-                throw new InvalidOperationException("Error occured Reason: " + _messages.GetMessage(returnValue.GetValueOrDefault()));
+        private void ThrowServiceExceptionIfNecessary(ICollection<PSObject> results)
+        {
+            var result = results.FirstOrDefault();
+
+            var returnValue = result?.Properties["ReturnValue"].Value;
+            var mappedValue = (uint) returnValue;
+
+            if ( mappedValue != 0)
+                throw new InvalidOperationException("Error occured Reason: " + _messages.GetMessage((int)mappedValue));
         }
 
-        public void Install(WindowsServiceInstallModel model)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }
