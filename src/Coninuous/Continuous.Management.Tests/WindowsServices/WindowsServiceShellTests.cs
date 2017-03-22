@@ -101,6 +101,8 @@ namespace Continuous.Management.Library.Tests.WindowsServices
                 service.AccountName.Should().Be("LocalSystem");
                 service.InteractWithDesktop.Should().Be(false);
                 service.Path.Should().Be(path);
+                service.ExitCode.Should().Be(1077);
+                service.ServiceSpecificExitCode.Should().Be(0);
 
                 service.StartMode.Should().Be(WindowsServiceStartMode.Auto);
                 service.State.Should().Be(WindowsServiceState.Stopped);

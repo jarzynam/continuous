@@ -2,6 +2,9 @@
 
 namespace Continuous.Management.WindowsServices.Model.Enums
 {
+    /// <summary>
+    /// Windows service start modes
+    /// </summary>
     public enum WindowsServiceStartMode
     {
         /// <summary>

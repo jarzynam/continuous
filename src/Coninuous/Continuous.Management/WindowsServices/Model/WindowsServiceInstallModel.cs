@@ -2,6 +2,9 @@
 
 namespace Continuous.Management.WindowsServices.Model
 {
+    /// <summary>
+    /// Model using to creating new windows service
+    /// </summary>
     public class WindowsServiceInstallModel
     {
         /// <summary>

@@ -1,5 +1,8 @@
 ﻿namespace Continuous.Management.WindowsServices.Model.Enums
 {
+    /// <summary>
+    /// Windows service running process type
+    /// </summary>
     public enum WindowsServiceType
     {
         KernelDriver = 1,

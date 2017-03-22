@@ -24,7 +24,9 @@ namespace Continuous.Management.WindowsServices.Shell
                 Status = (result.Properties["Status"]?.Value as string).ToEnum<WindowsServiceStatus>(),
                 ErrorControl = (result.Properties["ErrorControl"]?.Value as string).ToEnum<WindowsServiceErrorControl>(),
                 InteractWithDesktop = (result.Properties["DesktopInteract"]?.Value as bool?).GetValueOrDefault(),
-                Path = result.Properties["PathName"]?.Value as string 
+                Path = result.Properties["PathName"]?.Value as string,
+                ExitCode = (result.Properties["ExitCode"]?.Value as UInt32?) .GetValueOrDefault(),
+                ServiceSpecificExitCode = (result.Properties["ServiceSpecificExitCode"]?.Value as UInt32?).GetValueOrDefault()
             };
 
             MapUser(result, info);
