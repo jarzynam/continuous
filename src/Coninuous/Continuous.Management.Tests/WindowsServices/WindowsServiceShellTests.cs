@@ -84,7 +84,8 @@ namespace Continuous.Management.Library.Tests.WindowsServices
         {
             // arrange
             var serviceName = _helper.RandomServiceName;
-            _shell.Install(serviceName, _helper.GetTestServicePath());
+            var path = _helper.GetTestServicePath();
+            _shell.Install(serviceName, path);
 
             try
             {
@@ -98,11 +99,14 @@ namespace Continuous.Management.Library.Tests.WindowsServices
                 service.ProcessId.Should().Be(0);
                 service.AccountDomain.Should().Be(null);
                 service.AccountName.Should().Be("LocalSystem");
+                service.InteractWithDesktop.Should().Be(false);
+                service.Path.Should().Be(path);
 
                 service.StartMode.Should().Be(WindowsServiceStartMode.Auto);
                 service.State.Should().Be(WindowsServiceState.Stopped);
                 service.Status.Should().Be(WindowsServiceStatus.Ok);
                 service.Type.Should().Be(WindowsServiceType.OwnProcess);
+                service.ErrorControl.Should().Be(WindowsServiceErrorControl.Normal);
             }
             finally
             {

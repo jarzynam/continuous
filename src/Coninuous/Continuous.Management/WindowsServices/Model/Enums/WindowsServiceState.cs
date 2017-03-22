@@ -1,5 +1,8 @@
 ﻿namespace Continuous.Management.WindowsServices.Model.Enums
 {
+    /// <summary>
+    /// Current state of the base service.
+    /// </summary>
     public enum WindowsServiceState
     {
         Stopped,

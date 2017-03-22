@@ -21,14 +21,14 @@ namespace Continuous.Management.WindowsServices.Model
 
         /// <summary>
         /// Account name under which the service runs.
-        /// Can be null for local system account
+        /// LocalSystem as default
         /// </summary>
-        public string AccountName { get; set; }
+        public string AccountName = "LocalSystem";
 
         /// <summary>
-        /// Account domain. Can be NULL or "." for local domain
+        /// Account domain. Local domain as default
         /// </summary>
-        public string AccountDomain { get; set; }
+        public string AccountDomain = ".";
 
         /// <summary>
         /// Driver object name for kernel and system-level drivers
@@ -37,24 +37,24 @@ namespace Continuous.Management.WindowsServices.Model
         public string DriverName { get; set; }
         
         /// <summary>
-        /// Type of services provided to processes that call them
+        /// Type of process which will be invoking this service. OwnProcess as default
         /// </summary>
-        public WindowsServiceType Type { get; set; }
+        public WindowsServiceType Type = WindowsServiceType.OwnProcess;
 
         /// <summary>
         /// Severity of the error if the Create method fails to start. 
         /// </summary>
-        public WindowsServiceErrorControl ErrorControl { get; set; }
+        public WindowsServiceErrorControl ErrorControl = WindowsServiceErrorControl.Normal;
 
         /// <summary>
-        /// Start mode of the Windows base service
+        /// Start mode of the Windows base service. Auto as default.
         /// </summary>
-        public WindowsServiceStartMode StartMode { get; set; }
+        public WindowsServiceStartMode StartMode = WindowsServiceStartMode.Auto;
 
         /// <summary>
-        /// If true, the service can create or communicate with windows on the desktop.
+        /// If true, the service can create or communicate with windows on the desktop. False as default;
         /// </summary>
-        public bool InteractWithDesktop { get; set; }
+        public bool InteractWithDesktop = false;
 
     }
 }

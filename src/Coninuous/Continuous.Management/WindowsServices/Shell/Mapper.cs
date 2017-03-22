@@ -13,15 +13,18 @@ namespace Continuous.Management.WindowsServices.Shell
         {
             var info = new WindowsServiceInfo
             {
-                Name = result.Properties["Name"].Value as string,
-                DisplayName = result.Properties["DisplayName"].Value as string,
-                Description = result.Properties["Description"].Value as string,
-                ProcessId = (result.Properties["ProcessId"].Value as int?).GetValueOrDefault(),
-                AccountName = result.Properties["StartName"].Value as string,
-                Type = (result.Properties["ServiceType"].Value as string).ToEnum<WindowsServiceType>(),
-                StartMode = (result.Properties["StartMode"].Value as string).ToEnum<WindowsServiceStartMode>(),
-                State = (result.Properties["State"].Value as string).ToEnum<WindowsServiceState>(),
-                Status = (result.Properties["Status"].Value as string).ToEnum<WindowsServiceStatus>()
+                Name = result.Properties["Name"]?.Value as string,
+                DisplayName = result.Properties["DisplayName"]?.Value as string,
+                Description = result.Properties["Description"]?.Value as string,
+                ProcessId = (result.Properties["ProcessId"]?.Value as int?).GetValueOrDefault(),
+                AccountName = result.Properties["StartName"]?.Value as string,
+                Type = (result.Properties["ServiceType"]?.Value as string).ToEnum<WindowsServiceType>(),
+                StartMode = (result.Properties["StartMode"]?.Value as string).ToEnum<WindowsServiceStartMode>(),
+                State = (result.Properties["State"]?.Value as string).ToEnum<WindowsServiceState>(),
+                Status = (result.Properties["Status"]?.Value as string).ToEnum<WindowsServiceStatus>(),
+                ErrorControl = (result.Properties["ErrorControl"]?.Value as string).ToEnum<WindowsServiceErrorControl>(),
+                InteractWithDesktop = (result.Properties["DesktopInteract"]?.Value as bool?).GetValueOrDefault(),
+                Path = result.Properties["PathName"]?.Value as string 
             };
 
             MapUser(result, info);
@@ -31,7 +34,7 @@ namespace Continuous.Management.WindowsServices.Shell
 
         private void MapUser(PSObject result, WindowsServiceInfo info)
         {
-            var user = (result.Properties["StartName"].Value as string)?.Split('\\');
+            var user = (result.Properties["StartName"]?.Value as string)?.Split('\\');
 
             if (user == null || !user.Any())
             {
