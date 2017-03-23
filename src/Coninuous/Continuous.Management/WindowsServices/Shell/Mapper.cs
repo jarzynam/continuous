@@ -19,7 +19,7 @@ namespace Continuous.Management.WindowsServices.Shell
                 ProcessId = (result.Properties["ProcessId"]?.Value as int?).GetValueOrDefault(),
                 AccountName = result.Properties["StartName"]?.Value as string,
                 Type = (result.Properties["ServiceType"]?.Value as string).ToEnum<WindowsServiceType>(),
-                StartMode = (result.Properties["StartMode"]?.Value as string).ToEnum<WindowsServiceStartMode>(),
+                StartMode = ((result.Properties["StartMode"]?.Value as string)?.Replace("Auto", "Automatic").ToEnum<WindowsServiceStartMode>()).GetValueOrDefault(),
                 State = (result.Properties["State"]?.Value as string).ToEnum<WindowsServiceState>(),
                 Status = (result.Properties["Status"]?.Value as string).ToEnum<WindowsServiceStatus>(),
                 ErrorControl = (result.Properties["ErrorControl"]?.Value as string).ToEnum<WindowsServiceErrorControl>(),

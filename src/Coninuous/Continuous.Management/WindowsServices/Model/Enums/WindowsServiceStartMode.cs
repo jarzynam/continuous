@@ -18,7 +18,7 @@ namespace Continuous.Management.WindowsServices.Model.Enums
         /// <summary>
         /// Service to be started automatically by the Service Control Manager during system startup.
         /// </summary>
-        Auto,
+        Automatic,
         /// <summary>
         /// Service to be started by the Service Control Manager when a process calls the StartService method.
         /// </summary>

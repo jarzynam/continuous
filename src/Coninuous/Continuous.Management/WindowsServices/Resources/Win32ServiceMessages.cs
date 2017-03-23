@@ -4,12 +4,12 @@ namespace Continuous.Management.WindowsServices.Resources
 {
     internal interface IWin32ServiceMessages
     {
-        string GetMessage(int code);
+        string GetMessage(uint code);
     }
 
     internal class Win32ServiceMessages : IWin32ServiceMessages
     {
-        private readonly Dictionary<int, string> _returnMessagesByErrorCodes = new Dictionary<int, string>
+        private readonly Dictionary<uint, string> _returnMessagesByErrorCodes = new Dictionary<uint, string>
         {
             {0, "The request was accepted"},
             {1, "The request is not supported"},
@@ -38,7 +38,7 @@ namespace Continuous.Management.WindowsServices.Resources
             {24, "The service is currently paused in the system"}
         };
 
-        public string GetMessage(int code)
+        public string GetMessage(uint code)
         {
             return _returnMessagesByErrorCodes.ContainsKey(code)
                 ? _returnMessagesByErrorCodes[code]

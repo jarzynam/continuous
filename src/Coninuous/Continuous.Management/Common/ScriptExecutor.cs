@@ -27,7 +27,7 @@ namespace Continuous.Management.Common
 
                     var results = pipeline.Invoke();
 
-                    ThrowErrorIfNecessary(pipeline);
+                 ThrowErrorIfNecessary(pipeline);
 
                     return results;
                 }

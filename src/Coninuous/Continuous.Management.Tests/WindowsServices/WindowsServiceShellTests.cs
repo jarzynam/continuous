@@ -105,7 +105,7 @@ namespace Continuous.Management.Library.Tests.WindowsServices
                 service.ExitCode.Should().Be(1077);
                 service.ServiceSpecificExitCode.Should().Be(0);
 
-                service.StartMode.Should().Be(WindowsServiceStartMode.Auto);
+                service.StartMode.Should().Be(WindowsServiceStartMode.Automatic);
                 service.State.Should().Be(WindowsServiceState.Stopped);
                 service.Status.Should().Be(WindowsServiceStatus.Ok);
                 service.Type.Should().Be(WindowsServiceType.OwnProcess);
@@ -311,10 +311,13 @@ namespace Continuous.Management.Library.Tests.WindowsServices
                .Should()
                .BeTrue();
 
+            var name = _helper.RandomServiceName;
             var configuration = new WindowsServiceConfiguration()
             {
-                Name = _helper.RandomServiceName,
-                Path = _helper.GetTestServicePath()
+                Name = name,
+                DisplayName = name,
+                Path = _helper.GetTestServicePath(),
+               
             };
             
             // act 
@@ -329,14 +332,14 @@ namespace Continuous.Management.Library.Tests.WindowsServices
 
                 service.Name.Should().Be(configuration.Name);
                 service.AccountDomain.Should().Be(configuration.AccountDomain);
-                service.AccountName.Should().Be(configuration.AccountName);
+                service.AccountName.Should().Be("LocalSystem");
                 service.InteractWithDesktop.Should().Be(configuration.InteractWithDesktop);
                 service.Path.Should().Be(configuration.Path);
                 service.StartMode.Should().Be(configuration.StartMode);
                 service.State.Should().Be(WindowsServiceState.Stopped);
                 service.Status.Should().Be(WindowsServiceStatus.Ok);
                 service.Type.Should().Be(configuration.Type);
-                service.Description.Should().Be(String.Empty);
+                service.Description.Should().Be(null);
                 service.ErrorControl.Should().Be(configuration.ErrorControl);
                 service.ProcessId.Should().Be(0);
                 service.ExitCode.Should().Be(1077);

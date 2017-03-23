@@ -19,7 +19,7 @@ namespace Continuous.Management.Library.Tests.WindowsServices.Resources
         public void Can_GetMessage_FromProperCode()
         {
             // arrange
-            int code = 6;
+            uint code = 6;
             string expectedMessage = "The service has not been started";
 
             // act
@@ -33,8 +33,8 @@ namespace Continuous.Management.Library.Tests.WindowsServices.Resources
         public void Can_GetDefaultMessage_FromUnvalidCode()
         {
             // arrange
-            int code = -999;
-            string expectedMessage = "unknown code -999";
+            uint code = 999;
+            string expectedMessage = "unknown code 999";
 
             // act
             var actualMessage = _messages.GetMessage(code);

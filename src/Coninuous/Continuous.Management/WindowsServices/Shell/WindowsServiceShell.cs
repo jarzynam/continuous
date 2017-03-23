@@ -53,16 +53,18 @@ namespace Continuous.Management.WindowsServices.Shell
         public void Install(WindowsServiceConfiguration config)
         {
             var startName = IsTypeAServiceProcess(config)
-                ? String.Join("\\", config.AccountDomain, config.AccountName)
+                ? config.AccountName != null 
+                    ? String.Join(@"\", config.AccountDomain, config.AccountName) 
+                    : null
                 : config.DriverName;
 
             var parameters = new List<CommandParameter>
             {
                 new CommandParameter("serviceName", config.Name),
                 new CommandParameter("displayName", config.DisplayName),
-                new CommandParameter("errorControl", (sbyte) config.ErrorControl),
+                new CommandParameter("errorControl", (byte) config.ErrorControl),
                 new CommandParameter("startMode",  config.StartMode),
-                new CommandParameter("serviceType", (sbyte) config.Type),
+                new CommandParameter("serviceType", (byte) config.Type),
                 new CommandParameter("desktopInteract", config.InteractWithDesktop),
                 new CommandParameter("fullServicePath", config.Path),
                 new CommandParameter("startPassword", config.AccountPassword),
@@ -152,17 +154,18 @@ namespace Continuous.Management.WindowsServices.Shell
             ThrowServiceExceptionIfNecessary(result);
         }
 
-      
-
         private void ThrowServiceExceptionIfNecessary(ICollection<PSObject> results)
         {
             var result = results.FirstOrDefault();
 
-            var returnValue = result?.Properties["ReturnValue"].Value;
-            var mappedValue = (uint) returnValue;
+            var returnValue = result?.Properties["ReturnValue"]?.Value;
+
+            if (returnValue == null) return;
+
+            var mappedValue = Convert.ToUInt32(returnValue); 
 
             if ( mappedValue != 0)
-                throw new InvalidOperationException("Error occured Reason: " + _messages.GetMessage((int)mappedValue));
+                throw new InvalidOperationException("Error occured Reason: " + _messages.GetMessage(mappedValue));
         }
 
         

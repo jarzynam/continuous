@@ -1,5 +1,4 @@
-﻿using System.ServiceProcess;
-using Continuous.Management.WindowsServices.Model.Enums;
+﻿using Continuous.Management.WindowsServices.Model.Enums;
 
 namespace Continuous.Management.WindowsServices.Model
 {
@@ -27,12 +26,12 @@ namespace Continuous.Management.WindowsServices.Model
         /// Account name under which the service runs.
         /// LocalSystem as default
         /// </summary>
-        public string AccountName = "LocalSystem";
+        public string AccountName { get; set; }
 
         /// <summary>
         /// Account domain. Local domain as default
         /// </summary>
-        public string AccountDomain = ".";
+        public string AccountDomain { get; set; }
 
         /// <summary>
         /// Account password
@@ -48,22 +47,22 @@ namespace Continuous.Management.WindowsServices.Model
         /// <summary>
         /// Type of process which will be invoking this service. OwnProcess as default
         /// </summary>
-        public WindowsServiceType Type = WindowsServiceType.OwnProcess;
+        public WindowsServiceType Type { get; set;  } = WindowsServiceType.OwnProcess;
 
         /// <summary>
         /// Severity of the error if the Create method fails to start. 
         /// </summary>
-        public WindowsServiceErrorControl ErrorControl = WindowsServiceErrorControl.Normal;
+        public WindowsServiceErrorControl ErrorControl { get; set; } = WindowsServiceErrorControl.Normal;
 
         /// <summary>
         /// Start mode of the Windows base service. Auto as default.
         /// </summary>
-        public WindowsServiceStartMode StartMode = WindowsServiceStartMode.Auto;
+        public WindowsServiceStartMode StartMode { get; set; } = WindowsServiceStartMode.Automatic;
 
         /// <summary>
         /// If true, the service can create or communicate with windows on the desktop. False as default;
         /// </summary>
-        public bool InteractWithDesktop = false;
+        public bool InteractWithDesktop { get; set; } = false;
 
     }
 }
