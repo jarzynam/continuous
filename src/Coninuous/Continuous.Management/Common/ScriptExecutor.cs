@@ -6,9 +6,14 @@ using System.Text;
 
 namespace Continuous.Management.Common
 {
-   internal  class ScriptExecutor
+    internal interface IScriptExecutor
     {
-        internal ICollection<PSObject> Execute(string scriptFullPath, ICollection<CommandParameter> parameters)
+        ICollection<PSObject> Execute(string scriptFullPath, ICollection<CommandParameter> parameters);
+    }
+
+    internal  class ScriptExecutor : IScriptExecutor
+    {
+        public ICollection<PSObject> Execute(string scriptFullPath, ICollection<CommandParameter> parameters)
         {
             using (var runspace = RunspaceFactory.CreateRunspace())
             {

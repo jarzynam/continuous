@@ -13,8 +13,9 @@ namespace Continuous.Management.WindowsServices.Shell
 {
     public class WindowsServiceShell : IWindowsServiceShell
     {
-        private readonly ScriptExecutor _executor;
+        private readonly IScriptExecutor _executor;
         private readonly ScriptsBoundle _scripts;
+
         private readonly TimeSpan _timeout;
 
         private readonly IWin32ServiceMessages _messages;
@@ -24,9 +25,10 @@ namespace Continuous.Management.WindowsServices.Shell
         public WindowsServiceShell()
         {
             _timeout = TimeSpan.FromSeconds(5);
-            _executor = new ScriptExecutor();
 
+            _executor = new ScriptExecutor();
             _scripts = new ScriptsBoundle();
+
             _messages = new Win32ServiceMessages();
             _mapper = new Mapper();
         }
@@ -77,13 +79,6 @@ namespace Continuous.Management.WindowsServices.Shell
 
         }
 
-        private static bool IsTypeAServiceProcess(WindowsServiceConfiguration config)
-        {
-            return config.Type == WindowsServiceType.OwnProcess
-                   || config.Type == WindowsServiceType.ShareProcess
-                   || config.Type == WindowsServiceType.InteractiveProcess;
-        }
-
         public void Uninstall(string serviceName)
         {
             var parameters = new List<CommandParameter>
@@ -125,7 +120,7 @@ namespace Continuous.Management.WindowsServices.Shell
                 return true;
             }
         }
-    
+
         public WindowsServiceInfo Get(string serviceName)
         {
             var parameters = new List<CommandParameter>
@@ -135,9 +130,7 @@ namespace Continuous.Management.WindowsServices.Shell
 
             var result = _executor.Execute(_scripts.GetService, parameters).FirstOrDefault();
 
-            if (result == null) return null;
-
-            return _mapper.Map(result);
+            return result == null ? null : _mapper.Map(result);
         }
 
         public void ChangeUser(string serviceName, string userName, string password, string domain = ".")
@@ -168,6 +161,11 @@ namespace Continuous.Management.WindowsServices.Shell
                 throw new InvalidOperationException("Error occured Reason: " + _messages.GetMessage(mappedValue));
         }
 
-        
+        private static bool IsTypeAServiceProcess(WindowsServiceConfiguration config)
+        {
+            return config.Type == WindowsServiceType.OwnProcess
+                   || config.Type == WindowsServiceType.ShareProcess
+                   || config.Type == WindowsServiceType.InteractiveProcess;
+        }
     }
 }
