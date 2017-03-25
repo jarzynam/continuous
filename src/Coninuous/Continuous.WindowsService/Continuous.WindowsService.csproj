@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FactoryExtension.cs" />
     <Compile Include="Model\Enums\WindowsServiceErrorControl.cs" />
     <Compile Include="Model\Enums\WindowsServiceStartMode.cs" />
     <Compile Include="Model\Enums\WindowsServiceState.cs" />
