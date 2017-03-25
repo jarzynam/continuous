@@ -3,7 +3,7 @@ using Continuous.Management.Common.Extensions;
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace Continuous.Management.Library.Tests.Extensions
+namespace Continuous.Management.Tests.Extensions
 {
     [TestFixture]
     public class StringToEnumExtensionTests

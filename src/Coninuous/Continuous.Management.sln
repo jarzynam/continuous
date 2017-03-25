@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Continuous.Management", "Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Continuous.EmptyTestService", "Continuous.EmptyTestService\Continuous.EmptyTestService.csproj", "{F3011F7F-43BC-4F70-83AA-B62EC5E8BB10}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Continuous.Management.Library.Tests", "Continuous.Management.Tests\Continuous.Management.Library.Tests.csproj", "{FE2550F1-2C3F-4774-B239-53368F5FC84C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Continuous.Management.Tests", "Continuous.Management.Tests\Continuous.Management.Tests.csproj", "{FE2550F1-2C3F-4774-B239-53368F5FC84C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Continuous.WindowsService", "Continuous.WindowsService\Continuous.WindowsService.csproj", "{5BB9D567-7B0A-4D54-A5CB-891269368185}"
 EndProject
