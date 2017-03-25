@@ -51,40 +51,7 @@
     <Compile Include="Common\ScriptExecutor.cs" />
     <Compile Include="Common\Extensions\StringToEnumExtension.cs" />
     <Compile Include="ContinuousManagementFactory.cs" />
-    <Compile Include="LocalUserGroups\ILocalUserGroupShell.cs" />
-    <Compile Include="LocalUserGroups\LocalUserGroupShell.cs" />
-    <Compile Include="LocalUserGroups\Mapper.cs" />
-    <Compile Include="LocalUserGroups\Model\LocalUserGroup.cs" />
-    <Compile Include="LocalUserGroups\ScriptsBoundle.cs" />
-    <Compile Include="Users\IUserShell.cs" />
-    <Compile Include="Users\Model\User.cs" />
-    <Compile Include="Users\ScriptsBoundle.cs" />
-    <None Include="LocalUserGroups\Scripts\RemoveUsersFromLocalGroup.ps1">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="LocalUserGroups\Scripts\AddUsersToLocalGroup.ps1">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="LocalUserGroups\Scripts\CreateLocalUserGroup.ps1">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="LocalUserGroups\Scripts\GetLocalUserGroup.ps1">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="LocalUserGroups\Scripts\RemoveLocalUserGroup.ps1">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Users\Scripts\GetUser.ps1">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Users\Scripts\RemoveUser.ps1">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Users\Scripts\CreateUser.ps1">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Users\UserShell.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

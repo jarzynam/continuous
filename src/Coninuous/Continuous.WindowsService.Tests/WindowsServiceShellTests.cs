@@ -2,8 +2,7 @@
 using System.Management.Automation;
 using System.Security.Principal;
 using System.ServiceProcess;
-using Continuous.Management.Users;
-using Continuous.Management.Users.Model;
+using Continuous.User.Users;
 using Continuous.WindowsService.Model;
 using Continuous.WindowsService.Model.Enums;
 using Continuous.WindowsService.Shell;
@@ -32,7 +31,7 @@ namespace Continuous.WindowsService.Tests
         public void Can_ChangeUser_InExistingServer_Test()
         {
             // arrange
-            var user = new User {Name = _helper.RandomServiceName + "User"};
+            var user = new User.Users.Model.User {Name = _helper.RandomServiceName + "User"};
             _userShell.Create(user);
 
             var serviceName = _helper.RandomServiceName;

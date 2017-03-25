@@ -68,10 +68,8 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="Common\Extensions\StringCollectionExtensionsTests.cs" />
-    <Compile Include="Common\Extensions\StringToEnumExtensionTests.cs" />
-    <Compile Include="LocalUserGroups\LocalUserGroupShellTests.cs" />
-    <Compile Include="Users\UserShellTests.cs" />
+    <Compile Include="Extensions\StringCollectionExtensionsTests.cs" />
+    <Compile Include="Extensions\StringToEnumExtensionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

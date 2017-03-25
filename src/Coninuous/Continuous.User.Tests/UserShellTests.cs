@@ -1,10 +1,9 @@
 ﻿using System;
-using Continuous.Management.Users;
-using Continuous.Management.Users.Model;
+using Continuous.User.Users;
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace Continuous.Management.Library.Tests.Users
+namespace Continuous.User.Tests
 {
     [TestFixture]
     public class UserShellTests
@@ -107,9 +106,9 @@ namespace Continuous.Management.Library.Tests.Users
             act.ShouldThrow<InvalidOperationException>();
         }
 
-        private User BuildLocalUser()
+        private Users.Model.User BuildLocalUser()
         {
-            return new User
+            return new Users.Model.User
             {
                 Name = RandomUserName,
                 FullName = "Test User 1",

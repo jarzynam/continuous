@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Continuous.Management.LocalUserGroups;
-using Continuous.Management.Users;
-using Continuous.Management.Users.Model;
+using Continuous.User.LocalUserGroups;
+using Continuous.User.Users;
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace Continuous.Management.Library.Tests.LocalUserGroups
+namespace Continuous.User.Tests
 {
     [TestFixture]
     public class LocalUserGroupShellTests
@@ -111,7 +110,7 @@ namespace Continuous.Management.Library.Tests.LocalUserGroups
         public void Can_Assign_User_ToGroup()
         {
             // arrange
-            var user = new User
+            var user = new Users.Model.User
             {
                 Name = RandomName + "User",
                 Description = "test to delete"
