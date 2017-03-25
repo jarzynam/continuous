@@ -47,6 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\BoundleBase.cs" />
+    <Compile Include="Common\EmbededFileReader.cs" />
     <Compile Include="Common\Extensions\StringCollectionExstension.cs" />
     <Compile Include="Common\ScriptExecutor.cs" />
     <Compile Include="Common\Extensions\StringToEnumExtension.cs" />

@@ -1,19 +1,18 @@
-﻿using System;
-using System.IO;
+﻿using Continuous.Management.Common;
 
 namespace Continuous.User.Users
 {
-    internal class ScriptsBoundle
+    internal class ScriptsBoundle : BoundleBase
     {
         private readonly string _currentPath;
-        
+
         public ScriptsBoundle()
         {
-            _currentPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Users", "Scripts");
+            _currentPath = AddToPath(BasePath, "Users", "Scripts");
         }
 
-        public string CreateUser => Path.Combine(_currentPath, "CreateUser.ps1");
-        public string RemoveUser => Path.Combine(_currentPath, "RemoveUser.ps1");
-        public string GetUser => Path.Combine(_currentPath, "GetUser.ps1");
+        public string CreateUser => AddToPath(_currentPath, "CreateUser.ps1");
+        public string RemoveUser => AddToPath(_currentPath, "RemoveUser.ps1");
+        public string GetUser => AddToPath(_currentPath, "GetUser.ps1");
     }
 }

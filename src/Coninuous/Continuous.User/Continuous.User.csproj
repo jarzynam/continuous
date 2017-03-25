@@ -57,31 +57,15 @@
     <Compile Include="Users\UserShell.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="LocalUserGroups\Scripts\AddUsersToLocalGroup.ps1">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="LocalUserGroups\Scripts\CreateLocalUserGroup.ps1">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="LocalUserGroups\Scripts\GetLocalUserGroup.ps1">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="LocalUserGroups\Scripts\RemoveLocalUserGroup.ps1">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="LocalUserGroups\Scripts\RemoveUsersFromLocalGroup.ps1">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <EmbeddedResource Include="LocalUserGroups\Scripts\AddUsersToLocalGroup.ps1" />
+    <EmbeddedResource Include="LocalUserGroups\Scripts\CreateLocalUserGroup.ps1" />
+    <EmbeddedResource Include="LocalUserGroups\Scripts\GetLocalUserGroup.ps1" />
+    <EmbeddedResource Include="LocalUserGroups\Scripts\RemoveLocalUserGroup.ps1" />
+    <EmbeddedResource Include="LocalUserGroups\Scripts\RemoveUsersFromLocalGroup.ps1" />
     <None Include="packages.config" />
-    <None Include="Users\Scripts\CreateUser.ps1">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Users\Scripts\GetUser.ps1">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Users\Scripts\RemoveUser.ps1">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <EmbeddedResource Include="Users\Scripts\CreateUser.ps1" />
+    <EmbeddedResource Include="Users\Scripts\GetUser.ps1" />
+    <EmbeddedResource Include="Users\Scripts\RemoveUser.ps1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Continuous.Management\Continuous.Management.csproj">

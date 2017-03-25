@@ -1,21 +1,20 @@
-﻿using System;
-using System.IO;
+﻿using Continuous.Management.Common;
 
 namespace Continuous.User.LocalUserGroups
 {
-    internal class ScriptsBoundle
+    internal class ScriptsBoundle : BoundleBase
     {
         private readonly string _currentPath;
         
         public ScriptsBoundle()
         {
-            _currentPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "LocalUserGroups", "Scripts");
+            _currentPath = AddToPath(BasePath, "LocalUserGroups", "Scripts");
         }
 
-        public string CreateLocalUserGroup => Path.Combine(_currentPath, "CreateLocalUserGroup.ps1");
-        public string RemoveLocalUserGroup => Path.Combine(_currentPath, "RemoveLocalUserGroup.ps1");
-        public string GetLocalUserGroup => Path.Combine(_currentPath, "GetLocalUserGroup.ps1");
-        public string AddUsersToLocalGroup => Path.Combine(_currentPath, "AddUsersToLocalGroup.ps1");
-        public string RemoveUsersFromLocalGroup => Path.Combine(_currentPath, "RemoveUsersFromLocalGroup.ps1");
+        public string CreateLocalUserGroup => AddToPath(_currentPath, "CreateLocalUserGroup.ps1");
+        public string RemoveLocalUserGroup => AddToPath(_currentPath, "RemoveLocalUserGroup.ps1");
+        public string GetLocalUserGroup => AddToPath(_currentPath, "GetLocalUserGroup.ps1");
+        public string AddUsersToLocalGroup => AddToPath(_currentPath, "AddUsersToLocalGroup.ps1");
+        public string RemoveUsersFromLocalGroup => AddToPath(_currentPath, "RemoveUsersFromLocalGroup.ps1");
     }
 }
