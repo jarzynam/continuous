@@ -1,8 +1,8 @@
-﻿using Continuous.Management.WindowsServices.Resources;
+﻿using Continuous.WindowsService.Resources;
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace Continuous.Management.Library.Tests.WindowsServices.Resources
+namespace Continuous.WindowsService.Tests.Resources
 {
     [TestFixture]
     public class Win32ServiceMessagesTests

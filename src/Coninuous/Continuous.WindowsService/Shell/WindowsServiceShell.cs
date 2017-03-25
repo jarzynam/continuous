@@ -5,11 +5,11 @@ using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 using System.ServiceProcess;
 using Continuous.Management.Common;
-using Continuous.Management.WindowsServices.Model;
-using Continuous.Management.WindowsServices.Model.Enums;
-using Continuous.Management.WindowsServices.Resources;
+using Continuous.WindowsService.Model;
+using Continuous.WindowsService.Model.Enums;
+using Continuous.WindowsService.Resources;
 
-namespace Continuous.Management.WindowsServices.Shell
+namespace Continuous.WindowsService.Shell
 {
     public class WindowsServiceShell : IWindowsServiceShell
     {

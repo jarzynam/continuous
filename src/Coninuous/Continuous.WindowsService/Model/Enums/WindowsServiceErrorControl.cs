@@ -1,4 +1,4 @@
-namespace Continuous.Management.WindowsServices.Model.Enums
+namespace Continuous.WindowsService.Model.Enums
 {
     /// <summary>
     /// Specifies error severity and the action taken if this service fails to start

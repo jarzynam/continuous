@@ -4,13 +4,13 @@ using System.Security.Principal;
 using System.ServiceProcess;
 using Continuous.Management.Users;
 using Continuous.Management.Users.Model;
-using Continuous.Management.WindowsServices.Model;
-using Continuous.Management.WindowsServices.Model.Enums;
-using Continuous.Management.WindowsServices.Shell;
+using Continuous.WindowsService.Model;
+using Continuous.WindowsService.Model.Enums;
+using Continuous.WindowsService.Shell;
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace Continuous.Management.Library.Tests.WindowsServices
+namespace Continuous.WindowsService.Tests
 {
     [TestFixture]
     public class WindowsServiceShellTests

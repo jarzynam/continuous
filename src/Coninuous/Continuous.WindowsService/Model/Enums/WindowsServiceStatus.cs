@@ -1,4 +1,4 @@
-﻿namespace Continuous.Management.WindowsServices.Model.Enums
+﻿namespace Continuous.WindowsService.Model.Enums
 {
     /// <summary>
     /// Current status of the object. Should be 'Ok' or one of the other statuses

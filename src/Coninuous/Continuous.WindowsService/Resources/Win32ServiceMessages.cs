@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Continuous.Management.WindowsServices.Resources
+namespace Continuous.WindowsService.Resources
 {
     internal interface IWin32ServiceMessages
     {

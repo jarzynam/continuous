@@ -1,6 +1,6 @@
-﻿using Continuous.Management.WindowsServices.Model.Enums;
+﻿using Continuous.WindowsService.Model.Enums;
 
-namespace Continuous.Management.WindowsServices.Model
+namespace Continuous.WindowsService.Model
 {
     /// <summary>
     /// Model using to creating new windows service

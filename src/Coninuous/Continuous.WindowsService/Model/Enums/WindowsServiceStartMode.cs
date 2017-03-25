@@ -1,6 +1,6 @@
-﻿using Continuous.Management.WindowsServices.Shell;
+﻿using Continuous.WindowsService.Shell;
 
-namespace Continuous.Management.WindowsServices.Model.Enums
+namespace Continuous.WindowsService.Model.Enums
 {
     /// <summary>
     /// Windows service start mode

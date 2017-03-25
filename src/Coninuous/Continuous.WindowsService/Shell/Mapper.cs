@@ -2,10 +2,10 @@ using System;
 using System.Linq;
 using System.Management.Automation;
 using Continuous.Management.Common.Extensions;
-using Continuous.Management.WindowsServices.Model;
-using Continuous.Management.WindowsServices.Model.Enums;
+using Continuous.WindowsService.Model;
+using Continuous.WindowsService.Model.Enums;
 
-namespace Continuous.Management.WindowsServices.Shell
+namespace Continuous.WindowsService.Shell
 {
     internal class Mapper
     {

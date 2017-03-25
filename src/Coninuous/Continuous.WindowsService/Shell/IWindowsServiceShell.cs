@@ -1,7 +1,7 @@
 using System.ServiceProcess;
-using Continuous.Management.WindowsServices.Model;
+using Continuous.WindowsService.Model;
 
-namespace Continuous.Management.WindowsServices.Shell
+namespace Continuous.WindowsService.Shell
 {
     public interface IWindowsServiceShell
     {

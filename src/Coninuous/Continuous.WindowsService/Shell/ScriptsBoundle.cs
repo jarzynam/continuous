@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Continuous.Management.WindowsServices.Shell
+namespace Continuous.WindowsService.Shell
 {
     internal class ScriptsBoundle
     {
@@ -9,7 +9,7 @@ namespace Continuous.Management.WindowsServices.Shell
         
         public ScriptsBoundle()
         {
-            _currentPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "WindowsServices", "Scripts");
+            _currentPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Scripts");
         }
 
         internal string UninstallService => Path.Combine(_currentPath, "UninstallService.ps1");

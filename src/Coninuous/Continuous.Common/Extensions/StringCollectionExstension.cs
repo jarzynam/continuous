@@ -5,7 +5,7 @@ namespace Continuous.Management.Common.Extensions
 {
     internal static class StringCollectionExstension
     {
-        internal static string ToFlatString(this List<string> collection, string elementSeparator = " ")
+        public static string ToFlatString(this List<string> collection, string elementSeparator = " ")
         {
             var builder = new StringBuilder();
 
