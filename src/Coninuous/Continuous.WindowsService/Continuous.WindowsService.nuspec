@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Continuous.WindowsService</id>
+    <version>1.0.0</version>
+    <title>Continuous WindowsService</title>
+    <authors>Michał Jarzyna</authors>
+    <owners>Code Creation</owners>
+    <licenseUrl>https://github.com/jarzynam/rescuer/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/jarzynam/continuous/wiki/Windows-Service</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>This library is providing easy way to manage windows services: install/uninstall, start/stop,
+    change user, etc. 
+    </description>
+    <releaseNotes>First realease</releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>Continuous Management WindowsService Service Windows</tags>
+  </metadata>
+</package>
