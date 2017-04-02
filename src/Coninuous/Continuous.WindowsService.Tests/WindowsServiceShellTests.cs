@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Management.Automation;
 using System.Security.Principal;
 using System.ServiceProcess;
@@ -151,6 +152,24 @@ namespace Continuous.WindowsService.Tests
         }
 
         [Test]
+        public void Can_Handle_InvalidPath_ToInstalledService_Test()
+        {
+            // arrange
+            new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator)
+               .Should()
+               .BeTrue();
+
+            var serviceName = _helper.RandomServiceName;
+            var servicePath = "C:/fakeServicePath";
+
+            // act
+            Action installAction = () => _shell.Install(serviceName, servicePath);
+
+            // assert
+            installAction.ShouldThrow<InvalidOperationException>();
+        }
+
+        [Test]
         public void Can_ThrowException_During_Uninstalling_NonExistingService()
         {
             // arrange
@@ -218,6 +237,19 @@ namespace Continuous.WindowsService.Tests
         }
 
         [Test]
+        public void Can_Start_FakeService_Test()
+        {
+            // arrange
+            var serviceName = "fakeService";
+
+            // act
+            Action act = () => _shell.Start(serviceName);
+
+            // assert
+            act.ShouldThrow<InvalidOperationException>();
+        }
+
+        [Test]
         public void Can_Stop_RunningService_Test()
         {
             // arrange
@@ -273,6 +305,19 @@ namespace Continuous.WindowsService.Tests
         }
 
         [Test]
+        public void Can_Stop_FakeService_Test()
+        {
+            // arrange
+            var serviceName = "fakeService";
+
+            // act
+            Action act = () => _shell.Stop(serviceName);
+
+            // assert
+            act.ShouldThrow<InvalidOperationException>();
+        }
+
+        [Test]
         public void Can_Throw_Exception_If_CheckStatus_Before_ConnectingToService_Test()
         {
             // arrange
@@ -286,7 +331,7 @@ namespace Continuous.WindowsService.Tests
         }
 
         [Test]
-        public void Can_Ununinstall_NotExisting_Service_Test()
+        public void Can_Uninstall_NotExisting_Service_Test()
         {
             // assert
             new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator)
