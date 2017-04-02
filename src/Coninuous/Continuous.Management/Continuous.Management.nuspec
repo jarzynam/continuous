@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/jarzynam/continuous/wiki</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>This is the core library necessary for all continuous.* packages. 
-    Also contains factory for crating shells from rest of the continuous nuget packages
+    Also contains factory for creating shells from rest of the continuous nuget packages
     </description>
     <releaseNotes>First realease</releaseNotes>
     <copyright>Copyright 2017</copyright>
