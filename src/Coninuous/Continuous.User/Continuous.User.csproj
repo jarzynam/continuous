@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Continuous.Management, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Continuous.Management.1.0.0\lib\net452\Continuous.Management.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -66,12 +69,6 @@
     <EmbeddedResource Include="Users\Scripts\CreateUser.ps1" />
     <EmbeddedResource Include="Users\Scripts\GetUser.ps1" />
     <EmbeddedResource Include="Users\Scripts\RemoveUser.ps1" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Continuous.Management\Continuous.Management.csproj">
-      <Project>{39BEC5C6-0D24-4F81-8BFE-2040A38C8CC9}</Project>
-      <Name>Continuous.Management</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
