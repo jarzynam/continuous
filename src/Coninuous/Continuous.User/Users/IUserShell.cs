@@ -2,8 +2,8 @@
 {
     public interface IUserShell
     {
-        void Create(Model.User user);
+        void Create(Model.UserModel userModel);
         void Remove(string userName);
-        Model.User Get(string userName);
+        Model.UserModel Get(string userName);
     }
 }

@@ -5,6 +5,7 @@ using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 using System.Text.RegularExpressions;
 using Continuous.Management.Common;
+using Continuous.User.Users.Model;
 
 namespace Continuous.User.Users
 {
@@ -24,15 +25,15 @@ namespace Continuous.User.Users
             _scripts = new ScriptsBoundle();
         }
 
-        public void Create(Model.User user)
+        public void Create(UserModel userModel)
         {
             var parameters = new List<CommandParameter>
             {
-                new CommandParameter("name", user.Name),
-                new CommandParameter("password", user.Password),
-                new CommandParameter("description", user.Description),
-                new CommandParameter("fullName", user.FullName),
-                new CommandParameter("expires", user.Expires?.ToString("dd/MM/yyyy") ?? "never")
+                new CommandParameter("name", userModel.Name),
+                new CommandParameter("password", userModel.Password),
+                new CommandParameter("description", userModel.Description),
+                new CommandParameter("fullName", userModel.FullName),
+                new CommandParameter("expires", userModel.Expires?.ToString("dd/MM/yyyy") ?? "never")
             };
 
             var result = _executor.Execute(_scripts.CreateUser, parameters);
@@ -52,7 +53,7 @@ namespace Continuous.User.Users
             ThrowServiceExceptionIfNecessary(result, nameof(Remove));
         }
 
-        public Model.User Get(string userName)
+        public UserModel Get(string userName)
         {
             var parameters = new List<CommandParameter>
             {
@@ -66,7 +67,7 @@ namespace Continuous.User.Users
             return MapToLocalUser(results);
         }
 
-        private Model.User MapToLocalUser(ICollection<PSObject> results)
+        private UserModel MapToLocalUser(ICollection<PSObject> results)
         {
             var properties = new Dictionary<string, string>();
 
@@ -86,16 +87,20 @@ namespace Continuous.User.Users
             return propertyLine.Length == 2;
         }
 
-        private static Model.User MapToLocalUser(Dictionary<string, string> properties)
+        private static UserModel MapToLocalUser(Dictionary<string, string> properties)
         {
-            return new Model.User
+            var model = new UserModel
             {
                 Name = properties["User name"],
                 FullName = properties["Full Name"],
                 Description = properties["Comment"],
                 Password = "",
-                Expires = DateTime.Parse(properties["Account expires"])
+                Expires = properties["Account expires"] == "Never"
+                    ? null
+                    : (DateTime?) DateTime.Parse(properties["Account expires"]),
             };
+
+            return model;
         }
 
         private static void ThrowServiceExceptionIfNecessary(ICollection<PSObject> result, string commandName)

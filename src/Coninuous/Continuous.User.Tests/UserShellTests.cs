@@ -1,5 +1,6 @@
 ﻿using System;
 using Continuous.User.Users;
+using Continuous.User.Users.Model;
 using FluentAssertions;
 using NUnit.Framework;
 
@@ -106,9 +107,9 @@ namespace Continuous.User.Tests
             act.ShouldThrow<InvalidOperationException>();
         }
 
-        private Users.Model.User BuildLocalUser()
+        private UserModel BuildLocalUser()
         {
-            return new Users.Model.User
+            return new UserModel
             {
                 Name = RandomUserName,
                 FullName = "Test User 1",

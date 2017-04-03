@@ -110,7 +110,7 @@ namespace Continuous.User.Tests
         public void Can_Assign_User_ToGroup()
         {
             // arrange
-            var user = new Users.Model.User
+            var user = new Users.Model.UserModel
             {
                 Name = RandomName + "User",
                 Description = "test to delete"
