@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Continuous.User.LocalUserGroups;
 using Continuous.User.Users;
+using Continuous.User.Users.Model;
 using FluentAssertions;
 using NUnit.Framework;
 
@@ -110,7 +111,7 @@ namespace Continuous.User.Tests
         public void Can_Assign_User_ToGroup()
         {
             // arrange
-            var user = new Users.Model.UserModel
+            var user = new UserModel
             {
                 Name = RandomName + "User",
                 Description = "test to delete"
@@ -131,6 +132,143 @@ namespace Continuous.User.Tests
             {
                 // cleanup
                 _shell.Remove(groupName);
+                _userShell.Remove(user.Name);
+            }
+        }
+
+        [Test]
+        public void Can_ThrowException_When_Assign_EmptyUserList_ToGroup()
+        {
+
+            // arrange
+            var groupName = CreateGroup();
+
+            try
+            {
+                // act
+                Action act  = () => _shell.AssignUsers(groupName, new List<string>());
+
+                // assert
+                act.ShouldThrow<InvalidOperationException>();
+            }
+            finally
+            {
+                // cleanup
+                _shell.Remove(groupName);
+            }
+        }
+
+        [Test]
+        public void Can_ThorwException_When_TryAddUser_ToNotExistingGroup()
+        {
+            // arrange
+            var user = new UserModel
+            {
+                Name = RandomName + "User",
+                Description = "Test user to remove"
+            };
+            _userShell.Create(user);
+
+            var groupName = "fake group";
+
+            try
+            {
+                // act
+                Action act = () => _shell.AssignUsers(groupName, new List<string> { user.Name });
+
+                // assert
+                act.ShouldThrow<InvalidOperationException>();
+            }
+            finally
+            {
+                _userShell.Remove(user.Name);
+            }
+        }
+
+        [Test]
+        public void Can_Remove_User_FromGroup()
+        {
+            // arrange
+            var user = new UserModel
+            {
+                Name = RandomName + "User",
+                Description = "test user to delete"
+            };
+
+            var groupName = CreateGroup();
+
+            _userShell.Create(user);
+            
+            try
+            {
+                _shell.AssignUsers(groupName, new List<string>{user.Name});
+
+                var group = _shell.Get(groupName);
+
+                group.Members.Should().Contain(p => p == user.Name);
+
+                // act 
+                _shell.RemoveUsers(groupName, new List<string>{user.Name});
+
+                // assert
+                group = _shell.Get(groupName);
+
+                group.Members.Should().BeEmpty();
+
+            }
+            finally
+            {
+                // cleanup 
+                _shell.Remove(groupName);
+                _userShell.Remove(user.Name);
+            }
+        }
+
+        [Test]
+        public void Can_ThrowException_When_Try_RemoveEmptyList_FromLocalGroup()
+        {
+            // arrange
+            var users = new List<string>();
+            var groupName = CreateGroup();
+
+            try
+            {
+                // act
+                Action act = () => _shell.RemoveUsers(groupName, users);
+
+                // assert
+                act.ShouldThrow<InvalidOperationException>();
+            }
+            finally
+            {
+                //cleanup
+                _shell.Remove(groupName);
+            }
+        }
+
+        [Test]
+        public void Can_ThorwException_When_AddUser_ToNotExistingGroup()
+        {
+            // arrange
+            var user = new UserModel
+            {
+                Name = RandomName + "User",
+                Description = "Test user to remove"
+            };
+            _userShell.Create(user);
+
+            var groupName = "fake group";
+
+            try
+            {
+                // act
+                Action act = () => _shell.RemoveUsers(groupName, new List<string> {user.Name});
+
+                // assert
+                act.ShouldThrow<InvalidOperationException>();
+            }
+            finally
+            {
                 _userShell.Remove(user.Name);
             }
         }

@@ -5,6 +5,7 @@ using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 using Continuous.Management.Common;
 using Continuous.Management.Common.Extensions;
+using Continuous.User.LocalUserGroups.Model;
 
 namespace Continuous.User.LocalUserGroups
 {
@@ -46,7 +47,7 @@ namespace Continuous.User.LocalUserGroups
             ThrowServiceExceptionIfNecessary(result, nameof(Remove));
         }
 
-        public Model.LocalUserGroup Get(string groupName)
+        public LocalUserGroup Get(string groupName)
         {
             var parameters = new List<CommandParameter>
             {
@@ -60,6 +61,8 @@ namespace Continuous.User.LocalUserGroups
 
         public void AssignUsers(string groupName, List<string> userNames)
         {
+            ThrowIfListIsEmpty(userNames);
+
             var parameters = new List<CommandParameter>
             {
                 new CommandParameter("name", groupName),
@@ -73,6 +76,8 @@ namespace Continuous.User.LocalUserGroups
 
         public void RemoveUsers(string groupName, List<string> userNames) 
         {
+            ThrowIfListIsEmpty(userNames);
+
             var parameters = new List<CommandParameter>
             {
                 new CommandParameter("name", groupName),
@@ -90,6 +95,12 @@ namespace Continuous.User.LocalUserGroups
 
             if (returnValue != "The command completed successfully.")
                 throw new InvalidOperationException($"Cannot invoke command {commandName}. Reason: " + returnValue);
+        }
+
+        private static void ThrowIfListIsEmpty(List<string> userNames)
+        {
+            if (userNames == null || !userNames.Any())
+                throw new InvalidOperationException("the user names list cannot be empty");
         }
     }
 }

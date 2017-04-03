@@ -1,9 +1,11 @@
-﻿namespace Continuous.User.Users
+﻿using Continuous.User.Users.Model;
+
+namespace Continuous.User.Users
 {
     public interface IUserShell
     {
-        void Create(Model.UserModel userModel);
+        void Create(UserModel userModel);
         void Remove(string userName);
-        Model.UserModel Get(string userName);
+        UserModel Get(string userName);
     }
 }
