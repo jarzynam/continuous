@@ -58,6 +58,31 @@ namespace Continuous.WindowsService.Tests
             }
         }
 
+        [Test]
+        public void Can_ChangeUser_When_UserIsNotExist()
+        {
+            // arrange
+            var userName = "fakeName";
+            var password = "fakePassword";
+
+            var serviceName = _helper.RandomServiceName;
+            _shell.Install(serviceName, _helper.GetTestServicePath());
+
+            try
+            {
+                // act
+                Action act = () => _shell.ChangeUser(serviceName, userName, password);
+
+                // assert 
+                act.ShouldThrow<InvalidOperationException>();
+            }
+            finally
+            {
+                // cleanup
+                _shell.Uninstall(serviceName);
+            }
+        }
+
 
         [Test]
         public void Can_Check_ServiceStatus_Test()
