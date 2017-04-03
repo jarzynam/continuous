@@ -38,6 +38,13 @@
         /// <summary>
         /// service that can communicate with the desktop
         /// </summary>
-        InteractiveProcess = 0x100
+        InteractiveProcess = 0x100,
+
+        /// <summary>
+        /// Unknown service type
+        /// </summary>
+        Unknown
+
+
     }
 }

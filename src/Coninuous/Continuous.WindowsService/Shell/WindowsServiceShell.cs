@@ -134,6 +134,16 @@ namespace Continuous.WindowsService.Shell
             return result == null ? null : _mapper.Map(result);
         }
 
+        public List<WindowsServiceInfo> GetAll()
+        {
+            var parameters = new List<CommandParameter>();
+
+            var result = _executor.Execute(_scripts.GetAllServices, parameters);
+
+            return result.Select(p => _mapper.Map(p)).ToList();
+        }
+
+
         public void ChangeUser(string serviceName, string userName, string password, string domain = ".")
         {
             var parameters = new List<CommandParameter>

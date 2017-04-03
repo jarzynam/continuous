@@ -422,5 +422,16 @@ namespace Continuous.WindowsService.Tests
                 _shell.Uninstall(configuration.Name);
             }
         }
+
+        [Test]
+        public void GetAll_Shold_Fetch_AllServices()
+        {
+            // act
+            var services = _shell.GetAll();
+
+            // assert
+            services.Should().NotBeEmpty();
+
+        }
     }
 }

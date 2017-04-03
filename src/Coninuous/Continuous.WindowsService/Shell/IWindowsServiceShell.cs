@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ServiceProcess;
 using Continuous.WindowsService.Model;
 
@@ -63,5 +64,11 @@ namespace Continuous.WindowsService.Shell
         /// <param name="serviceName">windows service name</param>
         /// <returns>full information about windows service</returns>
         WindowsServiceInfo Get(string serviceName);
+
+        /// <summary>
+        /// Get all available windows services
+        /// </summary>
+        /// <returns>list of services</returns>
+        List<WindowsServiceInfo> GetAll();
     }
 }
