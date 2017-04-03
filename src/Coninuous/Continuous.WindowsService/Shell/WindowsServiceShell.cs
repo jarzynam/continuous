@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
@@ -43,6 +44,8 @@ namespace Continuous.WindowsService.Shell
 
         public void Install(string serviceName, string fullServicePath)
         {
+            ThrowIfCantFindFile(fullServicePath);
+
             var parameters = new List<CommandParameter>
             {
                 new CommandParameter(nameof(serviceName), serviceName),
@@ -54,11 +57,9 @@ namespace Continuous.WindowsService.Shell
 
         public void Install(WindowsServiceConfiguration config)
         {
-            var startName = IsTypeAServiceProcess(config)
-                ? config.AccountName != null 
-                    ? String.Join(@"\", config.AccountDomain, config.AccountName) 
-                    : null
-                : config.DriverName;
+            ThrowIfCantFindFile(config.Path);
+
+            var startName = GetStartName(config);
 
             var parameters = new List<CommandParameter>
             {
@@ -166,6 +167,23 @@ namespace Continuous.WindowsService.Shell
             return config.Type == WindowsServiceType.OwnProcess
                    || config.Type == WindowsServiceType.ShareProcess
                    || config.Type == WindowsServiceType.InteractiveProcess;
+        }
+
+        private static void ThrowIfCantFindFile(string path)
+        {
+            if (!File.Exists(path))
+            {
+                throw new FileNotFoundException("Can't find file in path: " + path);
+            }
+        }
+
+        private static string GetStartName(WindowsServiceConfiguration config)
+        {
+            return IsTypeAServiceProcess(config)
+                ? config.AccountName != null 
+                    ? String.Join(@"\", config.AccountDomain, config.AccountName) 
+                    : null
+                : config.DriverName;
         }
     }
 }

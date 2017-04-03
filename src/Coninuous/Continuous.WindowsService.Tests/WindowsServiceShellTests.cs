@@ -167,7 +167,7 @@ namespace Continuous.WindowsService.Tests
             Action installAction = () => _shell.Install(serviceName, servicePath);
 
             // assert
-            installAction.ShouldThrow<InvalidOperationException>();
+            installAction.ShouldThrow<FileNotFoundException>();
         }
 
         [Test]
