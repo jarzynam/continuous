@@ -30,6 +30,12 @@ namespace Continuous.WindowsService.Shell
         void Install(WindowsServiceConfiguration config);
 
         /// <summary>
+        /// Update existing windows service with customizable configuration
+        /// </summary>
+        /// <param name="config">customizable configuration for windows service.</param>
+        void Update(string serviceName, WindowsServiceConfigurationForUpdate config);
+
+        /// <summary>
         /// Uninstall windows service
         /// </summary>
         /// <param name="serviceName">windows service name</param>

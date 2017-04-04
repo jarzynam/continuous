@@ -359,7 +359,7 @@ namespace Continuous.WindowsService.Tests
         [Test]
         public void Can_Uninstall_NotExisting_Service_Test()
         {
-            // assert
+            // arrange
             new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator)
                 .Should()
                 .BeTrue();
@@ -376,7 +376,7 @@ namespace Continuous.WindowsService.Tests
         [Test]
         public void Can_Install_Service_With_DefaultConfiguration_Test()
         {
-            // assert
+            // arrange
             new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator)
                .Should()
                .BeTrue();
@@ -431,7 +431,96 @@ namespace Continuous.WindowsService.Tests
 
             // assert
             services.Should().NotBeEmpty();
+        }
 
+        [Test]
+        public void Can_Update_ExistingService()
+        {
+            // arrange
+            var serviceName = _helper.RandomServiceName;
+            var user = new UserModel
+            {
+                Name = _helper.RandomServiceName + "User",
+                Description = "test user to delete",
+                Password = "test"
+            };
+
+            _shell.Install(serviceName, _helper.GetTestServicePath());
+            _userShell.Create(user);
+
+            try
+            {
+                // act
+                var configuration = new WindowsServiceConfigurationForUpdate
+                {
+                 
+                    DisplayName = "changed display name",
+                    Type = WindowsServiceType.ShareProcess,
+                    ErrorControl = WindowsServiceErrorControl.Severe,
+                    InteractWithDesktop = true,
+                    StartMode = WindowsServiceStartMode.Disabled
+                };
+
+                _shell.Update(serviceName, configuration);
+
+                // assert
+                var actualService = _shell.Get(serviceName);
+
+                actualService.DisplayName.Should().Be(configuration.DisplayName);
+                actualService.ErrorControl.Should().Be(configuration.ErrorControl);
+                actualService.StartMode.Should().Be(configuration.StartMode);
+                actualService.InteractWithDesktop.Should().Be(configuration.InteractWithDesktop);
+                actualService.Type.Should().Be(configuration.Type);
+            }
+            finally
+            {
+                // cleanup
+                _shell.Uninstall(serviceName);
+                _userShell.Remove(user.Name);
+            }
+        }
+
+        [Test]
+        public void Can_ThrowError_When_ServiceToUpdate_IsNotExisting()
+        {
+            // arrange
+            var configuration = new WindowsServiceConfigurationForUpdate() {Path = _helper.GetTestServicePath()};
+            var serviceName = "fakeService";
+
+            // act
+            Action act = () => _shell.Update(serviceName, configuration);
+
+            // assert
+            act.ShouldThrow<ArgumentException>();
+        }
+
+        [Test]
+        public void Can_ThrowError_When_ServiceToUpdate_HasFakePath()
+        {
+            // arrange
+            var configuration = new WindowsServiceConfiguration {
+                Name = _helper.RandomServiceName,
+                DisplayName = "service to delete",
+                Path = _helper.GetTestServicePath()
+            };
+
+            _shell.Install(configuration);
+
+            try
+            {
+                configuration.Path = "fakepath";
+                
+                // act
+                Action act = () => _shell.Update(configuration.Name, configuration);
+
+                // assert
+                act.ShouldThrow<FileNotFoundException>();
+            }
+            finally
+            {
+                //cleanup
+               _shell.Uninstall(configuration.Name); 
+            }
         }
     }
 }

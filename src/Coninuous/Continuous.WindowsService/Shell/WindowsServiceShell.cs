@@ -80,6 +80,29 @@ namespace Continuous.WindowsService.Shell
 
         }
 
+        public void Update(string serviceName, WindowsServiceConfigurationForUpdate config)
+        {
+            ThrowIfCantFindService(serviceName);
+
+            if(config.Path != null)
+                ThrowIfCantFindFile(config.Path);
+
+            var parameters = new List<CommandParameter>
+            {
+                new CommandParameter("serviceName", serviceName),
+                new CommandParameter("displayName", config.DisplayName),
+                new CommandParameter("errorControl", (byte) config.ErrorControl),
+                new CommandParameter("startMode",  config.StartMode),
+                new CommandParameter("serviceType", (byte) config.Type),
+                new CommandParameter("desktopInteract", config.InteractWithDesktop),
+                new CommandParameter("fullServicePath", config.Path)
+            };
+
+            var result = _executor.Execute(_scripts.UpdateServiceWithParameters, parameters);
+
+            ThrowServiceExceptionIfNecessary(result);
+        }
+
         public void Uninstall(string serviceName)
         {
             var parameters = new List<CommandParameter>
@@ -172,13 +195,6 @@ namespace Continuous.WindowsService.Shell
                 throw new InvalidOperationException("Error occured Reason: " + _messages.GetMessage(mappedValue));
         }
 
-        private static bool IsTypeAServiceProcess(WindowsServiceConfiguration config)
-        {
-            return config.Type == WindowsServiceType.OwnProcess
-                   || config.Type == WindowsServiceType.ShareProcess
-                   || config.Type == WindowsServiceType.InteractiveProcess;
-        }
-
         private static void ThrowIfCantFindFile(string path)
         {
             if (!File.Exists(path))
@@ -187,13 +203,20 @@ namespace Continuous.WindowsService.Shell
             }
         }
 
+        private void ThrowIfCantFindService(string configName)
+        {
+            var service = Get(configName);
+
+            if(service == null)
+                throw new ArgumentException("Can't find service with name: "+configName);
+        }
+
         private static string GetStartName(WindowsServiceConfiguration config)
         {
-            return IsTypeAServiceProcess(config)
-                ? config.AccountName != null 
-                    ? String.Join(@"\", config.AccountDomain, config.AccountName) 
-                    : null
-                : config.DriverName;
+            return config.DriverName ?? 
+                String.Join(@"\",config.AccountDomain?? ".", config.AccountName ?? "LocalSystem");
+
         }
+
     }
 }
