@@ -403,7 +403,7 @@ namespace Continuous.WindowsService.Tests
                 service.Name.Should().Be(configuration.Name);
                 service.AccountDomain.Should().Be(configuration.AccountDomain);
                 service.AccountName.Should().Be("LocalSystem");
-                service.InteractWithDesktop.Should().Be(configuration.InteractWithDesktop);
+                service.InteractWithDesktop.Should().Be(configuration.InteractWithDesktop.GetValueOrDefault());
                 service.Path.Should().Be(configuration.Path);
                 service.StartMode.Should().Be(configuration.StartMode);
                 service.State.Should().Be(WindowsServiceState.Stopped);
@@ -469,7 +469,7 @@ namespace Continuous.WindowsService.Tests
                 actualService.DisplayName.Should().Be(configuration.DisplayName);
                 actualService.ErrorControl.Should().Be(configuration.ErrorControl);
                 actualService.StartMode.Should().Be(configuration.StartMode);
-                actualService.InteractWithDesktop.Should().Be(configuration.InteractWithDesktop);
+                actualService.InteractWithDesktop.Should().Be(configuration.InteractWithDesktop.GetValueOrDefault());
                 actualService.Type.Should().Be(configuration.Type);
             }
             finally
