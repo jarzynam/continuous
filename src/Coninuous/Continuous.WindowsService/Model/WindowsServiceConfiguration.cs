@@ -1,15 +1,25 @@
-﻿namespace Continuous.WindowsService.Model
+﻿using Continuous.WindowsService.Model.Enums;
+
+namespace Continuous.WindowsService.Model
 {
     /// <summary>
     /// Model using to creating new windows service
     /// </summary>
     public class WindowsServiceConfiguration : WindowsServiceConfigurationForUpdate
     {
+
+        public WindowsServiceConfiguration()
+        {
+            Type = WindowsServiceType.OwnProcess;
+            ErrorControl = WindowsServiceErrorControl.Normal;
+            StartMode = WindowsServiceStartMode.Automatic;
+            InteractWithDesktop = false;
+        }
+
         /// <summary>
         /// Name of the service to install (max 256 characters)
         /// </summary>
         public string Name { get; set; }
-
 
         /// <summary>
         /// Account name under which the service runs.
