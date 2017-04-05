@@ -13,7 +13,7 @@ namespace Continuous.WindowsService.Shell
 
         internal string UninstallService => AddToPath(_currentPath, "UninstallService.ps1");
         internal string InstallService => AddToPath(_currentPath, "InstallService.ps1");
-        internal string ChangeUser => AddToPath(_currentPath, "ChangeUser.ps1");
+        internal string ChangeAccount => AddToPath(_currentPath, "ChangeAccount.ps1");
         internal string GetService => AddToPath(_currentPath, "GetService.ps1");
         internal string InstallServiceWithParameters => AddToPath(_currentPath, "InstallServiceWithParameters.ps1");
         internal string UpdateServiceWithParameters => AddToPath(_currentPath, "UpdateServiceWithParameters.ps1");

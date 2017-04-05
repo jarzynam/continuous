@@ -59,10 +59,10 @@ namespace Continuous.WindowsService.Shell
         /// Change windows service running user account
         /// </summary>
         /// <param name="serviceName">windows service name</param>
-        /// <param name="userName">user name</param>
-        /// <param name="password">user password</param>
-        /// <param name="domain">user domain - leave '.' to use local domain</param>
-        void ChangeUser(string serviceName, string userName, string password, string domain = ".");
+        /// <param name="accountName">account name</param>
+        /// <param name="password">account password</param>
+        /// <param name="domain">account domain - leave '.' to use local domain</param>
+        void ChangeAccount(string serviceName, string accountName, string password, string domain = ".");
 
         /// <summary>
         /// Get windows service

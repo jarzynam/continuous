@@ -42,7 +42,7 @@ namespace Continuous.WindowsService.Tests
             try
             {
                 // act
-                _shell.ChangeUser(serviceName, user.Name, user.Password);
+                _shell.ChangeAccount(serviceName, user.Name, user.Password);
 
                 // assert
                 var service = _shell.Get(serviceName);
@@ -71,7 +71,7 @@ namespace Continuous.WindowsService.Tests
             try
             {
                 // act
-                Action act = () => _shell.ChangeUser(serviceName, userName, password);
+                Action act = () => _shell.ChangeAccount(serviceName, userName, password);
 
                 // assert 
                 act.ShouldThrow<InvalidOperationException>();

@@ -67,7 +67,7 @@
   <ItemGroup>
     <None Include="Continuous.WindowsService.nuspec" />
     <None Include="packages.config" />
-    <EmbeddedResource Include="Scripts\ChangeUser.ps1" />
+    <EmbeddedResource Include="Scripts\ChangeAccount.ps1" />
     <EmbeddedResource Include="Scripts\GetService.ps1" />
     <EmbeddedResource Include="Scripts\InstallService.ps1" />
     <EmbeddedResource Include="Scripts\InstallServiceWithParameters.ps1" />

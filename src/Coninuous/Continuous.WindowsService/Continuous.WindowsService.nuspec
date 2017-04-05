@@ -15,6 +15,7 @@
       - Added throwing exception during service installation when path to service is invalid
       - Implemented GetAll() method for fetching all available services
       - Implemented Update() method for updating most of service fields
+      - Changed method name from ChangeUser to ChangeAccount
     </releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>Continuous Management WindowsService Service Windows</tags>

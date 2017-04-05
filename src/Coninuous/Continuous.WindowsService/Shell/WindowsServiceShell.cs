@@ -167,16 +167,16 @@ namespace Continuous.WindowsService.Shell
         }
 
 
-        public void ChangeUser(string serviceName, string userName, string password, string domain = ".")
+        public void ChangeAccount(string serviceName, string accountName, string password, string domain = ".")
         {
             var parameters = new List<CommandParameter>
             {
                 new CommandParameter("serviceName", serviceName),
-                new CommandParameter("newAccount", string.Join(@"\", domain, userName)),
+                new CommandParameter("newAccount", string.Join(@"\", domain, accountName)),
                 new CommandParameter("newPassword", password)
             };
 
-            var result = _executor.Execute(_scripts.ChangeUser, parameters);
+            var result = _executor.Execute(_scripts.ChangeAccount, parameters);
 
             ThrowServiceExceptionIfNecessary(result);
         }
