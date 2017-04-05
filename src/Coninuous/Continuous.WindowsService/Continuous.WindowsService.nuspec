@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Continuous.WindowsService</id>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <title>Continuous WindowsService</title>
     <authors>Michał Jarzyna</authors>
     <owners>Code Creation</owners>
@@ -11,11 +11,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>This library is providing easy way to manage windows services: install/uninstall, start/stop, change user, etc. 
     </description>
-    <releaseNotes> Changes:
-      - Added throwing exception during service installation when path to service is invalid
-      - Implemented GetAll() method for fetching all available services
-      - Implemented Update() method for updating most of service fields
-      - Changed method name from ChangeUser to ChangeAccount
+    <releaseNotes> 
     </releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>Continuous Management WindowsService Service Windows</tags>
