@@ -27,7 +27,7 @@ namespace Continuous.WindowsService.Shell
         {
             _timeout = TimeSpan.FromSeconds(5);
 
-            _executor = new ScriptExecutor();
+            _executor = new ScriptExecutor(GetType());
             _scripts = new ScriptsBoundle();
 
             _messages = new Win32ServiceMessages();

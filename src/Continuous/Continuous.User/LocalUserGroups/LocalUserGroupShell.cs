@@ -17,7 +17,7 @@ namespace Continuous.User.LocalUserGroups
 
         public LocalUserGroupShell()
         {
-            _executor = new ScriptExecutor();
+            _executor = new ScriptExecutor(GetType());
             _scripts = new ScriptsBoundle();
             _mapper = new Mapper();
         }

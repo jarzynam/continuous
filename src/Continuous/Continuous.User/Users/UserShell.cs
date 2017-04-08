@@ -21,7 +21,7 @@ namespace Continuous.User.Users
 
         public UserShell()
         {
-            _executor = new ScriptExecutor();
+            _executor = new ScriptExecutor(GetType());
             _scripts = new ScriptsBoundle();
         }
 
