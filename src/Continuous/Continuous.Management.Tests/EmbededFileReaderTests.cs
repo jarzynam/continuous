@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
 using Continuous.Management.Common;
 using FluentAssertions;
 using NUnit.Framework;
@@ -15,7 +14,7 @@ namespace Continuous.Management.Tests
         [SetUp]
         public void SetUp()
         {
-            _reader = new EmbededFileReader();
+            _reader = new EmbededFileReader(GetType());
         }
 
         [Test]
@@ -25,7 +24,7 @@ namespace Continuous.Management.Tests
             var fileName = "Continuous.Management.Tests.Resources.EmbededTextFile.txt";
 
             // act 
-            var content = _reader.Read(fileName, Assembly.GetExecutingAssembly());
+            var content = _reader.Read(fileName);
 
             // assert
             content.Should().Be("Test1");
@@ -38,7 +37,7 @@ namespace Continuous.Management.Tests
             var fileName = "fakefile";
 
             // act 
-            Action act = () => _reader.Read(fileName, Assembly.GetExecutingAssembly());
+            Action act = () => _reader.Read(fileName);
 
             // assert
             act.ShouldThrow<FileNotFoundException>().WithMessage("Can't find resource fakefile in assembly Continuous.Management.Tests" );

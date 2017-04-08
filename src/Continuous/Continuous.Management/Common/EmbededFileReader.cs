@@ -1,20 +1,28 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Reflection;
 
 namespace Continuous.Management.Common
 {
     internal interface IEmbededFileReader
     {
-        string Read(string resourceName, Assembly assembly);
+        string Read(string resourceName);
     }
 
     internal class EmbededFileReader : IEmbededFileReader
     {
-        public string Read(string resourceName, Assembly assembly)
+        private readonly Assembly _assembly;
+
+        public EmbededFileReader(Type type)
         {
-            using (var stream = assembly.GetManifestResourceStream(resourceName))
+            _assembly = Assembly.GetAssembly(type);
+        }
+
+        public string Read(string resourceName)
+        {
+            using (var stream = _assembly.GetManifestResourceStream(resourceName))
             {
-                if (stream == null) throw new FileNotFoundException($"Can't find resource {resourceName} in assembly {assembly.GetName().Name}");
+                if (stream == null) throw new FileNotFoundException($"Can't find resource {resourceName} in assembly {_assembly.GetName().Name}");
 
                 using (var reader = new StreamReader(stream))
                 {

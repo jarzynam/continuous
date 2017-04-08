@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
-using System.Reflection;
 using System.Text;
 
 namespace Continuous.Management.Common
@@ -15,15 +14,15 @@ namespace Continuous.Management.Common
     internal class ScriptExecutor : IScriptExecutor
     {
         private readonly IEmbededFileReader _embededFileReader;
-
-        public ScriptExecutor()
+        
+        public ScriptExecutor(Type typeForAssembly)
         {
-            _embededFileReader = new EmbededFileReader();
+            _embededFileReader = new EmbededFileReader(typeForAssembly);
         }
 
         public ICollection<PSObject> Execute(string scriptFullPath, ICollection<CommandParameter> parameters)
         {
-            var script = _embededFileReader.Read(scriptFullPath, Assembly.GetCallingAssembly());
+            var script = _embededFileReader.Read(scriptFullPath);
 
             using (var runspace = RunspaceFactory.CreateRunspace())
             {

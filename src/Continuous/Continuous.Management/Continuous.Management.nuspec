@@ -2,15 +2,14 @@
 <package >
   <metadata>
     <id>Continuous.Management</id>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <title>Continuous Management</title>
     <authors>Michał Jarzyna</authors>
     <owners>Code Creation</owners>
     <licenseUrl>https://github.com/jarzynam/rescuer/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/jarzynam/continuous/wiki</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>This is the core library necessary for all continuous.* packages. 
-    Also contains factory for creating shells from rest of the continuous nuget packages
+    <description>Fixed Critical issue with reading files from wrong assembly
     </description>
     <releaseNotes>First realease</releaseNotes>
     <copyright>Copyright 2017</copyright>
