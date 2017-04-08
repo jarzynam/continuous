@@ -79,21 +79,21 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\EmbededTextFile.txt" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Continuous.Management\Continuous.Management.csproj">
       <Project>{39BEC5C6-0D24-4F81-8BFE-2040A38C8CC9}</Project>
       <Name>Continuous.Management</Name>
     </ProjectReference>
     <ProjectReference Include="..\Continuous.User\Continuous.User.csproj">
-      <Project>{F329D35A-EF89-4DEC-8547-5F640A591DBE}</Project>
+      <Project>{f329d35a-ef89-4dec-8547-5f640a591dbe}</Project>
       <Name>Continuous.User</Name>
     </ProjectReference>
     <ProjectReference Include="..\Continuous.WindowsService\Continuous.WindowsService.csproj">
-      <Project>{5BB9D567-7B0A-4D54-A5CB-891269368185}</Project>
+      <Project>{5bb9d567-7b0a-4d54-a5cb-891269368185}</Project>
       <Name>Continuous.WindowsService</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\EmbededTextFile.txt" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

@@ -80,10 +80,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Continuous.Management\Continuous.Management.csproj">
-      <Project>{39BEC5C6-0D24-4F81-8BFE-2040A38C8CC9}</Project>
-      <Name>Continuous.Management</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Continuous.User\Continuous.User.csproj">
       <Project>{F329D35A-EF89-4DEC-8547-5F640A591DBE}</Project>
       <Name>Continuous.User</Name>
