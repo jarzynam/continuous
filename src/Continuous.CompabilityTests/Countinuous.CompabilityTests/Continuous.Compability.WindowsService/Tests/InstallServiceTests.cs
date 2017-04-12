@@ -17,7 +17,7 @@ namespace Continuous.Compability.WindowsService.Tests
     [TestFixture]
     public class InstallServiceTests
     {
-        private ServiceInstaller _intaller;
+        private ServiceInstaller _installer;
         private NameGenerator _nameGenerator;
         private ServiceLogReader _serviceLogReader;
 
@@ -26,7 +26,7 @@ namespace Continuous.Compability.WindowsService.Tests
         [SetUp]
         public void SetUp()
         {
-            _intaller = new ServiceInstaller();
+            _installer = new ServiceInstaller();
             _nameGenerator = new NameGenerator();
             _serviceLogReader = new ServiceLogReader();
         }
@@ -34,7 +34,7 @@ namespace Continuous.Compability.WindowsService.Tests
         [TearDown]
         public void TearDown()
         {
-            _intaller.Dispose();
+            _installer.Dispose();
         }
 
         [Test]
@@ -44,7 +44,7 @@ namespace Continuous.Compability.WindowsService.Tests
             var name = _nameGenerator.GetRandomName(Prefix);
 
             // act
-            _intaller.InstallService(name);
+            _installer.InstallService(name);
 
             // assert
             var serviceController = new ServiceController(name);
@@ -56,10 +56,10 @@ namespace Continuous.Compability.WindowsService.Tests
         {
             // arrange 
             var name = _nameGenerator.GetRandomName(Prefix);
-            _intaller.ServicePath = "fakePath";
+            _installer.ServicePath = "fakePath";
 
             // act
-            Action act =() =>  _intaller.InstallService(name);
+            Action act =() =>  _installer.InstallService(name);
 
             // assert
             act.ShouldThrow<FileNotFoundException>();
@@ -76,12 +76,12 @@ namespace Continuous.Compability.WindowsService.Tests
             var config = new WindowsServiceConfiguration
             {
                 Name = name,
-                Path = _intaller.ServicePath,
+                Path = _installer.ServicePath,
                 DisplayName = name
             };
 
             // act 
-            _intaller.InstallService(config);
+            _installer.InstallService(config);
 
             // assert
             var serviceController = new ServiceController(name);
@@ -102,7 +102,7 @@ namespace Continuous.Compability.WindowsService.Tests
             };
 
             // act 
-            Action act = () => _intaller.InstallService(config);
+            Action act = () => _installer.InstallService(config);
 
             // assert
             act.ShouldThrow<FileNotFoundException>();
@@ -117,12 +117,12 @@ namespace Continuous.Compability.WindowsService.Tests
             var config = new WindowsServiceConfiguration
             {
                 Name = name,
-                Path = _intaller.ServicePath,
+                Path = _installer.ServicePath,
                 DisplayName = name
             };
 
             // act 
-            _intaller.InstallService(config);
+            _installer.InstallService(config);
 
             // assert
             var path = GetServiceHelper.GetPath(name);
@@ -149,13 +149,13 @@ namespace Continuous.Compability.WindowsService.Tests
             var config = new WindowsServiceConfiguration
             {
                 Name = name,
-                Path = _intaller.ServicePath,
+                Path = _installer.ServicePath,
                 DisplayName = name,
                 ErrorControl = WindowsServiceErrorControl.Critical
             };
 
             // act 
-            _intaller.InstallService(config);
+            _installer.InstallService(config);
 
             // assert
             var errorControl = GetServiceHelper.GetErrorControl(name);
@@ -172,13 +172,13 @@ namespace Continuous.Compability.WindowsService.Tests
             var config = new WindowsServiceConfiguration
             {
                 Name = name,
-                Path = _intaller.ServicePath,
+                Path = _installer.ServicePath,
                 DisplayName = name,
                 ErrorControl = WindowsServiceErrorControl.Ignore
             };
 
             // act 
-            _intaller.InstallService(config);
+            _installer.InstallService(config);
 
             // assert
             var errorControl = GetServiceHelper.GetErrorControl(name);
@@ -196,13 +196,13 @@ namespace Continuous.Compability.WindowsService.Tests
             var config = new WindowsServiceConfiguration
             {
                 Name = name,
-                Path = _intaller.ServicePath,
+                Path = _installer.ServicePath,
                 DisplayName = name,
                 ErrorControl = WindowsServiceErrorControl.Normal
             };
 
             // act 
-            _intaller.InstallService(config);
+            _installer.InstallService(config);
 
             // assert
             var errorControl = GetServiceHelper.GetErrorControl(name);
@@ -219,13 +219,13 @@ namespace Continuous.Compability.WindowsService.Tests
             var config = new WindowsServiceConfiguration
             {
                 Name = name,
-                Path = _intaller.ServicePath,
+                Path = _installer.ServicePath,
                 DisplayName = name,
                 ErrorControl = WindowsServiceErrorControl.Severe
             };
 
             // act 
-            _intaller.InstallService(config);
+            _installer.InstallService(config);
 
             // assert
             var errorControl = GetServiceHelper.GetErrorControl(name);
@@ -242,13 +242,13 @@ namespace Continuous.Compability.WindowsService.Tests
             var config = new WindowsServiceConfiguration
             {
                 Name = name,
-                Path = _intaller.ServicePath,
+                Path = _installer.ServicePath,
                 DisplayName = name,
                 Type = WindowsServiceType.ShareProcess
             };
 
             // act 
-            _intaller.InstallService(config);
+            _installer.InstallService(config);
 
             // assert
             var errorControl = GetServiceHelper.GetServiceType(name);
@@ -267,13 +267,13 @@ namespace Continuous.Compability.WindowsService.Tests
             var config = new WindowsServiceConfiguration
             {
                 Name = name,
-                Path = _intaller.ServicePath,
+                Path = _installer.ServicePath,
                 DisplayName = name,
                 StartMode = WindowsServiceStartMode.Disabled
             };
 
             // act 
-            _intaller.InstallService(config);
+            _installer.InstallService(config);
 
             // assert
             var startMode = GetServiceHelper.GetStartMode(name);
@@ -290,13 +290,13 @@ namespace Continuous.Compability.WindowsService.Tests
             var config = new WindowsServiceConfiguration
             {
                 Name = name,
-                Path = _intaller.ServicePath,
+                Path = _installer.ServicePath,
                 DisplayName = name,
                 StartMode = WindowsServiceStartMode.Manual
             };
 
             // act 
-            _intaller.InstallService(config);
+            _installer.InstallService(config);
 
             // assert
             var startMode = GetServiceHelper.GetStartMode(name);
@@ -313,13 +313,13 @@ namespace Continuous.Compability.WindowsService.Tests
             var config = new WindowsServiceConfiguration
             {
                 Name = name,
-                Path = _intaller.ServicePath,
+                Path = _installer.ServicePath,
                 DisplayName = name,
                 StartMode = WindowsServiceStartMode.Automatic
             };
 
             // act 
-            _intaller.InstallService(config);
+            _installer.InstallService(config);
 
             // assert
             var startMode = GetServiceHelper.GetStartMode(name);
@@ -339,13 +339,14 @@ namespace Continuous.Compability.WindowsService.Tests
             var config = new WindowsServiceConfiguration
             {
                 Name = name,
-                Path = _intaller.ServicePath,
+                Path = _installer.ServicePath,
                 DisplayName = name,
                 InteractWithDesktop = true
             };
+            
 
             // act 
-            _intaller.InstallService(config);
+            _installer.InstallService(config);
 
             // assert
             var type = GetServiceHelper.GetServiceType(name);
