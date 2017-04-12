@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Continuous.Management</id>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <title>Continuous Management</title>
     <authors>Michał Jarzyna</authors>
     <owners>Code Creation</owners>
@@ -12,7 +12,7 @@
     <description>This is the core library necessary for all continuous.* packages. 
     Also contains factory for creating shells from rest of the continuous nuget packages
     </description>
-    <releaseNotes>fixed critical issue with reading files from wrong assembly</releaseNotes>
+    <releaseNotes>added documentation</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>Continuous Management</tags>
   </metadata>

@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Continuous.WindowsService</id>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <title>Continuous WindowsService</title>
     <authors>Michał Jarzyna</authors>
     <owners>Code Creation</owners>
@@ -11,8 +11,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>This library is providing easy way to manage windows services: install/uninstall, start/stop, change user, etc. 
     </description>
-    <releaseNotes>
-      fixed critical issue with reading files from wrong assembly
+    <releaseNotes>added documentation
     </releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>Continuous Management WindowsService Service Windows</tags>

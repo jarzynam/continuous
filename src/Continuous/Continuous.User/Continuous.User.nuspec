@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Continuous.User</id>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <title>Continuous User</title>
     <authors>Michał Jarzyna</authors>
     <owners>Code Creation</owners>
@@ -11,7 +11,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>This library is providing easy way to manage users and local user groups: add/remove new user/userGroup, assing user to group, etc. 
     </description>
-    <releaseNotes>fixed critical issue with reading files from wrong assembly</releaseNotes>
+    <releaseNotes>added documentation</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>Continuous Management User LocalGroup Group Windows</tags>
   </metadata>
