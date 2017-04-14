@@ -5,36 +5,42 @@ using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 using System.ServiceProcess;
 using Continuous.Compability.WindowsService.Logic;
+using Continuous.Compability.WindowsService.Logic.Installer;
+using Continuous.Compability.WindowsService.TestHelpers;
 using Continuous.WindowsService.Model;
 using Continuous.WindowsService.Model.Enums;
 using FluentAssertions;
 using NUnit.Framework;
 
-using ServiceInstaller = Continuous.Compability.WindowsService.Logic.ServiceInstaller;
+using ServiceInstaller = Continuous.Compability.WindowsService.Logic.Installer.ServiceInstaller;
 
 namespace Continuous.Compability.WindowsService.Tests
 {
     [TestFixture]
     public class InstallServiceTests
     {
-        private ServiceInstaller _installer;
+        private ServiceInstaller _serviceInstaller;
         private NameGenerator _nameGenerator;
         private ServiceLogReader _serviceLogReader;
+        private UserInstaller _userInstaller;
 
         private const string Prefix = "testService";
 
         [SetUp]
         public void SetUp()
         {
-            _installer = new ServiceInstaller();
+            _serviceInstaller = new ServiceInstaller();
+            _userInstaller = new UserInstaller();
+
             _nameGenerator = new NameGenerator();
             _serviceLogReader = new ServiceLogReader();
         }
 
-        [TearDown]
+        [OneTimeTearDown]
         public void TearDown()
         {
-            _installer.Dispose();
+            _serviceInstaller.Dispose();
+            _userInstaller.Dispose();
         }
 
         [Test]
@@ -44,7 +50,7 @@ namespace Continuous.Compability.WindowsService.Tests
             var name = _nameGenerator.GetRandomName(Prefix);
 
             // act
-            _installer.InstallService(name);
+            _serviceInstaller.InstallService(name);
 
             // assert
             var serviceController = new ServiceController(name);
@@ -56,16 +62,14 @@ namespace Continuous.Compability.WindowsService.Tests
         {
             // arrange 
             var name = _nameGenerator.GetRandomName(Prefix);
-            _installer.ServicePath = "fakePath";
+            _serviceInstaller.ServicePath = "fakePath";
 
             // act
-            Action act =() =>  _installer.InstallService(name);
+            Action act =() =>  _serviceInstaller.InstallService(name);
 
             // assert
             act.ShouldThrow<FileNotFoundException>();
         }
-
-      
 
         [Test]
         public void Install_Should_Install_When_Provide_DefaultConfig()
@@ -76,12 +80,12 @@ namespace Continuous.Compability.WindowsService.Tests
             var config = new WindowsServiceConfiguration
             {
                 Name = name,
-                Path = _installer.ServicePath,
+                Path = _serviceInstaller.ServicePath,
                 DisplayName = name
             };
 
             // act 
-            _installer.InstallService(config);
+            _serviceInstaller.InstallService(config);
 
             // assert
             var serviceController = new ServiceController(name);
@@ -102,7 +106,7 @@ namespace Continuous.Compability.WindowsService.Tests
             };
 
             // act 
-            Action act = () => _installer.InstallService(config);
+            Action act = () => _serviceInstaller.InstallService(config);
 
             // assert
             act.ShouldThrow<FileNotFoundException>();
@@ -117,20 +121,20 @@ namespace Continuous.Compability.WindowsService.Tests
             var config = new WindowsServiceConfiguration
             {
                 Name = name,
-                Path = _installer.ServicePath,
+                Path = _serviceInstaller.ServicePath,
                 DisplayName = name
             };
 
             // act 
-            _installer.InstallService(config);
+            _serviceInstaller.InstallService(config);
 
             // assert
-            var path = GetServiceHelper.GetPath(name);
-            var displayName = GetServiceHelper.GetDisplayName(name);
-            var account = GetServiceHelper.GetAccount(name);
-            var starMode = GetServiceHelper.GetStartMode(name);
-            var serviceType = GetServiceHelper.GetServiceType(name);
-            var errorControl = GetServiceHelper.GetErrorControl(name);
+            var path = ServiceHelper.GetPath(name);
+            var displayName = ServiceHelper.GetDisplayName(name);
+            var account = ServiceHelper.GetAccount(name);
+            var starMode = ServiceHelper.GetStartMode(name);
+            var serviceType = ServiceHelper.GetServiceType(name);
+            var errorControl = ServiceHelper.GetErrorControl(name);
 
             path.Should().Be(config.Path);
             displayName.Should().Be(config.DisplayName);
@@ -149,16 +153,16 @@ namespace Continuous.Compability.WindowsService.Tests
             var config = new WindowsServiceConfiguration
             {
                 Name = name,
-                Path = _installer.ServicePath,
+                Path = _serviceInstaller.ServicePath,
                 DisplayName = name,
                 ErrorControl = WindowsServiceErrorControl.Critical
             };
 
             // act 
-            _installer.InstallService(config);
+            _serviceInstaller.InstallService(config);
 
             // assert
-            var errorControl = GetServiceHelper.GetErrorControl(name);
+            var errorControl = ServiceHelper.GetErrorControl(name);
 
             errorControl.Should().Be((int) config.ErrorControl);
         }
@@ -172,16 +176,16 @@ namespace Continuous.Compability.WindowsService.Tests
             var config = new WindowsServiceConfiguration
             {
                 Name = name,
-                Path = _installer.ServicePath,
+                Path = _serviceInstaller.ServicePath,
                 DisplayName = name,
                 ErrorControl = WindowsServiceErrorControl.Ignore
             };
 
             // act 
-            _installer.InstallService(config);
+            _serviceInstaller.InstallService(config);
 
             // assert
-            var errorControl = GetServiceHelper.GetErrorControl(name);
+            var errorControl = ServiceHelper.GetErrorControl(name);
 
             errorControl.Should().Be((int)config.ErrorControl);
         }
@@ -196,16 +200,16 @@ namespace Continuous.Compability.WindowsService.Tests
             var config = new WindowsServiceConfiguration
             {
                 Name = name,
-                Path = _installer.ServicePath,
+                Path = _serviceInstaller.ServicePath,
                 DisplayName = name,
                 ErrorControl = WindowsServiceErrorControl.Normal
             };
 
             // act 
-            _installer.InstallService(config);
+            _serviceInstaller.InstallService(config);
 
             // assert
-            var errorControl = GetServiceHelper.GetErrorControl(name);
+            var errorControl = ServiceHelper.GetErrorControl(name);
 
             errorControl.Should().Be((int)config.ErrorControl);
         }
@@ -219,16 +223,16 @@ namespace Continuous.Compability.WindowsService.Tests
             var config = new WindowsServiceConfiguration
             {
                 Name = name,
-                Path = _installer.ServicePath,
+                Path = _serviceInstaller.ServicePath,
                 DisplayName = name,
                 ErrorControl = WindowsServiceErrorControl.Severe
             };
 
             // act 
-            _installer.InstallService(config);
+            _serviceInstaller.InstallService(config);
 
             // assert
-            var errorControl = GetServiceHelper.GetErrorControl(name);
+            var errorControl = ServiceHelper.GetErrorControl(name);
 
             errorControl.Should().Be((int)config.ErrorControl);
         }
@@ -242,16 +246,16 @@ namespace Continuous.Compability.WindowsService.Tests
             var config = new WindowsServiceConfiguration
             {
                 Name = name,
-                Path = _installer.ServicePath,
+                Path = _serviceInstaller.ServicePath,
                 DisplayName = name,
                 Type = WindowsServiceType.ShareProcess
             };
 
             // act 
-            _installer.InstallService(config);
+            _serviceInstaller.InstallService(config);
 
             // assert
-            var errorControl = GetServiceHelper.GetServiceType(name);
+            var errorControl = ServiceHelper.GetServiceType(name);
 
             errorControl.Should().Be((int)config.Type);
         }
@@ -267,16 +271,16 @@ namespace Continuous.Compability.WindowsService.Tests
             var config = new WindowsServiceConfiguration
             {
                 Name = name,
-                Path = _installer.ServicePath,
+                Path = _serviceInstaller.ServicePath,
                 DisplayName = name,
                 StartMode = WindowsServiceStartMode.Disabled
             };
 
             // act 
-            _installer.InstallService(config);
+            _serviceInstaller.InstallService(config);
 
             // assert
-            var startMode = GetServiceHelper.GetStartMode(name);
+            var startMode = ServiceHelper.GetStartMode(name);
 
             startMode.Should().Be((int)config.StartMode);
         }
@@ -290,16 +294,16 @@ namespace Continuous.Compability.WindowsService.Tests
             var config = new WindowsServiceConfiguration
             {
                 Name = name,
-                Path = _installer.ServicePath,
+                Path = _serviceInstaller.ServicePath,
                 DisplayName = name,
                 StartMode = WindowsServiceStartMode.Manual
             };
 
             // act 
-            _installer.InstallService(config);
+            _serviceInstaller.InstallService(config);
 
             // assert
-            var startMode = GetServiceHelper.GetStartMode(name);
+            var startMode = ServiceHelper.GetStartMode(name);
 
             startMode.Should().Be((int)config.StartMode);
         }
@@ -313,16 +317,16 @@ namespace Continuous.Compability.WindowsService.Tests
             var config = new WindowsServiceConfiguration
             {
                 Name = name,
-                Path = _installer.ServicePath,
+                Path = _serviceInstaller.ServicePath,
                 DisplayName = name,
                 StartMode = WindowsServiceStartMode.Automatic
             };
 
             // act 
-            _installer.InstallService(config);
+            _serviceInstaller.InstallService(config);
 
             // assert
-            var startMode = GetServiceHelper.GetStartMode(name);
+            var startMode = ServiceHelper.GetStartMode(name);
 
             startMode.Should().Be((int)config.StartMode);
         }
@@ -339,23 +343,70 @@ namespace Continuous.Compability.WindowsService.Tests
             var config = new WindowsServiceConfiguration
             {
                 Name = name,
-                Path = _installer.ServicePath,
+                Path = _serviceInstaller.ServicePath,
                 DisplayName = name,
                 InteractWithDesktop = true
             };
-            
 
             // act 
-            _installer.InstallService(config);
+            _serviceInstaller.InstallService(config);
 
             // assert
-            var type = GetServiceHelper.GetServiceType(name);
+            var type = ServiceHelper.GetServiceType(name);
             var interactiveWithDekstopFlag = 0x100;
             
             type.Should().Be((int) config.Type | interactiveWithDekstopFlag);
         }
 
+        [Test]
+        public void Install_Should_Add_ChosenAccount()
+        {
+            // arrange
+            var serviceName = _nameGenerator.GetRandomName(Prefix);
+            var userName = serviceName + "User";
+            var userPassword = "test";
 
-        //todo: add change account tests
+            _userInstaller.Install(userName, userPassword);
+
+            var config = new WindowsServiceConfiguration
+            {
+                Name = serviceName,
+                DisplayName = serviceName,
+                Path = _serviceInstaller.ServicePath,
+                AccountName = userName,
+                AccountPassword = userPassword
+            };
+
+            // act
+            _serviceInstaller.InstallService(config);
+
+            // assert
+            var account = ServiceHelper.GetAccount(serviceName);
+            account.Should().Be($".\\{userName}");
+        }
+
+        [Test]
+        public void Install_Should_Throw_When_AccountIsInvalid()
+        {
+           // arrange 
+            var serviceName = _nameGenerator.GetRandomName(Prefix);
+            var userName = "fakeUSer";
+            var userPassword = "fakePassword";
+
+            var config = new WindowsServiceConfiguration
+            {
+                Name = serviceName,
+                DisplayName = serviceName,
+                Path = _serviceInstaller.ServicePath,
+                AccountName = userName,
+                AccountDomain = userPassword
+            };
+
+            // act
+            Action act = () => _serviceInstaller.InstallService(config);
+
+            // assert 
+            act.ShouldThrow<InvalidOperationException>();
+        }
     }
 }

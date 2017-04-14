@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel.Design;
 using System.Linq;
 using System.Management.Automation;
-using System.ServiceProcess;
+using Continuous.Compability.WindowsService.Logic;
 
-namespace Continuous.Compability.WindowsService.Tests
+namespace Continuous.Compability.WindowsService.TestHelpers
 {
-    internal static class GetServiceHelper
+    internal static class ServiceHelper
     {
         internal static int GetErrorControl(string serviceName)
         {
@@ -46,28 +44,15 @@ namespace Continuous.Compability.WindowsService.Tests
         }
 
 
-
-
         private static PSObject GetProperty(string serviceName, string property)
         {
             string command = $@"(Get-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Services\{serviceName}').{property}";
 
-            return InvokeScript(command).FirstOrDefault();
+            return ScriptInvoker.InvokeScript(command).FirstOrDefault();
 
         }
 
-        private static Collection<PSObject> InvokeScript(string script)
-        {
-            using (var instance = PowerShell.Create())
-            {
-               
-                instance.AddScript(script);
-
-                var results = instance.Invoke();
-
-                return results;
-            }
-        }
+       
         
     }
 }
