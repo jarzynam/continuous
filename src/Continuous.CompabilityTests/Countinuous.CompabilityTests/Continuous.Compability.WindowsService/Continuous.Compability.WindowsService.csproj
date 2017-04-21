@@ -38,10 +38,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Continuous.Management, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Continuous.Management.1.0.2\lib\net452\Continuous.Management.dll</HintPath>
+      <HintPath>..\packages\Continuous.Management.1.0.3.30-alpha\lib\net452\Continuous.Management.dll</HintPath>
     </Reference>
     <Reference Include="Continuous.WindowsService, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Continuous.WindowsService.1.0.3\lib\net452\Continuous.WindowsService.dll</HintPath>
+      <HintPath>..\packages\Continuous.WindowsService.1.0.3.30-alpha\lib\net452\Continuous.WindowsService.dll</HintPath>
     </Reference>
     <Reference Include="FluentAssertions, Version=4.19.2.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentAssertions.4.19.2\lib\net45\FluentAssertions.dll</HintPath>
@@ -72,6 +72,7 @@
     <Compile Include="TestHelpers\UserHelper.cs" />
     <Compile Include="Tests\InstallServiceTests.cs" />
     <Compile Include="TestHelpers\ServiceHelper.cs" />
+    <Compile Include="Tests\UpdateServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
