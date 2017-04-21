@@ -20,17 +20,17 @@ namespace Continuous.WindowsService.Model
         /// <summary>
         /// Type of process which will be invoking this service. OwnProcess as default
         /// </summary>
-        public WindowsServiceType Type { get; set; }
+        public WindowsServiceType? Type { get; set; }
 
         /// <summary>
         /// Severity of the error if the Create method fails to start. 
         /// </summary>
-        public WindowsServiceErrorControl ErrorControl { get; set; } 
+        public WindowsServiceErrorControl? ErrorControl { get; set; }
 
         /// <summary>
         /// Start mode of the Windows base service. Auto as default.
         /// </summary>
-        public WindowsServiceStartMode StartMode { get; set; }
+        public WindowsServiceStartMode? StartMode { get; set; }
 
         /// <summary>
         /// If true, the service can create or communicate with windows on the desktop. False as default;

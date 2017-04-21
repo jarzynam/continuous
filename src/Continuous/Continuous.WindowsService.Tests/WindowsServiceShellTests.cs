@@ -481,6 +481,50 @@ namespace Continuous.WindowsService.Tests
         }
 
         [Test]
+        public void Can_Update_Only_DisplayName_InExistingService()
+        {
+            // arrange
+            var serviceName = _helper.RandomServiceName;
+            var user = new UserModel
+            {
+                Name = _helper.RandomServiceName + "User",
+                Description = "test user to delete",
+                Password = "test"
+            };
+
+            _shell.Install(serviceName, _helper.GetTestServicePath());
+            _userShell.Create(user);
+
+            try
+            {
+                // act
+                var configuration = new WindowsServiceConfigurationForUpdate
+                {
+
+                    DisplayName = "changed display name",
+                    //Type = WindowsServiceType.ShareProcess,
+                    //ErrorControl = WindowsServiceErrorControl.Severe,
+                    //InteractWithDesktop = true,
+                    //StartMode = WindowsServiceStartMode.Disabled
+                };
+
+                _shell.Update(serviceName, configuration);
+
+                // assert
+                var actualService = _shell.Get(serviceName);
+
+                actualService.DisplayName.Should().Be(configuration.DisplayName);
+
+            }
+            finally
+            {
+                // cleanup
+                _shell.Uninstall(serviceName);
+                _userShell.Remove(user.Name);
+            }
+        }
+
+        [Test]
         public void Can_ThrowError_When_ServiceToUpdate_IsNotExisting()
         {
             // arrange

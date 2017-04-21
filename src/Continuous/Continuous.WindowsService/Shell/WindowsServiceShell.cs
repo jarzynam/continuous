@@ -7,11 +7,14 @@ using System.Management.Automation.Runspaces;
 using System.ServiceProcess;
 using Continuous.Management.Common;
 using Continuous.WindowsService.Model;
-using Continuous.WindowsService.Model.Enums;
 using Continuous.WindowsService.Resources;
 
 namespace Continuous.WindowsService.Shell
 {
+
+    /// <summary>
+    /// Windows Service Shell implementation
+    /// </summary>
     public class WindowsServiceShell : IWindowsServiceShell
     {
         private readonly IScriptExecutor _executor;
@@ -23,6 +26,9 @@ namespace Continuous.WindowsService.Shell
         private readonly Mapper _mapper;
 
 
+        /// <summary>
+        /// Windows service shell
+        /// </summary>
         public WindowsServiceShell()
         {
             _timeout = TimeSpan.FromSeconds(5);
@@ -34,6 +40,7 @@ namespace Continuous.WindowsService.Shell
             _mapper = new Mapper();
         }
 
+        /// <inheritdoc />
         public ServiceControllerStatus GetStatus(string serviceName)
         {
             using (var service = new ServiceController(serviceName))
@@ -42,6 +49,7 @@ namespace Continuous.WindowsService.Shell
             }
         }
 
+        /// <inheritdoc />
         public void Install(string serviceName, string fullServicePath)
         {
             ThrowIfCantFindFile(fullServicePath);
@@ -55,6 +63,7 @@ namespace Continuous.WindowsService.Shell
             _executor.Execute(_scripts.InstallService, parameters);
         }
 
+        /// <inheritdoc />
         public void Install(WindowsServiceConfiguration config)
         {
             ThrowIfCantFindFile(config.Path);
@@ -65,9 +74,9 @@ namespace Continuous.WindowsService.Shell
             {
                 new CommandParameter("serviceName", config.Name),
                 new CommandParameter("displayName", config.DisplayName),
-                new CommandParameter("errorControl", (byte) config.ErrorControl),
+                new CommandParameter("errorControl", (byte?) config.ErrorControl),
                 new CommandParameter("startMode",  config.StartMode),
-                new CommandParameter("serviceType", (byte) config.Type),
+                new CommandParameter("serviceType", (byte?) config.Type),
                 new CommandParameter("desktopInteract", config.InteractWithDesktop),
                 new CommandParameter("fullServicePath", config.Path),
                 new CommandParameter("startPassword", config.AccountPassword),
@@ -80,6 +89,8 @@ namespace Continuous.WindowsService.Shell
 
         }
 
+
+        /// <inheritdoc />
         public void Update(string serviceName, WindowsServiceConfigurationForUpdate config)
         {
             ThrowIfCantFindService(serviceName);
@@ -91,10 +102,10 @@ namespace Continuous.WindowsService.Shell
             {
                 new CommandParameter("serviceName", serviceName),
                 new CommandParameter("displayName", config.DisplayName),
-                new CommandParameter("errorControl", (byte) config.ErrorControl),
-                new CommandParameter("startMode",  config.StartMode),
-                new CommandParameter("serviceType", (byte) config.Type),
-                new CommandParameter("desktopInteract", config.InteractWithDesktop),
+                new CommandParameter("errorControl", (byte?) config.ErrorControl),
+                new CommandParameter("startMode",   config.StartMode),
+                new CommandParameter("serviceType", (byte?) config.Type),
+                new CommandParameter("desktopInteract", config.InteractWithDesktop.GetValueOrDefault()),
                 new CommandParameter("fullServicePath", config.Path)
             };
 
@@ -103,6 +114,7 @@ namespace Continuous.WindowsService.Shell
             ThrowServiceExceptionIfNecessary(result);
         }
 
+        /// <inheritdoc />
         public void Uninstall(string serviceName)
         {
             var parameters = new List<CommandParameter>
@@ -115,6 +127,7 @@ namespace Continuous.WindowsService.Shell
             ThrowServiceExceptionIfNecessary(result);
         }
 
+        /// <inheritdoc />
         public bool Stop(string serviceName)
         {
             using (var service = new ServiceController(serviceName))
@@ -130,6 +143,7 @@ namespace Continuous.WindowsService.Shell
             }
         }
 
+        /// <inheritdoc />
         public bool Start(string serviceName)
         {
             using (var service = new ServiceController(serviceName))
@@ -145,6 +159,7 @@ namespace Continuous.WindowsService.Shell
             }
         }
 
+        /// <inheritdoc />
         public WindowsServiceInfo Get(string serviceName)
         {
             var parameters = new List<CommandParameter>
@@ -157,6 +172,7 @@ namespace Continuous.WindowsService.Shell
             return result == null ? null : _mapper.Map(result);
         }
 
+        /// <inheritdoc />
         public List<WindowsServiceInfo> GetAll()
         {
             var parameters = new List<CommandParameter>();
@@ -167,6 +183,7 @@ namespace Continuous.WindowsService.Shell
         }
 
 
+        /// <inheritdoc />
         public void ChangeAccount(string serviceName, string accountName, string password, string domain = ".")
         {
             var parameters = new List<CommandParameter>
