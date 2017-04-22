@@ -85,10 +85,14 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Resources\Continuous.CompabilityTests.BasicService.exe.config" />
+    <None Include="Resources\Continuous.CompabilityTests.BasicService.exe.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\Continuous.CompabilityTests.BasicService.exe" />
+    <Content Include="Resources\Continuous.CompabilityTests.BasicService.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
