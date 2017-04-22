@@ -68,7 +68,6 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="ContinuousManagementFactoryTests.cs" />
     <Compile Include="EmbededFileReaderTests.cs" />
     <Compile Include="Extensions\StringCollectionExtensionsTests.cs" />
     <Compile Include="Extensions\StringToEnumExtensionTests.cs" />

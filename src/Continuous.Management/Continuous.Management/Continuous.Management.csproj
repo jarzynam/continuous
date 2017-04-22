@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F329D35A-EF89-4DEC-8547-5F640A591DBE}</ProjectGuid>
+    <ProjectGuid>{6CB8500E-EFB2-431C-8158-99AE0DDF1DB7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Continuous.User</RootNamespace>
-    <AssemblyName>Continuous.User</AssemblyName>
+    <RootNamespace>Continuous.Management</RootNamespace>
+    <AssemblyName>Continuous.Management</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,18 +30,18 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Continuous.User.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\Continuous.Management.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Continuous.Management, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Continuous.Management.1.0.1\lib\net452\Continuous.Management.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
     <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Management.Automation.dll.10.0.10586.0\lib\net40\System.Management.Automation.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -50,29 +50,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FactoryExtension.cs" />
-    <Compile Include="LocalUserGroups\ILocalUserGroupShell.cs" />
-    <Compile Include="LocalUserGroups\LocalUserGroupShell.cs" />
-    <Compile Include="LocalUserGroups\Mapper.cs" />
-    <Compile Include="LocalUserGroups\Model\LocalUserGroup.cs" />
-    <Compile Include="LocalUserGroups\ScriptsBoundle.cs" />
+    <Compile Include="Common\BoundleBase.cs" />
+    <Compile Include="Common\EmbededFileReader.cs" />
+    <Compile Include="Common\Extensions\StringCollectionExstension.cs" />
+    <Compile Include="Common\ScriptExecutor.cs" />
+    <Compile Include="Common\Extensions\StringToEnumExtension.cs" />
+    <Compile Include="ContinuousManagementFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Users\IUserShell.cs" />
-    <Compile Include="Users\Model\UserModel.cs" />
-    <Compile Include="Users\ScriptsBoundle.cs" />
-    <Compile Include="Users\UserShell.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="LocalUserGroups\Scripts\AddUsersToLocalGroup.ps1" />
-    <EmbeddedResource Include="LocalUserGroups\Scripts\CreateLocalUserGroup.ps1" />
-    <EmbeddedResource Include="LocalUserGroups\Scripts\GetLocalUserGroup.ps1" />
-    <EmbeddedResource Include="LocalUserGroups\Scripts\RemoveLocalUserGroup.ps1" />
-    <EmbeddedResource Include="LocalUserGroups\Scripts\RemoveUsersFromLocalGroup.ps1" />
-    <None Include="Continuous.User.nuspec" />
-    <None Include="packages.config" />
-    <EmbeddedResource Include="Users\Scripts\CreateUser.ps1" />
-    <EmbeddedResource Include="Users\Scripts\GetUser.ps1" />
-    <EmbeddedResource Include="Users\Scripts\RemoveUser.ps1" />
+    <None Include="Continuous.Management.nuspec" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
 </Project>
