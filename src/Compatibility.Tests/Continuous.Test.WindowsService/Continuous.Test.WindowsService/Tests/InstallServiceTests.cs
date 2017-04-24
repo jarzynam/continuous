@@ -17,10 +17,9 @@ namespace Continuous.Test.WindowsService.Tests
     {
         private ServiceInstaller _serviceInstaller;
         private NameGenerator _nameGenerator;
-        private ServiceLogReader _serviceLogReader;
         private UserInstaller _userInstaller;
 
-        private const string Prefix = "testService";
+        private const string Prefix = "cTestUser";
 
         [SetUp]
         public void SetUp()
@@ -29,10 +28,9 @@ namespace Continuous.Test.WindowsService.Tests
             _userInstaller = new UserInstaller();
 
             _nameGenerator = new NameGenerator();
-            _serviceLogReader = new ServiceLogReader();
         }
 
-        [OneTimeTearDown]
+        [TearDown]
         public void TearDown()
         {
             _serviceInstaller.Dispose();

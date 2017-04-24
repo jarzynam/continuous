@@ -30,7 +30,7 @@ namespace Continuous.Test.WindowsService.Tests
             _userInstaller = new UserInstaller();
         }
 
-        [OneTimeTearDown]
+        [TearDown]
         public void TearDown()
         {
             _serviceInstaller.Dispose();

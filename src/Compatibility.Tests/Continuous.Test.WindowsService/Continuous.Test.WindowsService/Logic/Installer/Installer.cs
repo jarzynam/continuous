@@ -46,25 +46,21 @@ namespace Continuous.Test.WindowsService.Logic.Installer
 
         public void Dispose()
         {
-            _lock.EnterReadLock();
+            _lock.EnterWriteLock();
 
             try
             {
                 foreach (var instance in _installedInstances)
                 {
-                    Uninstall(instance);
+                   Uninstall(instance);
                 }
-            }
-            catch
-            {
-                // ignored
+
+                _installedInstances.Clear();
             }
             finally
             {
-                _lock.ExitReadLock();
+                _lock.ExitWriteLock();
             }
-
-            _lock?.Dispose();
         }
     }
 }

@@ -36,7 +36,6 @@ namespace Continuous.Test.WindowsService.Logic.Installer
             AddInstance(configuration.Name);
         }
 
-
         private void UninstallService(string serviceName)
         {
             _shell.Uninstall(serviceName);
@@ -46,8 +45,7 @@ namespace Continuous.Test.WindowsService.Logic.Installer
 
         protected override void Uninstall(string instanceName)
         {
-            UninstallService(instanceName);
+            _shell.Uninstall(instanceName);
         }
     }
-
 }
