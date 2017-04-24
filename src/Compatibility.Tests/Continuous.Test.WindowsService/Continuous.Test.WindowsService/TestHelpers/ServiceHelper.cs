@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Management.Automation;
 using Continuous.Test.WindowsService.Logic;
+using Continuous.WindowsService.Model.Enums;
 
 namespace Continuous.Test.WindowsService.TestHelpers
 {
@@ -43,16 +44,44 @@ namespace Continuous.Test.WindowsService.TestHelpers
             return GetProperty(serviceName, "ObjectName").ToString();
         }
 
-
         private static PSObject GetProperty(string serviceName, string property)
         {
             string command = $@"(Get-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Services\{serviceName}').{property}";
 
             return ScriptInvoker.InvokeScript(command).FirstOrDefault();
-
         }
+
+
+
+        internal static WindowsServiceTestModel GetService(string name)
+        {
+            var model = new WindowsServiceTestModel
+            {
+                Name = name,
+                DisplayName = GetDisplayName(name),
+                ErrorControl = (WindowsServiceErrorControl) GetErrorControl(name),
+                Type = (WindowsServiceType) GetServiceType(name),
+                StartMode = (WindowsServiceStartMode) GetStartMode(name),
+                Account = GetAccount(name),
+                Path = GetPath(name)
+            };
+
+            return model;
+        }
+
 
        
         
+    }
+
+    internal class WindowsServiceTestModel
+    {
+        internal string Name { get; set; }
+        internal string DisplayName { get; set; }
+        internal WindowsServiceErrorControl ErrorControl { get; set; }
+        internal WindowsServiceType Type { get; set; }
+        internal WindowsServiceStartMode StartMode { get; set; }
+        internal string Account { get; set; }
+        public string Path { get; set; }
     }
 }
