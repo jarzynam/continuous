@@ -78,6 +78,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestHelpers\ServiceHelper.cs" />
     <Compile Include="TestHelpers\UserHelper.cs" />
+    <Compile Include="Tests\GetServiceTests.cs" />
     <Compile Include="Tests\ChangeAccountTests.cs" />
     <Compile Include="Tests\InstallServiceTests.cs" />
     <Compile Include="Tests\UpdateServiceTests.cs" />
