@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Management.Automation;
+using System.ServiceProcess;
 using Continuous.Test.WindowsService.Logic;
 using Continuous.WindowsService.Model.Enums;
 
@@ -8,6 +9,8 @@ namespace Continuous.Test.WindowsService.TestHelpers
 {
     internal static class ServiceHelper
     {
+        private const int WaitInSeconds = 5;
+
         internal static int GetErrorControl(string serviceName)
         {
             var result = GetProperty(serviceName, "ErrorControl");
@@ -52,6 +55,30 @@ namespace Continuous.Test.WindowsService.TestHelpers
         }
 
 
+        internal static void StartService(string name)
+        {
+            var service = new ServiceController(name);
+
+            service.Start();
+
+            service.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromSeconds(WaitInSeconds));
+        }
+
+        internal static void StopService(string name)
+        {
+            var service  = new ServiceController(name);
+
+            service.Stop();
+
+            service.WaitForStatus(ServiceControllerStatus.Stopped);
+        }
+
+        internal static ServiceControllerStatus GetStatus(string serviceName)
+        {
+            var service = new ServiceController(serviceName);
+
+            return service.Status;
+        }
 
         internal static WindowsServiceTestModel GetService(string name)
         {
@@ -68,10 +95,6 @@ namespace Continuous.Test.WindowsService.TestHelpers
 
             return model;
         }
-
-
-       
-        
     }
 
     internal class WindowsServiceTestModel
