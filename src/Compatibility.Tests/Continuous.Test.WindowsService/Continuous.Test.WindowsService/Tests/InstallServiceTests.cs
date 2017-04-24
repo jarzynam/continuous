@@ -19,7 +19,7 @@ namespace Continuous.Test.WindowsService.Tests
         private NameGenerator _nameGenerator;
         private UserInstaller _userInstaller;
 
-        private const string Prefix = "cTestUser";
+        private const string Prefix = "cTestService";
 
         [SetUp]
         public void SetUp()
