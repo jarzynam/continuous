@@ -35,14 +35,14 @@ namespace Continuous.Test.WindowsService.Tests
         private UserInstaller _userInstaller;
         private IWindowsServiceShell _shell;
 
-        private const string Prefix = "caTestService";
+        private const string Prefix = "caTest";
 
         [Test]
         public void ChangeAccount_Should_ChangeAccount()
         {
             // arrange
             var serviceName = _nameGenerator.GetRandomName(Prefix);
-            var userName = serviceName + "User";
+            var userName = serviceName;
             var userPassword = "test";
 
             _serviceInstaller.InstallService(serviceName);
