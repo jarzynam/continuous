@@ -78,7 +78,7 @@
     <Compile Include="Tests\InstallServiceTests.cs" />
     <Compile Include="TestHelpers\NameGenerator.cs" />
     <Compile Include="TestHelpers\ScriptInvoker.cs" />
-    <Compile Include="Tests\StartAndStopServiceTests - Copy.cs" />
+    <Compile Include="Tests\StartAndStopServiceTests.cs" />
     <Compile Include="Tests\PauseAndContinueServiceTests.cs" />
     <Compile Include="Tests\UpdateServiceTests.cs" />
   </ItemGroup>
