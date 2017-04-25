@@ -1,15 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Linq;
-using System.ServiceProcess;
-using System.Text;
-using System.Threading.Tasks;
-using Continuous.Test.BasicService;
+﻿using System.ServiceProcess;
 
-namespace Continuous.CompabilityTests.BasicService
+namespace Continuous.Test.BasicService
 {
     public partial class ContinuousBasicService : ServiceBase
     {
@@ -18,7 +9,8 @@ namespace Continuous.CompabilityTests.BasicService
         public ContinuousBasicService()
         {
             InitializeComponent();
-            
+            CanPauseAndContinue = true;
+
             _writer = new FileWriter();
         }
 
@@ -30,6 +22,16 @@ namespace Continuous.CompabilityTests.BasicService
         protected override void OnStop()
         {
             _writer.LogEnd();
+        }
+
+        protected override void OnPause()
+        {
+         _writer.LogPause();   
+        }
+
+        protected override void OnContinue()
+        {
+            _writer.LogContinue();
         }
     }
 }

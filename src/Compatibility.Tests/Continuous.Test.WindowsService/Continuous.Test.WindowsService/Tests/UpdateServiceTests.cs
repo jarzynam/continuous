@@ -278,5 +278,18 @@ namespace Continuous.Test.WindowsService.Tests
             model.DisplayName.Should().Be(configForCreate.DisplayName);
             model.Account.Should().Be("LocalSystem");
         }
+
+        [Test]
+        public void Update_Should_Throw_When_Service_NotExist()
+        {
+            // arrange
+            var service = _nameGenerator.GetRandomName(Prefix);
+
+            // act
+            Action act = () => _shell.Update(service, new WindowsServiceConfigurationForUpdate());
+
+            // assert
+            act.ShouldThrow<InvalidOperationException>();
+        }
     }
 }

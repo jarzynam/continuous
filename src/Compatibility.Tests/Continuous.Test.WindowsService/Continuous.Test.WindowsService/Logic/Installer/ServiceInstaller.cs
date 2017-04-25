@@ -19,7 +19,7 @@ namespace Continuous.Test.WindowsService.Logic.Installer
 
             var location = AppDomain.CurrentDomain.BaseDirectory;
             ServicePath = Path.Combine(location, "Resources",
-                "Continuous.CompabilityTests.BasicService.exe");
+                "Continuous.Test.BasicService.exe");
         }
 
         public void InstallService(string serviceName)

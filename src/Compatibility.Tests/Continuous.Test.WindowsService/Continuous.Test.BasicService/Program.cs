@@ -1,5 +1,4 @@
 ﻿using System.ServiceProcess;
-using Continuous.CompabilityTests.BasicService;
 
 namespace Continuous.Test.BasicService
 {

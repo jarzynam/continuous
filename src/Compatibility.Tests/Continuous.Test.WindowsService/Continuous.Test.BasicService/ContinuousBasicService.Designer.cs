@@ -1,4 +1,4 @@
-﻿namespace Continuous.CompabilityTests.BasicService
+﻿namespace Continuous.Test.BasicService
 {
     partial class ContinuousBasicService
     {

@@ -15,5 +15,15 @@ namespace Continuous.Test.BasicService
         {
             File.WriteAllText(_filePath, "SERVICE FINISHED");
         }
+
+        public void LogPause()
+        {
+            File.WriteAllText(_filePath, "SERVICE PAUSED");
+        }
+
+        public void LogContinue()
+        {
+            File.WriteAllText(_filePath, "SERVICE CONTINUE");
+        }
     }
 }

@@ -44,7 +44,7 @@
       <HintPath>..\packages\Continuous.Management.1.0.42-alpha\lib\net452\Continuous.Management.dll</HintPath>
     </Reference>
     <Reference Include="Continuous.WindowsService, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Continuous.WindowsService.1.0.39-alpha\lib\net452\Continuous.WindowsService.dll</HintPath>
+      <HintPath>..\packages\Continuous.WindowsService.1.1.2-alpha\lib\net452\Continuous.WindowsService.dll</HintPath>
     </Reference>
     <Reference Include="FluentAssertions, Version=4.19.2.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentAssertions.4.19.2\lib\net45\FluentAssertions.dll</HintPath>
@@ -78,6 +78,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestHelpers\ServiceHelper.cs" />
     <Compile Include="TestHelpers\UserHelper.cs" />
+    <Compile Include="Tests\PauseAndContinueServiceTests.cs" />
     <Compile Include="Tests\StartAndStopServiceTests.cs" />
     <Compile Include="Tests\GetServiceTests.cs" />
     <Compile Include="Tests\ChangeAccountTests.cs" />
@@ -88,15 +89,15 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Resources\Continuous.CompabilityTests.BasicService.exe.config">
+    <None Include="Resources\Continuous.Test.BasicService.exe.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\Continuous.CompabilityTests.BasicService2.exe">
+    <Content Include="Resources\Continuous.Test.BasicService.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Continuous.CompabilityTests.BasicService.exe">
+    <Content Include="Resources\Continuous.Test.BasicService2.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
