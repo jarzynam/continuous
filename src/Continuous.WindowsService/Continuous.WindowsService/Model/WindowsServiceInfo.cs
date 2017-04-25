@@ -64,7 +64,7 @@ namespace Continuous.WindowsService.Model
         public WindowsServiceErrorControl ErrorControl { get; set; }
 
         /// <summary>
-        /// Determines if service can interact with desctop
+        /// Determines if service can interact with desktop
         /// </summary>
         public bool InteractWithDesktop { get; set; }
 
@@ -83,5 +83,15 @@ namespace Continuous.WindowsService.Model
         /// Custom exit code from service
         /// </summary>
         public uint ServiceSpecificExitCode { get; set; }
+
+        /// <summary>
+        /// Determines if service can be stopped now
+        /// </summary>
+        public bool CanStop { get; set; }
+
+        /// <summary>
+        /// Determines if service can be paused now
+        /// </summary>
+        public bool CanPause { get; set; }
     }
 }

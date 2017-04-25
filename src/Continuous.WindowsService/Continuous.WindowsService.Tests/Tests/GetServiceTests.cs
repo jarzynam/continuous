@@ -61,8 +61,28 @@ namespace Continuous.WindowsService.Tests.Tests
             service.StartMode.Should().Be(WindowsServiceStartMode.Automatic);
             service.State.Should().Be(WindowsServiceState.Stopped);
             service.Status.Should().Be(WindowsServiceStatus.Ok);
+            service.CanPause.Should().BeFalse();
+            service.CanStop.Should().BeFalse();
 
             service.ExitCode.Should().Be(1077u);
+        }
+
+        [Test]
+        public void Get_Should_Return_AcceptStopAndStart_True_WhenService_IsRunning()
+        {
+            // arrange
+            var serviceName = _nameGenerator.GetRandomName(Prefix);
+
+            _serviceInstaller.InstallService(serviceName);
+            ServiceHelper.StartService(serviceName);
+
+            // act
+            var service = _shell.Get(serviceName);
+
+            // assert
+            service.State.Should().Be(WindowsServiceState.Running);
+            service.CanPause.Should().BeTrue();
+            service.CanStop.Should().BeTrue();
         }
 
         [Test]

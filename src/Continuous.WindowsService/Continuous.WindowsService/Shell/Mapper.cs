@@ -26,7 +26,9 @@ namespace Continuous.WindowsService.Shell
                 InteractWithDesktop = (result.Properties["DesktopInteract"]?.Value as bool?).GetValueOrDefault(),
                 Path = result.Properties["PathName"]?.Value as string,
                 ExitCode = (result.Properties["ExitCode"]?.Value as UInt32?) .GetValueOrDefault(),
-                ServiceSpecificExitCode = (result.Properties["ServiceSpecificExitCode"]?.Value as UInt32?).GetValueOrDefault()
+                ServiceSpecificExitCode = (result.Properties["ServiceSpecificExitCode"]?.Value as UInt32?).GetValueOrDefault(),
+                CanPause = (result.Properties["AcceptPause"]?.Value as bool?).GetValueOrDefault(),
+                CanStop = (result.Properties["AcceptStop"]?.Value as bool?).GetValueOrDefault()
             };
 
             MapUser(result, info);
