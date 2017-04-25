@@ -18,5 +18,7 @@ namespace Continuous.WindowsService.Shell
         internal string InstallServiceWithParameters => AddToPath(_currentPath, "InstallServiceWithParameters.ps1");
         internal string UpdateServiceWithParameters => AddToPath(_currentPath, "UpdateServiceWithParameters.ps1");
         internal string GetAllServices => AddToPath(_currentPath, "GetAllServices.ps1");
+        internal string PauseService => AddToPath(_currentPath, "PauseService.ps1");
+        internal string ResumeService => AddToPath(_currentPath, "ResumeService.ps1");
     }
 }

@@ -45,14 +45,14 @@ namespace Continuous.WindowsService.Shell
         /// Stop running windows service
         /// </summary>
         /// <param name="serviceName">windows service name</param>
-        /// <returns></returns>
+        /// <returns>true if service successfully stopped</returns>
         bool Stop(string serviceName);
         
         /// <summary>
         /// Start stopped windows service 
         /// </summary>
         /// <param name="serviceName">windows service name</param>
-        /// <returns></returns>
+        /// <returns>true if service successfully starded</returns>
         bool Start(string serviceName);
 
         /// <summary>
@@ -76,5 +76,19 @@ namespace Continuous.WindowsService.Shell
         /// </summary>
         /// <returns>list of services</returns>
         List<WindowsServiceInfo> GetAll();
+
+        /// <summary>
+        /// Resume paused service
+        /// </summary>
+        /// <param name="serviceName">windows service name</param>
+        /// <returns>true if service successfully resumed</returns>
+        bool Continue(string serviceName);
+
+        /// <summary>
+        /// Pause running service
+        /// </summary>
+        /// <param name="serviceName">windows service name</param>
+        /// <returns>true if service successfully paused</returns>
+        bool Pause(string serviceName);
     }
 }

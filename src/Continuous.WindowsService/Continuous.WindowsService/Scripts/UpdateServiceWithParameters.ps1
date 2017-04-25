@@ -25,6 +25,3 @@ param(
 $service = Get-WMIObject -Class Win32_Service -Filter "Name = '$serviceName'";
 
 $service.Change($displayName, $fullServicePath, $serviceType, $errorControl, $startMode, $desktopInteract)
-
-$startName
-$startPassword

@@ -41,7 +41,7 @@
       <HintPath>..\packages\Castle.Core.4.0.0\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
     <Reference Include="Continuous.Management, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Continuous.Management.1.0.1\lib\net452\Continuous.Management.dll</HintPath>
+      <HintPath>..\packages\Continuous.Management.1.0.42-alpha\lib\net452\Continuous.Management.dll</HintPath>
     </Reference>
     <Reference Include="FluentAssertions, Version=4.19.2.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentAssertions.4.19.2\lib\net45\FluentAssertions.dll</HintPath>
@@ -78,25 +78,29 @@
     <Compile Include="Tests\InstallServiceTests.cs" />
     <Compile Include="TestHelpers\NameGenerator.cs" />
     <Compile Include="TestHelpers\ScriptInvoker.cs" />
-    <Compile Include="Tests\StartAndStopServiceTests.cs" />
+    <Compile Include="Tests\StartAndStopServiceTests - Copy.cs" />
+    <Compile Include="Tests\PauseAndContinueServiceTests.cs" />
     <Compile Include="Tests\UpdateServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="CompiledTestService\Continuous.EmptyTestService.exe.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="CompiledTestService\Continuous.Test.BasicService.exe.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CompiledTestService\Continuous.EmptyTestService.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Continuous.WindowsService\Continuous.WindowsService.csproj">
-      <Project>{5BB9D567-7B0A-4D54-A5CB-891269368185}</Project>
+      <Project>{a86809d5-df4a-43c9-8699-42b8b68aea3c}</Project>
       <Name>Continuous.WindowsService</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CompiledTestService\Continuous.Test.BasicService.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CompiledTestService\Continuous.Test.BasicService2.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

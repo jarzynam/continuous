@@ -8,6 +8,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using ServiceInstaller = Continuous.WindowsService.Tests.TestHelpers.Installer.ServiceInstaller;
 
+
 namespace Continuous.WindowsService.Tests.Tests
 {
     [TestFixture]

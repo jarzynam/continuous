@@ -18,7 +18,7 @@ namespace Continuous.WindowsService.Tests.TestHelpers.Installer
 
             var location = AppDomain.CurrentDomain.BaseDirectory;
             ServicePath = Path.Combine(location, "CompiledTestService",
-                "Continuous.EmptyTestService.exe");
+                "Continuous.Test.BasicService.exe");
         }
 
         public void InstallService(string serviceName)

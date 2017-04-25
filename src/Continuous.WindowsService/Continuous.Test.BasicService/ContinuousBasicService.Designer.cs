@@ -1,6 +1,6 @@
-﻿namespace Continuous.Services.EmptyTestService
+﻿namespace Continuous.Test.BasicService
 {
-    partial class ContinuousTestService
+    partial class ContinuousBasicService
     {
         /// <summary> 
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            this.ServiceName = "Service1";
+            this.ServiceName = "ContinuousBasicService";
         }
 
         #endregion

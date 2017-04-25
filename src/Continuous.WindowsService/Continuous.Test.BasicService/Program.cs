@@ -1,6 +1,6 @@
 ﻿using System.ServiceProcess;
 
-namespace Continuous.Services.EmptyTestService
+namespace Continuous.Test.BasicService
 {
     static class Program
     {
@@ -9,11 +9,12 @@ namespace Continuous.Services.EmptyTestService
         /// </summary>
         static void Main()
         {
-            var servicesToRun = new ServiceBase[]
+            ServiceBase[] ServicesToRun;
+            ServicesToRun = new ServiceBase[]
             {
-                new ContinuousTestService()
+                new ContinuousBasicService()
             };
-            ServiceBase.Run(servicesToRun);
+            ServiceBase.Run(ServicesToRun);
         }
     }
 }

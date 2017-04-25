@@ -89,7 +89,6 @@ namespace Continuous.WindowsService.Shell
 
         }
 
-
         /// <inheritdoc />
         public void Update(string serviceName, WindowsServiceConfigurationForUpdate config)
         {
@@ -117,6 +116,8 @@ namespace Continuous.WindowsService.Shell
         /// <inheritdoc />
         public void Uninstall(string serviceName)
         {
+            ThrowIfCantFindService(serviceName);
+
             var parameters = new List<CommandParameter>
             {
                 new CommandParameter(nameof(serviceName), serviceName)
@@ -130,6 +131,8 @@ namespace Continuous.WindowsService.Shell
         /// <inheritdoc />
         public bool Stop(string serviceName)
         {
+            ThrowIfCantFindService(serviceName);
+
             using (var service = new ServiceController(serviceName))
             {
                 if (!service.CanStop)
@@ -146,6 +149,8 @@ namespace Continuous.WindowsService.Shell
         /// <inheritdoc />
         public bool Start(string serviceName)
         {
+            ThrowIfCantFindService(serviceName);
+
             using (var service = new ServiceController(serviceName))
             {
                 if (service.Status == ServiceControllerStatus.Running)
@@ -157,6 +162,50 @@ namespace Continuous.WindowsService.Shell
 
                 return true;
             }
+        }
+
+        /// <inheritdoc />
+        public bool Continue(string serviceName)
+        {
+            ThrowIfCantFindService(serviceName);
+
+            var status = GetStatus(serviceName);
+
+            if (status != ServiceControllerStatus.Paused)
+                return false;
+
+            var parameters = new List<CommandParameter>
+            {
+                new CommandParameter("serviceName", serviceName)
+            };
+
+            var result = _executor.Execute(_scripts.ResumeService, parameters);
+
+            ThrowServiceExceptionIfNecessary(result);
+
+            return true;
+        }
+
+        /// <inheritdoc />
+        public bool Pause(string serviceName)
+        {
+            ThrowIfCantFindService(serviceName);
+
+            var status = GetStatus(serviceName);
+
+            if (status != ServiceControllerStatus.Running)
+                return false;
+
+            var parameters = new List<CommandParameter>
+            {
+                new CommandParameter("serviceName", serviceName)
+            };
+
+            var result = _executor.Execute(_scripts.PauseService, parameters);
+
+            ThrowServiceExceptionIfNecessary(result);
+
+            return true;
         }
 
         /// <inheritdoc />
@@ -220,12 +269,12 @@ namespace Continuous.WindowsService.Shell
             }
         }
 
-        private void ThrowIfCantFindService(string configName)
+        private void ThrowIfCantFindService(string serviceName)
         {
-            var service = Get(configName);
+            var service = Get(serviceName);
 
             if(service == null)
-                throw new ArgumentException("Can't find service with name: "+configName);
+                throw new InvalidOperationException("Can't find service with name: " + serviceName);
         }
 
         private static string GetStartName(WindowsServiceConfiguration config)
