@@ -12,7 +12,7 @@
     <description>This is the core library necessary for all continuous.* packages. 
     Also contains factory for creating shells from rest of the continuous nuget packages
     </description>
-    <releaseNotes>added documentation</releaseNotes>
+    <releaseNotes>reduced package weight</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>Continuous Management</tags>
   </metadata>
