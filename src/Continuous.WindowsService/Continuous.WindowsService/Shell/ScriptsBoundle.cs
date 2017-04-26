@@ -20,5 +20,7 @@ namespace Continuous.WindowsService.Shell
         internal string GetAllServices => AddToPath(_currentPath, "GetAllServices.ps1");
         internal string PauseService => AddToPath(_currentPath, "PauseService.ps1");
         internal string ResumeService => AddToPath(_currentPath, "ResumeService.ps1");
+        internal string StartService => AddToPath(_currentPath, "StartService.ps1");
+        internal string StopService => AddToPath(_currentPath, "StopService.ps1");
     }
 }

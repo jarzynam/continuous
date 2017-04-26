@@ -133,17 +133,21 @@ namespace Continuous.WindowsService.Shell
         {
             ThrowIfCantFindService(serviceName);
 
-            using (var service = new ServiceController(serviceName))
+            var status = GetStatus(serviceName);
+
+            if ( status != ServiceControllerStatus.Running && status != ServiceControllerStatus.Paused)
+                return false;
+
+            var parameters = new List<CommandParameter>
             {
-                if (!service.CanStop)
-                    return false;
+                new CommandParameter("serviceName", serviceName)
+            };
 
-                service.Stop();
+            var result = _executor.Execute(_scripts.StopService, parameters);
 
-                service.WaitForStatus(ServiceControllerStatus.Stopped, _timeout);
+            ThrowServiceExceptionIfNecessary(result);
 
-                return true;
-            }
+            return true;
         }
 
         /// <inheritdoc />
@@ -151,17 +155,21 @@ namespace Continuous.WindowsService.Shell
         {
             ThrowIfCantFindService(serviceName);
 
-            using (var service = new ServiceController(serviceName))
+            var status = GetStatus(serviceName);
+
+            if (status != ServiceControllerStatus.Stopped)
+                return false;
+
+            var parameters = new List<CommandParameter>
             {
-                if (service.Status == ServiceControllerStatus.Running)
-                    return false;
+                new CommandParameter("serviceName", serviceName)
+            };
 
-                service.Start();
+            var result = _executor.Execute(_scripts.StartService, parameters);
 
-                service.WaitForStatus(ServiceControllerStatus.Running, _timeout);
+            ThrowServiceExceptionIfNecessary(result);
 
-                return true;
-            }
+            return true;
         }
 
         /// <inheritdoc />

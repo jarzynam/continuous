@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ServiceProcess;
+using System.Threading;
 using Continuous.Management;
 using Continuous.WindowsService.Shell;
 using Continuous.WindowsService.Tests.TestHelpers;
@@ -42,11 +43,14 @@ namespace Continuous.WindowsService.Tests.Tests
             var serviceName = _nameGenerator.GetRandomName(Prefix);
 
             _serviceInstaller.InstallService(serviceName);
+            Thread.Sleep(1000);
 
             _shell.GetStatus(serviceName).Should().Be(ServiceControllerStatus.Stopped);
 
             // act
             var result = _shell.Start(serviceName);
+            Thread.Sleep(1000);
+
 
             // assert
             result.Should().BeTrue();
@@ -116,10 +120,13 @@ namespace Continuous.WindowsService.Tests.Tests
             _serviceInstaller.InstallService(serviceName);
 
             ServiceHelper.StartService(serviceName);
+            Thread.Sleep(1000);
+
             _shell.GetStatus(serviceName).Should().Be(ServiceControllerStatus.Running);
 
             // act
             var result = _shell.Stop(serviceName);
+            Thread.Sleep(1000);
 
             // assert
             result.Should().BeTrue();
