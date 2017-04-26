@@ -110,7 +110,7 @@ namespace Continuous.Test.WindowsService.Tests
         }
 
         [Test]
-        public void GetStatus_Should_Fetch_Status()
+        public void GetState_Should_Fetch_Status()
         {
             // arrange
             var serviceName = _nameGenerator.GetRandomName(Prefix);
@@ -118,20 +118,20 @@ namespace Continuous.Test.WindowsService.Tests
             _serviceInstaller.InstallService(serviceName);
 
             // act
-            var status = _shell.GetStatus(serviceName);
+            var status = _shell.GetState(serviceName);
 
             // assert 
-            status.Should().Be(ServiceControllerStatus.Stopped);
+            status.Should().Be(WindowsServiceState.Stopped);
         }
 
         [Test]
-        public void GetStatus_Should_Throw_When_Service_NotExists()
+        public void GetState_Should_Throw_When_Service_NotExists()
         {
             // arrange
             var serviceName = _nameGenerator.GetRandomName(Prefix);
 
             // act
-            Action act = () => _shell.GetStatus(serviceName);
+            Action act = () => _shell.GetState(serviceName);
 
             // assert 
             act.ShouldThrow<InvalidOperationException>();
