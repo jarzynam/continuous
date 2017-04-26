@@ -81,11 +81,11 @@ namespace Continuous.WindowsService.Tests.TestHelpers
             service.WaitForStatus(ServiceControllerStatus.Paused);
         }
 
-        internal static ServiceControllerStatus GetStatus(string serviceName)
+        internal static WindowsServiceState GetState(string serviceName)
         {
             var service = new ServiceController(serviceName);
 
-            return service.Status;
+            return (WindowsServiceState) Enum.Parse(typeof(WindowsServiceState), service.Status.ToString());
         }
 
         internal static WindowsServiceTestModel GetService(string name)
