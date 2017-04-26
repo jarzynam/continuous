@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
-using System.ServiceProcess;
 using Continuous.Management.Common;
 using Continuous.WindowsService.Model;
+using Continuous.WindowsService.Model.Enums;
 using Continuous.WindowsService.Resources;
 
 namespace Continuous.WindowsService.Shell
@@ -41,12 +41,20 @@ namespace Continuous.WindowsService.Shell
         }
 
         /// <inheritdoc />
-        public ServiceControllerStatus GetStatus(string serviceName)
+        public WindowsServiceState GetState(string serviceName)
         {
-            using (var service = new ServiceController(serviceName))
+            ThrowIfCantFindService(serviceName);
+
+            var parameters = new List<CommandParameter>
             {
-                return service.Status;
-            }
+                new CommandParameter("serviceName", serviceName)
+            };
+
+            var result = _executor.Execute(_scripts.GetServiceState, parameters);
+
+            ThrowServiceExceptionIfNecessary(result);
+
+            return _mapper.MapServiceState(result.FirstOrDefault());
         }
 
         /// <inheritdoc />
@@ -133,9 +141,9 @@ namespace Continuous.WindowsService.Shell
         {
             ThrowIfCantFindService(serviceName);
 
-            var status = GetStatus(serviceName);
+            var state = GetState(serviceName);
 
-            if ( status != ServiceControllerStatus.Running && status != ServiceControllerStatus.Paused)
+            if ( state != WindowsServiceState.Running && state != WindowsServiceState.Paused)
                 return false;
 
             var parameters = new List<CommandParameter>
@@ -155,9 +163,9 @@ namespace Continuous.WindowsService.Shell
         {
             ThrowIfCantFindService(serviceName);
 
-            var status = GetStatus(serviceName);
+            var status = GetState(serviceName);
 
-            if (status != ServiceControllerStatus.Stopped)
+            if (status != WindowsServiceState.Stopped)
                 return false;
 
             var parameters = new List<CommandParameter>
@@ -177,9 +185,9 @@ namespace Continuous.WindowsService.Shell
         {
             ThrowIfCantFindService(serviceName);
 
-            var status = GetStatus(serviceName);
+            var status = GetState(serviceName);
 
-            if (status != ServiceControllerStatus.Paused)
+            if (status != WindowsServiceState.Paused)
                 return false;
 
             var parameters = new List<CommandParameter>
@@ -199,9 +207,9 @@ namespace Continuous.WindowsService.Shell
         {
             ThrowIfCantFindService(serviceName);
 
-            var status = GetStatus(serviceName);
+            var status = GetState(serviceName);
 
-            if (status != ServiceControllerStatus.Running)
+            if (status != WindowsServiceState.Running)
                 return false;
 
             var parameters = new List<CommandParameter>
@@ -289,7 +297,6 @@ namespace Continuous.WindowsService.Shell
         {
             return config.DriverName ?? 
                 String.Join(@"\",config.AccountDomain?? ".", config.AccountName ?? "LocalSystem");
-
         }
 
     }

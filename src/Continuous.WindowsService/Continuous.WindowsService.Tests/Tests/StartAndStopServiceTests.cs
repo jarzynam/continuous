@@ -45,7 +45,7 @@ namespace Continuous.WindowsService.Tests.Tests
             _serviceInstaller.InstallService(serviceName);
             Thread.Sleep(1000);
 
-            _shell.GetStatus(serviceName).Should().Be(ServiceControllerStatus.Stopped);
+            _shell.GetState(serviceName).Should().Be(ServiceControllerStatus.Stopped);
 
             // act
             var result = _shell.Start(serviceName);
@@ -67,7 +67,7 @@ namespace Continuous.WindowsService.Tests.Tests
             _serviceInstaller.InstallService(serviceName);
 
             ServiceHelper.StartService(serviceName);
-            _shell.GetStatus(serviceName).Should().Be(ServiceControllerStatus.Running);
+            _shell.GetState(serviceName).Should().Be(ServiceControllerStatus.Running);
 
             // act
             var result = _shell.Start(serviceName);
@@ -100,7 +100,7 @@ namespace Continuous.WindowsService.Tests.Tests
 
             _serviceInstaller.InstallService(serviceName);
 
-            _shell.GetStatus(serviceName).Should().Be(ServiceControllerStatus.Stopped);
+            _shell.GetState(serviceName).Should().Be(ServiceControllerStatus.Stopped);
 
             // act
             var result = _shell.Stop(serviceName);
@@ -122,7 +122,7 @@ namespace Continuous.WindowsService.Tests.Tests
             ServiceHelper.StartService(serviceName);
             Thread.Sleep(1000);
 
-            _shell.GetStatus(serviceName).Should().Be(ServiceControllerStatus.Running);
+            _shell.GetState(serviceName).Should().Be(ServiceControllerStatus.Running);
 
             // act
             var result = _shell.Stop(serviceName);

@@ -81,6 +81,7 @@
     <EmbeddedResource Include="Scripts\PauseService.ps1" />
     <EmbeddedResource Include="Scripts\StopService.ps1" />
     <EmbeddedResource Include="Scripts\StartService.ps1" />
+    <EmbeddedResource Include="Scripts\GetServiceState.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

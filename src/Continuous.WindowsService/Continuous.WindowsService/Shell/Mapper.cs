@@ -55,5 +55,10 @@ namespace Continuous.WindowsService.Shell
                 info.AccountName = user[1];
             }
         }
+
+        public WindowsServiceState MapServiceState(PSObject result)
+        {
+            return (result.BaseObject as string).ToEnum<WindowsServiceState>();
+        }
     }
 }

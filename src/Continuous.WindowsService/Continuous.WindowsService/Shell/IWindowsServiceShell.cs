@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using System.ServiceProcess;
 using Continuous.WindowsService.Model;
+using Continuous.WindowsService.Model.Enums;
 
 namespace Continuous.WindowsService.Shell
 {
@@ -14,7 +14,7 @@ namespace Continuous.WindowsService.Shell
         /// </summary>
         /// <param name="serviceName">windows service name</param>
         /// <returns></returns>
-        ServiceControllerStatus GetStatus(string serviceName);
+        WindowsServiceState GetState(string serviceName);
 
         /// <summary>
         /// Install windows service with basic parameters
@@ -32,6 +32,7 @@ namespace Continuous.WindowsService.Shell
         /// <summary>
         /// Update existing windows service with customizable configuration
         /// </summary>
+        /// <param name="serviceName">windows service name</param>
         /// <param name="config">customizable configuration for windows service.</param>
         void Update(string serviceName, WindowsServiceConfigurationForUpdate config);
 

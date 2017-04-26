@@ -44,7 +44,7 @@ namespace Continuous.WindowsService.Tests.Tests
             ServiceHelper.StartService(serviceName);
             ServiceHelper.PauseService(serviceName);
 
-            _shell.GetStatus(serviceName).Should().Be(ServiceControllerStatus.Paused);
+            _shell.GetState(serviceName).Should().Be(ServiceControllerStatus.Paused);
 
             // act
             var result = _shell.Continue(serviceName);
@@ -64,7 +64,7 @@ namespace Continuous.WindowsService.Tests.Tests
             _serviceInstaller.InstallService(serviceName);
             ServiceHelper.StartService(serviceName);
             
-            _shell.GetStatus(serviceName).Should().Be(ServiceControllerStatus.Running);
+            _shell.GetState(serviceName).Should().Be(ServiceControllerStatus.Running);
 
             // act
             var result = _shell.Continue(serviceName);
@@ -99,7 +99,7 @@ namespace Continuous.WindowsService.Tests.Tests
             ServiceHelper.StartService(serviceName);
             ServiceHelper.PauseService(serviceName);
 
-            _shell.GetStatus(serviceName).Should().Be(ServiceControllerStatus.Paused);
+            _shell.GetState(serviceName).Should().Be(ServiceControllerStatus.Paused);
 
             // act
             var result = _shell.Pause(serviceName);
@@ -119,7 +119,7 @@ namespace Continuous.WindowsService.Tests.Tests
             _serviceInstaller.InstallService(serviceName);
 
             ServiceHelper.StartService(serviceName);
-            _shell.GetStatus(serviceName).Should().Be(ServiceControllerStatus.Running);
+            _shell.GetState(serviceName).Should().Be(ServiceControllerStatus.Running);
 
             // act
             var result = _shell.Pause(serviceName);
