@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Continuous.WindowsService", "Continuous.WindowsService\Continuous.WindowsService.csproj", "{A86809D5-DF4A-43C9-8699-42B8B68AEA3C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Continuous.WindowsService.Tests", "Continuous.WindowsService.Tests\Continuous.WindowsService.Tests.csproj", "{D34DB671-272F-4231-88E4-FDCFD6B3F868}"
+	ProjectSection(ProjectDependencies) = postProject
+		{50BF2D07-48A0-4766-80AD-B429E3462D60} = {50BF2D07-48A0-4766-80AD-B429E3462D60}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Continuous.Test.BasicService", "Continuous.Test.BasicService\Continuous.Test.BasicService.csproj", "{50BF2D07-48A0-4766-80AD-B429E3462D60}"
 EndProject

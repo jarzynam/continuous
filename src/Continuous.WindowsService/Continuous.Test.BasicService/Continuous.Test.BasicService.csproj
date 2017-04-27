@@ -33,6 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -57,4 +58,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetDir)$(TargetFileName)" "$(SolutionDir)\Continuous.WindowsService.Tests\CompiledTestService\$(TargetName).exe"
+
+copy "$(TargetDir)$(TargetFileName)" "$(SolutionDir)\Continuous.WindowsService.Tests\CompiledTestService\$(TargetName)2.exe"
+</PostBuildEvent>
+  </PropertyGroup>
 </Project>
