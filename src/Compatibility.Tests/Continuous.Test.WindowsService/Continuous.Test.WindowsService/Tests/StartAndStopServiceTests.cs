@@ -50,6 +50,7 @@ namespace Continuous.Test.WindowsService.Tests
 
             // act
             var result = _shell.Start(serviceName);
+            ServiceHelper.WaitForState(serviceName, ServiceControllerStatus.Running);
 
             // assert
             result.Should().BeTrue();

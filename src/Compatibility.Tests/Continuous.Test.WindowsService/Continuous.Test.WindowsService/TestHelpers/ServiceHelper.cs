@@ -104,6 +104,11 @@ namespace Continuous.Test.WindowsService.TestHelpers
 
             return model;
         }
+
+        public static void WaitForState(string serviceName, ServiceControllerStatus running)
+        {
+            new ServiceController(serviceName).WaitForStatus(running);
+        }
     }
 
     internal class WindowsServiceTestModel

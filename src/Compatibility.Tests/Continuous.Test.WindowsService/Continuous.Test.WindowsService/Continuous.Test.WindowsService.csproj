@@ -41,10 +41,10 @@
       <HintPath>..\packages\Castle.Core.4.0.0\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
     <Reference Include="Continuous.Management, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Continuous.Management.1.0.42-alpha\lib\net452\Continuous.Management.dll</HintPath>
+      <HintPath>..\packages\Continuous.Management.1.0.43\lib\net452\Continuous.Management.dll</HintPath>
     </Reference>
     <Reference Include="Continuous.WindowsService, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Continuous.WindowsService.2.0.1-alpha\lib\net452\Continuous.WindowsService.dll</HintPath>
+      <HintPath>..\packages\Continuous.WindowsService.2.1.2-alpha\lib\net452\Continuous.WindowsService.dll</HintPath>
     </Reference>
     <Reference Include="FluentAssertions, Version=4.19.2.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentAssertions.4.19.2\lib\net45\FluentAssertions.dll</HintPath>
@@ -84,6 +84,7 @@
     <Compile Include="Tests\ChangeAccountTests.cs" />
     <Compile Include="Tests\InstallServiceTests.cs" />
     <Compile Include="Tests\UpdateServiceTests.cs" />
+    <Compile Include="Tests\WaitForStateTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
@@ -91,6 +92,9 @@
     </None>
     <None Include="Resources\Continuous.Test.BasicService.exe.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Continuous.Test.BasicService2.exe.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
