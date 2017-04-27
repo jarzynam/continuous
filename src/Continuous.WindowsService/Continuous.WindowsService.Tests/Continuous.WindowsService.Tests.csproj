@@ -81,6 +81,7 @@
     <Compile Include="Tests\StartAndStopServiceTests.cs" />
     <Compile Include="Tests\PauseAndContinueServiceTests.cs" />
     <Compile Include="Tests\UpdateServiceTests.cs" />
+    <Compile Include="Tests\WaitForStateTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CompiledTestService\Continuous.Test.BasicService.exe.config">

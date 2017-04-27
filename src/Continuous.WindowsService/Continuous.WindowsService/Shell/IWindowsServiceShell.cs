@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Continuous.WindowsService.Model;
 using Continuous.WindowsService.Model.Enums;
@@ -91,5 +92,20 @@ namespace Continuous.WindowsService.Shell
         /// <param name="serviceName">windows service name</param>
         /// <returns>true if service successfully paused</returns>
         bool Pause(string serviceName);
+
+        /// <summary>
+        /// Wait until service get expected state. TimeoutException is possible.
+        /// </summary>
+        /// <param name="serviceName">windows service name</param>
+        /// <param name="state">expected state</param>
+        /// <param name="timeout">time before TimeoutException occur</param>
+        void WaitForState(string serviceName, WindowsServiceState state, TimeSpan timeout);
+
+        /// <summary>
+        /// Wait until service get expected state. TimeoutException is possible.
+        /// </summary>
+        /// <param name="serviceName">windows service name</param>
+        /// <param name="state">expected state</param>
+        void WaitForState(string serviceName, WindowsServiceState state);
     }
 }

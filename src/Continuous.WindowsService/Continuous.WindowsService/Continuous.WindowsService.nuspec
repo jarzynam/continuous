@@ -12,7 +12,7 @@
     <description>This library is providing easy way to manage windows services: install/uninstall, start/stop, change user, etc. 
     </description>
     <releaseNotes>
-    - BREAKING CHANGE removed GetStatus method and added equvalent GetState method
+    - Added WaitForState method
     </releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>Continuous Management WindowsService Service Windows</tags>

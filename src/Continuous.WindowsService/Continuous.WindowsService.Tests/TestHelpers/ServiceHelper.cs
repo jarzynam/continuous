@@ -72,13 +72,16 @@ namespace Continuous.WindowsService.Tests.TestHelpers
             service.WaitForStatus(ServiceControllerStatus.Stopped);
         }
 
-        internal static void PauseService(string serviceName)
+        internal static void PauseService(string serviceName, bool waitForStatus = true)
         {
             var service = new ServiceController(serviceName);
 
             service.Pause();
 
-            service.WaitForStatus(ServiceControllerStatus.Paused);
+            if (waitForStatus)
+            {
+                service.WaitForStatus(ServiceControllerStatus.Paused);
+            }
         }
 
         internal static WindowsServiceState GetState(string serviceName)

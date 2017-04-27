@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
+using System.Threading;
 using Continuous.Management.Common;
 using Continuous.WindowsService.Model;
 using Continuous.WindowsService.Model.Enums;
@@ -20,7 +21,8 @@ namespace Continuous.WindowsService.Shell
         private readonly IScriptExecutor _executor;
         private readonly ScriptsBoundle _scripts;
 
-        private readonly TimeSpan _timeout;
+        private const int DelayTimeInMiliseconds = 250;
+        private readonly TimeSpan _timeout = TimeSpan.FromMilliseconds(1000);
 
         private readonly IWin32ServiceMessages _messages;
         private readonly Mapper _mapper;
@@ -31,7 +33,6 @@ namespace Continuous.WindowsService.Shell
         /// </summary>
         public WindowsServiceShell()
         {
-            _timeout = TimeSpan.FromSeconds(5);
 
             _executor = new ScriptExecutor(GetType());
             _scripts = new ScriptsBoundle();
@@ -222,6 +223,32 @@ namespace Continuous.WindowsService.Shell
             ThrowServiceExceptionIfNecessary(result);
 
             return true;
+        }
+
+        
+        /// <inheritdoc />
+        public void WaitForState(string serviceName, WindowsServiceState state, TimeSpan timeout)
+        {
+            ThrowIfCantFindService(serviceName);
+
+            var startedTime = DateTime.UtcNow;
+
+            do
+            {
+                if (GetState(serviceName) == state)
+                    return;
+
+                Thread.Sleep(DelayTimeInMiliseconds);
+
+            } while (DateTime.UtcNow - startedTime < timeout);
+
+            throw new TimeoutException();
+        }
+
+        /// <inheritdoc />
+        public void WaitForState(string serviceName, WindowsServiceState state)
+        {
+            WaitForState(serviceName, state, _timeout);
         }
 
         /// <inheritdoc />
