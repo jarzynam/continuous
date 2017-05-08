@@ -327,9 +327,9 @@ namespace Continuous.WindowsService.Shell
 
         private void ThrowIfCantFindService(string serviceName)
         {
-            var service = Get(serviceName);
+            var isExist = Exists(serviceName);
 
-            if(service == null)
+            if(!isExist)
                 throw new InvalidOperationException("Can't find service with name: " + serviceName);
         }
 
