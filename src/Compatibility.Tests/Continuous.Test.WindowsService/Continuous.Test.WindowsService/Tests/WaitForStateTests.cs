@@ -61,7 +61,7 @@ namespace Continuous.Test.WindowsService.Tests
             _serviceInstaller.InstallService(serviceName);
             ServiceHelper.StartService(serviceName);
 
-            ServiceHelper.PauseService(serviceName);
+            ServiceHelper.PauseService(serviceName, false);
 
             ServiceHelper.GetState(serviceName).Should().Be(WindowsServiceState.PausePending);
 
@@ -82,7 +82,7 @@ namespace Continuous.Test.WindowsService.Tests
             _serviceInstaller.InstallService(serviceName);
             ServiceHelper.StartService(serviceName);
 
-            ServiceHelper.StopService(serviceName);
+            ServiceHelper.StopService(serviceName, false);
             ServiceHelper.GetState(serviceName).Should().Be(WindowsServiceState.StopPending);
 
 
