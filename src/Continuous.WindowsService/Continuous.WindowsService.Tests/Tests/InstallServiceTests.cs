@@ -73,8 +73,7 @@ namespace Continuous.WindowsService.Tests.Tests
             var config = new WindowsServiceConfiguration
             {
                 Name = name,
-                Path = _serviceInstaller.ServicePath,
-                DisplayName = name
+                Path = _serviceInstaller.ServicePath
             };
 
             // act 
@@ -94,8 +93,7 @@ namespace Continuous.WindowsService.Tests.Tests
             var config = new WindowsServiceConfiguration
             {
                 Name = name,
-                Path = "fakePath",
-                DisplayName = name
+                Path = "fakePath"
             };
 
             // act 
@@ -106,7 +104,7 @@ namespace Continuous.WindowsService.Tests.Tests
         }
 
         [Test]
-        public void Install_Should_AddCorrectParameters_Path()
+        public void Install_Should_AddCorrectParameters()
         {
             // arrange
             var name = _nameGenerator.GetRandomName(Prefix);
@@ -114,8 +112,7 @@ namespace Continuous.WindowsService.Tests.Tests
             var config = new WindowsServiceConfiguration
             {
                 Name = name,
-                Path = _serviceInstaller.ServicePath,
-                DisplayName = name
+                Path = _serviceInstaller.ServicePath
             };
 
             // act 
@@ -130,12 +127,35 @@ namespace Continuous.WindowsService.Tests.Tests
             var errorControl = ServiceHelper.GetErrorControl(name);
 
             path.Should().Be(config.Path);
-            displayName.Should().Be(config.DisplayName);
+            displayName.Should().Be(config.Name);
             account.Should().Be("LocalSystem");
             starMode.Should().Be((int) config.StartMode);
             serviceType.Should().Be((int) config.Type);
             errorControl.Should().Be((int) config.ErrorControl);
         }
+
+        [Test]
+        public void Install_Should_Change_DisplayName_WhenProvided()
+        {
+            // arrange
+            var name = _nameGenerator.GetRandomName(Prefix);
+
+            var config = new WindowsServiceConfiguration
+            {
+                Name = name,
+                Path = _serviceInstaller.ServicePath,
+                DisplayName = name + "222"
+            };
+
+            // act 
+            _serviceInstaller.InstallService(config);
+
+            // assert
+            var displayName = ServiceHelper.GetDisplayName(name);
+
+            displayName.Should().Be(config.DisplayName);
+        }
+
 
         [Test]
         public void Install_Should_Change_ErrorControl_ToCritical()
@@ -147,7 +167,6 @@ namespace Continuous.WindowsService.Tests.Tests
             {
                 Name = name,
                 Path = _serviceInstaller.ServicePath,
-                DisplayName = name,
                 ErrorControl = WindowsServiceErrorControl.Critical
             };
 
@@ -170,7 +189,6 @@ namespace Continuous.WindowsService.Tests.Tests
             {
                 Name = name,
                 Path = _serviceInstaller.ServicePath,
-                DisplayName = name,
                 ErrorControl = WindowsServiceErrorControl.Ignore
             };
 
@@ -194,7 +212,6 @@ namespace Continuous.WindowsService.Tests.Tests
             {
                 Name = name,
                 Path = _serviceInstaller.ServicePath,
-                DisplayName = name,
                 ErrorControl = WindowsServiceErrorControl.Normal
             };
 
@@ -217,7 +234,6 @@ namespace Continuous.WindowsService.Tests.Tests
             {
                 Name = name,
                 Path = _serviceInstaller.ServicePath,
-                DisplayName = name,
                 ErrorControl = WindowsServiceErrorControl.Severe
             };
 
@@ -240,7 +256,6 @@ namespace Continuous.WindowsService.Tests.Tests
             {
                 Name = name,
                 Path = _serviceInstaller.ServicePath,
-                DisplayName = name,
                 Type = WindowsServiceType.ShareProcess
             };
 
@@ -265,7 +280,6 @@ namespace Continuous.WindowsService.Tests.Tests
             {
                 Name = name,
                 Path = _serviceInstaller.ServicePath,
-                DisplayName = name,
                 StartMode = WindowsServiceStartMode.Disabled
             };
 
@@ -288,7 +302,6 @@ namespace Continuous.WindowsService.Tests.Tests
             {
                 Name = name,
                 Path = _serviceInstaller.ServicePath,
-                DisplayName = name,
                 StartMode = WindowsServiceStartMode.Manual
             };
 
@@ -311,7 +324,6 @@ namespace Continuous.WindowsService.Tests.Tests
             {
                 Name = name,
                 Path = _serviceInstaller.ServicePath,
-                DisplayName = name,
                 StartMode = WindowsServiceStartMode.Automatic
             };
 
@@ -337,7 +349,6 @@ namespace Continuous.WindowsService.Tests.Tests
             {
                 Name = name,
                 Path = _serviceInstaller.ServicePath,
-                DisplayName = name,
                 InteractWithDesktop = true
             };
 
@@ -364,7 +375,6 @@ namespace Continuous.WindowsService.Tests.Tests
             var config = new WindowsServiceConfiguration
             {
                 Name = serviceName,
-                DisplayName = serviceName,
                 Path = _serviceInstaller.ServicePath,
                 AccountName = userName,
                 AccountPassword = userPassword
@@ -389,7 +399,6 @@ namespace Continuous.WindowsService.Tests.Tests
             var config = new WindowsServiceConfiguration
             {
                 Name = serviceName,
-                DisplayName = serviceName,
                 Path = _serviceInstaller.ServicePath,
                 AccountName = userName,
                 AccountDomain = userPassword

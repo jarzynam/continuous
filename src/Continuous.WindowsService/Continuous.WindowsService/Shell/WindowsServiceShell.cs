@@ -82,7 +82,7 @@ namespace Continuous.WindowsService.Shell
             var parameters = new List<CommandParameter>
             {
                 new CommandParameter("serviceName", config.Name),
-                new CommandParameter("displayName", config.DisplayName),
+                new CommandParameter("displayName", config.DisplayName??config.Name),
                 new CommandParameter("errorControl", (byte?) config.ErrorControl),
                 new CommandParameter("startMode",  config.StartMode),
                 new CommandParameter("serviceType", (byte?) config.Type),
@@ -224,8 +224,7 @@ namespace Continuous.WindowsService.Shell
 
             return true;
         }
-
-        
+     
         /// <inheritdoc />
         public void WaitForState(string serviceName, WindowsServiceState state, TimeSpan timeout)
         {

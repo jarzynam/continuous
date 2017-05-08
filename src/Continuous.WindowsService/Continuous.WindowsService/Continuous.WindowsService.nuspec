@@ -14,6 +14,7 @@
     <releaseNotes>
     - Added Exist method
     - Optimized execution time
+    - Added default value for empty DisplayName property, when installing service
     </releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>Continuous Management WindowsService Service Windows</tags>
