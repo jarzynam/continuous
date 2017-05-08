@@ -125,6 +125,8 @@ namespace Continuous.WindowsService.Tests.Tests
             var starMode = ServiceHelper.GetStartMode(name);
             var serviceType = ServiceHelper.GetServiceType(name);
             var errorControl = ServiceHelper.GetErrorControl(name);
+            var description = ServiceHelper.GetDescription(name);
+
 
             path.Should().Be(config.Path);
             displayName.Should().Be(config.Name);
@@ -132,6 +134,7 @@ namespace Continuous.WindowsService.Tests.Tests
             starMode.Should().Be((int) config.StartMode);
             serviceType.Should().Be((int) config.Type);
             errorControl.Should().Be((int) config.ErrorControl);
+            description.Should().BeNullOrEmpty();
         }
 
         [Test]
@@ -154,6 +157,29 @@ namespace Continuous.WindowsService.Tests.Tests
             var displayName = ServiceHelper.GetDisplayName(name);
 
             displayName.Should().Be(config.DisplayName);
+        }
+
+        [Test]
+        public void Install_Should_Change_Description_WhenProvided()
+        {
+            // arrange
+            var name = _nameGenerator.GetRandomName(Prefix);
+
+            var config = new WindowsServiceConfiguration
+            {
+                Name = name,
+                Path = _serviceInstaller.ServicePath,
+                DisplayName = name + "222",
+                Description = "test service to delete"
+            };
+
+            // act 
+            _serviceInstaller.InstallService(config);
+
+            // assert
+            var description = ServiceHelper.GetDescription(name);
+
+            description.Should().Be(config.Description);
         }
 
 

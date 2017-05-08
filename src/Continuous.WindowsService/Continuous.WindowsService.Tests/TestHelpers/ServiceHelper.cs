@@ -46,6 +46,11 @@ namespace Continuous.WindowsService.Tests.TestHelpers
             return GetProperty(serviceName, "ObjectName").ToString();
         }
 
+        internal static string GetDescription(string serviceName)
+        {
+            return GetProperty(serviceName, "Description")?.ToString();
+        }
+
         private static PSObject GetProperty(string serviceName, string property)
         {
             string command = $@"(Get-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Services\{serviceName}').{property}";
@@ -101,7 +106,8 @@ namespace Continuous.WindowsService.Tests.TestHelpers
                 Type = (WindowsServiceType) GetServiceType(name),
                 StartMode = (WindowsServiceStartMode) GetStartMode(name),
                 Account = GetAccount(name),
-                Path = GetPath(name)
+                Path = GetPath(name),
+                Description = GetDescription(name)
             };
 
             return model;
@@ -117,5 +123,6 @@ namespace Continuous.WindowsService.Tests.TestHelpers
         internal WindowsServiceStartMode StartMode { get; set; }
         internal string Account { get; set; }
         public string Path { get; set; }
+        public string Description { get; set; }
     }
 }

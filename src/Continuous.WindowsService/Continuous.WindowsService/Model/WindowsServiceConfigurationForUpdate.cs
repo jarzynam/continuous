@@ -13,6 +13,11 @@ namespace Continuous.WindowsService.Model
         public string DisplayName { get; set; }
 
         /// <summary>
+        /// Description of windows service
+        /// </summary>
+        public string Description { get; set; }
+
+        /// <summary>
         /// Fully qualified path to the service binary file
         /// </summary>
         public string Path { get; set; }

@@ -94,9 +94,13 @@ namespace Continuous.WindowsService.Shell
 
             var result = _executor.Execute(_scripts.InstallServiceWithParameters, parameters);
 
+            if(config.Description != null)
+                UpdateDescription(config.Name, config.Description);
+
             ThrowServiceExceptionIfNecessary(result);
 
         }
+        
 
         /// <inheritdoc />
         public void Update(string serviceName, WindowsServiceConfigurationForUpdate config)
@@ -118,6 +122,9 @@ namespace Continuous.WindowsService.Shell
             };
 
             var result = _executor.Execute(_scripts.UpdateServiceWithParameters, parameters);
+
+            if (config.Description != null)
+                UpdateDescription(serviceName, config.Description);
 
             ThrowServiceExceptionIfNecessary(result);
         }
@@ -298,6 +305,26 @@ namespace Continuous.WindowsService.Shell
             };
 
             var result = _executor.Execute(_scripts.ChangeAccount, parameters);
+
+            ThrowServiceExceptionIfNecessary(result);
+        }
+
+        private void UpdateDescription(string serviceName, string description)
+        {
+            UpdateRegistryProperty(serviceName, "Description", description, "ExpandString");
+        }
+        private void UpdateRegistryProperty(string serviceName, string propertyName, string propertyValue, string propertyType)
+        {
+            var parameters = new List<CommandParameter>
+            {
+                new CommandParameter("serviceName", serviceName),
+                new CommandParameter("propertyName", propertyName),
+                new CommandParameter("propertyValue", propertyValue),
+                new CommandParameter("propertyType", propertyType)
+
+            };
+
+            var result = _executor.Execute(_scripts.UpdateServiceRegistryProperty, parameters);
 
             ThrowServiceExceptionIfNecessary(result);
         }
