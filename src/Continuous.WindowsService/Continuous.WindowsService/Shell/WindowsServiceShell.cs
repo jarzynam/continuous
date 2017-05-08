@@ -252,6 +252,19 @@ namespace Continuous.WindowsService.Shell
         }
 
         /// <inheritdoc />
+        public bool Exists(string serviceName)
+        {
+            var parameters = new List<CommandParameter>()
+            {
+                new CommandParameter("serviceName", serviceName)
+            };
+
+            var result = _executor.Execute(_scripts.ExistsService, parameters);
+
+            return result.Select(p => (bool) p.BaseObject).FirstOrDefault();
+        }
+
+        /// <inheritdoc />
         public WindowsServiceInfo Get(string serviceName)
         {
             var parameters = new List<CommandParameter>

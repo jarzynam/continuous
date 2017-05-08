@@ -71,6 +71,7 @@
     <Compile Include="TestHelpers\ServiceHelper.cs" />
     <Compile Include="TestHelpers\UserHelper.cs" />
     <Compile Include="Tests\ChangeAccountTests.cs" />
+    <Compile Include="Tests\ExistsTests.cs" />
     <Compile Include="Tests\GetServiceTests.cs" />
     <Compile Include="TestHelpers\Installer\Installer.cs" />
     <Compile Include="TestHelpers\Installer\ServiceInstaller.cs" />

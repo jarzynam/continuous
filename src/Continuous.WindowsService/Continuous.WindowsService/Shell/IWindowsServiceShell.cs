@@ -107,5 +107,12 @@ namespace Continuous.WindowsService.Shell
         /// <param name="serviceName">windows service name</param>
         /// <param name="state">expected state</param>
         void WaitForState(string serviceName, WindowsServiceState state);
+
+        /// <summary>
+        /// Check if windows service with provided name is existing
+        /// </summary>
+        /// <param name="serviceName">windows service name</param>
+        /// <returns>true if service exists</returns>
+        bool Exists(string serviceName);
     }
 }
