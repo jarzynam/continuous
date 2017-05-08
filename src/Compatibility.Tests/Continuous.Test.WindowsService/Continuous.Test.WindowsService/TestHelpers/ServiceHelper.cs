@@ -47,6 +47,11 @@ namespace Continuous.Test.WindowsService.TestHelpers
             return GetProperty(serviceName, "ObjectName").ToString();
         }
 
+        internal static string GetDescription(string serviceName)
+        {
+            return GetProperty(serviceName, "Description")?.ToString();
+        }
+
         private static PSObject GetProperty(string serviceName, string property)
         {
             string command = $@"(Get-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Services\{serviceName}').{property}";
@@ -55,19 +60,18 @@ namespace Continuous.Test.WindowsService.TestHelpers
         }
 
 
-        internal static void StartService(string name, bool waitForState = true)
+        internal static void StartService(string name)
         {
             var service = new ServiceController(name);
 
             service.Start();
 
-            if(waitForState)
-                service.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromSeconds(WaitInSeconds));
+            service.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromSeconds(WaitInSeconds));
         }
 
         internal static void StopService(string name, bool waitForState = true)
         {
-            var service  = new ServiceController(name);
+            var service = new ServiceController(name);
 
             service.Stop();
 
@@ -75,22 +79,30 @@ namespace Continuous.Test.WindowsService.TestHelpers
                 service.WaitForStatus(ServiceControllerStatus.Stopped);
         }
 
-        internal static void PauseService(string serviceName, bool waitForState = true)
+        internal static void PauseService(string serviceName, bool waitForStatus = true)
         {
             var service = new ServiceController(serviceName);
 
             service.Pause();
 
-            if(waitForState)
+            if (waitForStatus)
+            {
                 service.WaitForStatus(ServiceControllerStatus.Paused);
+            }
         }
 
         internal static WindowsServiceState GetState(string serviceName)
         {
             var service = new ServiceController(serviceName);
 
-            return (WindowsServiceState) Enum.Parse(typeof(WindowsServiceState), service.Status.ToString());
+            return (WindowsServiceState)Enum.Parse(typeof(WindowsServiceState), service.Status.ToString());
         }
+
+        public static void WaitForState(string serviceName, ServiceControllerStatus running)
+        {
+            new ServiceController(serviceName).WaitForStatus(running);
+        }
+
 
         internal static WindowsServiceTestModel GetService(string name)
         {
@@ -98,19 +110,15 @@ namespace Continuous.Test.WindowsService.TestHelpers
             {
                 Name = name,
                 DisplayName = GetDisplayName(name),
-                ErrorControl = (WindowsServiceErrorControl) GetErrorControl(name),
-                Type = (WindowsServiceType) GetServiceType(name),
-                StartMode = (WindowsServiceStartMode) GetStartMode(name),
+                ErrorControl = (WindowsServiceErrorControl)GetErrorControl(name),
+                Type = (WindowsServiceType)GetServiceType(name),
+                StartMode = (WindowsServiceStartMode)GetStartMode(name),
                 Account = GetAccount(name),
-                Path = GetPath(name)
+                Path = GetPath(name),
+                Description = GetDescription(name)
             };
 
             return model;
-        }
-
-        public static void WaitForState(string serviceName, ServiceControllerStatus running)
-        {
-            new ServiceController(serviceName).WaitForStatus(running);
         }
     }
 
@@ -123,5 +131,6 @@ namespace Continuous.Test.WindowsService.TestHelpers
         internal WindowsServiceStartMode StartMode { get; set; }
         internal string Account { get; set; }
         public string Path { get; set; }
+        public string Description { get; set; }
     }
 }

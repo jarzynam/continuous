@@ -49,8 +49,7 @@ namespace Continuous.Test.WindowsService.Tests
             var configForCreate = new WindowsServiceConfiguration
             {
                 Name = name,
-                DisplayName = name,
-                Path =  _serviceInstaller.ServicePath
+                Path = _serviceInstaller.ServicePath
             };
 
             _serviceInstaller.InstallService(configForCreate);
@@ -73,6 +72,7 @@ namespace Continuous.Test.WindowsService.Tests
             model.Type.Should().Be(configForCreate.Type);
             model.ErrorControl.Should().Be(configForCreate.ErrorControl);
             model.Account.Should().Be("LocalSystem");
+            model.Description.Should().BeNullOrEmpty();
         }
 
         [Test]
@@ -84,7 +84,6 @@ namespace Continuous.Test.WindowsService.Tests
             var configForCreate = new WindowsServiceConfiguration
             {
                 Name = name,
-                DisplayName = name,
                 Path = _serviceInstaller.ServicePath
             };
 
@@ -103,11 +102,12 @@ namespace Continuous.Test.WindowsService.Tests
 
             model.Path.Should().Be(configForUpdate.Path);
 
-            model.DisplayName.Should().Be(configForCreate.DisplayName);
+            model.DisplayName.Should().Be(name);
             model.StartMode.Should().Be(configForCreate.StartMode);
             model.Type.Should().Be(configForCreate.Type);
             model.ErrorControl.Should().Be(configForCreate.ErrorControl);
             model.Account.Should().Be("LocalSystem");
+            model.Description.Should().BeNullOrEmpty();
         }
 
         [Test]
@@ -119,7 +119,6 @@ namespace Continuous.Test.WindowsService.Tests
             var configForCreate = new WindowsServiceConfiguration
             {
                 Name = name,
-                DisplayName = name,
                 Path = _serviceInstaller.ServicePath
             };
 
@@ -131,7 +130,7 @@ namespace Continuous.Test.WindowsService.Tests
             };
 
             // act
-            Action act = () =>  _shell.Update(name, configForUpdate);
+            Action act = () => _shell.Update(name, configForUpdate);
 
             // assert
             act.ShouldThrow<FileNotFoundException>();
@@ -146,7 +145,6 @@ namespace Continuous.Test.WindowsService.Tests
             var configForCreate = new WindowsServiceConfiguration
             {
                 Name = name,
-                DisplayName = name,
                 Path = _serviceInstaller.ServicePath
             };
 
@@ -166,10 +164,11 @@ namespace Continuous.Test.WindowsService.Tests
             model.StartMode.Should().Be(configForUpdate.StartMode);
 
             model.Path.Should().Be(configForCreate.Path);
-            model.DisplayName.Should().Be(configForCreate.DisplayName);
+            model.DisplayName.Should().Be(name);
             model.Type.Should().Be(configForCreate.Type);
             model.ErrorControl.Should().Be(configForCreate.ErrorControl);
             model.Account.Should().Be("LocalSystem");
+            model.Description.Should().BeNullOrEmpty();
         }
 
         [Test]
@@ -181,7 +180,6 @@ namespace Continuous.Test.WindowsService.Tests
             var configForCreate = new WindowsServiceConfiguration
             {
                 Name = name,
-                DisplayName = name,
                 Path = _serviceInstaller.ServicePath
             };
 
@@ -202,9 +200,10 @@ namespace Continuous.Test.WindowsService.Tests
 
             model.StartMode.Should().Be(configForCreate.StartMode);
             model.Path.Should().Be(configForCreate.Path);
-            model.DisplayName.Should().Be(configForCreate.DisplayName);
+            model.DisplayName.Should().Be(name);
             model.ErrorControl.Should().Be(configForCreate.ErrorControl);
             model.Account.Should().Be("LocalSystem");
+            model.Description.Should().BeNullOrEmpty();
         }
 
         [Test]
@@ -216,7 +215,6 @@ namespace Continuous.Test.WindowsService.Tests
             var configForCreate = new WindowsServiceConfiguration
             {
                 Name = name,
-                DisplayName = name,
                 Path = _serviceInstaller.ServicePath
             };
 
@@ -238,8 +236,9 @@ namespace Continuous.Test.WindowsService.Tests
             model.Type.Should().Be(configForCreate.Type);
             model.StartMode.Should().Be(configForCreate.StartMode);
             model.Path.Should().Be(configForCreate.Path);
-            model.DisplayName.Should().Be(configForCreate.DisplayName);
+            model.DisplayName.Should().Be(name);
             model.Account.Should().Be("LocalSystem");
+            model.Description.Should().BeNullOrEmpty();
         }
 
         [Test]
@@ -251,7 +250,6 @@ namespace Continuous.Test.WindowsService.Tests
             var configForCreate = new WindowsServiceConfiguration
             {
                 Name = name,
-                DisplayName = name,
                 Path = _serviceInstaller.ServicePath
             };
 
@@ -270,12 +268,48 @@ namespace Continuous.Test.WindowsService.Tests
             var model = ServiceHelper.GetService(name);
             var interactiveWithDekstopFlag = 0x100;
 
-            ((int) model.Type).Should().Be((int)configForCreate.Type.GetValueOrDefault() | interactiveWithDekstopFlag);
+            ((int)model.Type).Should().Be((int)configForCreate.Type.GetValueOrDefault() | interactiveWithDekstopFlag);
 
             model.ErrorControl.Should().Be(configForCreate.ErrorControl);
             model.StartMode.Should().Be(configForCreate.StartMode);
             model.Path.Should().Be(configForCreate.Path);
-            model.DisplayName.Should().Be(configForCreate.DisplayName);
+            model.DisplayName.Should().Be(name);
+            model.Account.Should().Be("LocalSystem");
+            model.Description.Should().BeNullOrEmpty();
+        }
+
+
+        [Test]
+        public void Update_Should_Update_Description_Only()
+        {
+            // arrange
+            var name = _nameGenerator.GetRandomName(Prefix);
+
+            var configForCreate = new WindowsServiceConfiguration
+            {
+                Name = name,
+                Path = _serviceInstaller.ServicePath,
+
+            };
+
+            _serviceInstaller.InstallService(configForCreate);
+
+            var configForUpdate = new WindowsServiceConfigurationForUpdate
+            {
+                Description = "test service to delete"
+            };
+
+            // act
+            _shell.Update(name, configForUpdate);
+
+            // assert
+            var model = ServiceHelper.GetService(name);
+
+            model.Description.Should().Be(configForUpdate.Description);
+            model.ErrorControl.Should().Be(configForCreate.ErrorControl);
+            model.StartMode.Should().Be(configForCreate.StartMode);
+            model.Path.Should().Be(configForCreate.Path);
+            model.DisplayName.Should().Be(name);
             model.Account.Should().Be("LocalSystem");
         }
 
