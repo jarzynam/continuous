@@ -19,6 +19,7 @@ namespace Continuous.WindowsService.Tests.Tests
         private UserInstaller _userInstaller;
 
         private const string Prefix = "cTestService";
+        private const int AutomaticStartMode = 2;
 
         [SetUp]
         public void SetUp()
@@ -301,6 +302,7 @@ namespace Continuous.WindowsService.Tests.Tests
         {
             // arrange
             var name = _nameGenerator.GetRandomName(Prefix);
+            const int disabledStartMode = 4;
 
             var config = new WindowsServiceConfiguration
             {
@@ -315,7 +317,7 @@ namespace Continuous.WindowsService.Tests.Tests
             // assert
             var startMode = ServiceHelper.GetStartMode(name);
 
-            startMode.Should().Be((int)config.StartMode);
+            startMode.Should().Be(disabledStartMode);
         }
 
         [Test]
@@ -323,7 +325,7 @@ namespace Continuous.WindowsService.Tests.Tests
         {
             // arrange
             var name = _nameGenerator.GetRandomName(Prefix);
-
+            const int manualStartMode = 3;
             var config = new WindowsServiceConfiguration
             {
                 Name = name,
@@ -337,7 +339,7 @@ namespace Continuous.WindowsService.Tests.Tests
             // assert
             var startMode = ServiceHelper.GetStartMode(name);
 
-            startMode.Should().Be((int)config.StartMode);
+            startMode.Should().Be(manualStartMode);
         }
 
         [Test]
@@ -435,6 +437,31 @@ namespace Continuous.WindowsService.Tests.Tests
 
             // assert 
             act.ShouldThrow<InvalidOperationException>();
+        }
+
+        [Test]
+        public void Install_Should_Change_DelayAutostart_ToTrue()
+        {
+            // arrange
+            var name = _nameGenerator.GetRandomName(Prefix);
+            
+
+            var config = new WindowsServiceConfiguration
+            {
+                Name = name,
+                Path = _serviceInstaller.ServicePath,
+                StartMode = WindowsServiceStartMode.AutomaticDelayedStart
+            };
+
+            // act 
+            _serviceInstaller.InstallService(config);
+
+            // assert
+            var startMode = ServiceHelper.GetStartMode(name);
+            var delayedAutostart = ServiceHelper.GetDelayedAutostart(name);
+
+            startMode.Should().Be(AutomaticStartMode);
+            delayedAutostart.Should().BeTrue();
         }
     }
 }

@@ -31,6 +31,12 @@ namespace Continuous.WindowsService.Shell
                 CanStop = (result.Properties["AcceptStop"]?.Value as bool?).GetValueOrDefault()
             };
 
+            if (info.StartMode == WindowsServiceStartMode.Automatic &&
+                result.Properties["DelayedAutoStart"]?.Value as bool? == true)
+            {
+                info.StartMode = WindowsServiceStartMode.AutomaticDelayedStart;
+            }
+
             MapUser(result, info);
 
             return info;

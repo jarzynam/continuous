@@ -9,6 +9,7 @@ using Continuous.Management.Common;
 using Continuous.WindowsService.Model;
 using Continuous.WindowsService.Model.Enums;
 using Continuous.WindowsService.Resources;
+using Microsoft.Win32;
 
 namespace Continuous.WindowsService.Shell
 {
@@ -79,12 +80,15 @@ namespace Continuous.WindowsService.Shell
 
             var startName = GetStartName(config);
 
+            var isDelayedStart = config.StartMode == WindowsServiceStartMode.AutomaticDelayedStart;
+            var startMode = isDelayedStart ? WindowsServiceStartMode.Automatic: config.StartMode;
+
             var parameters = new List<CommandParameter>
             {
                 new CommandParameter("serviceName", config.Name),
                 new CommandParameter("displayName", config.DisplayName??config.Name),
                 new CommandParameter("errorControl", (byte?) config.ErrorControl),
-                new CommandParameter("startMode",  config.StartMode),
+                new CommandParameter("startMode",  startMode),
                 new CommandParameter("serviceType", (byte?) config.Type),
                 new CommandParameter("desktopInteract", config.InteractWithDesktop),
                 new CommandParameter("fullServicePath", config.Path),
@@ -97,10 +101,12 @@ namespace Continuous.WindowsService.Shell
             if(config.Description != null)
                 UpdateDescription(config.Name, config.Description);
 
-            ThrowServiceExceptionIfNecessary(result);
+            if(isDelayedStart)
+                UpdateDelayedStart(config.Name, true);
 
+            ThrowServiceExceptionIfNecessary(result);
         }
-        
+
 
         /// <inheritdoc />
         public void Update(string serviceName, WindowsServiceConfigurationForUpdate config)
@@ -110,12 +116,15 @@ namespace Continuous.WindowsService.Shell
             if(config.Path != null)
                 ThrowIfCantFindFile(config.Path);
 
+            var isDelayedStart = config.StartMode == WindowsServiceStartMode.AutomaticDelayedStart;
+            var startMode = isDelayedStart ? WindowsServiceStartMode.Automatic : config.StartMode;
+
             var parameters = new List<CommandParameter>
             {
                 new CommandParameter("serviceName", serviceName),
                 new CommandParameter("displayName", config.DisplayName),
                 new CommandParameter("errorControl", (byte?) config.ErrorControl),
-                new CommandParameter("startMode",   config.StartMode),
+                new CommandParameter("startMode",   startMode),
                 new CommandParameter("serviceType", (byte?) config.Type),
                 new CommandParameter("desktopInteract", config.InteractWithDesktop.GetValueOrDefault()),
                 new CommandParameter("fullServicePath", config.Path)
@@ -125,6 +134,8 @@ namespace Continuous.WindowsService.Shell
 
             if (config.Description != null)
                 UpdateDescription(serviceName, config.Description);
+
+            UpdateDelayedStart(serviceName, isDelayedStart);
 
             ThrowServiceExceptionIfNecessary(result);
         }
@@ -231,7 +242,7 @@ namespace Continuous.WindowsService.Shell
 
             return true;
         }
-     
+
         /// <inheritdoc />
         public void WaitForState(string serviceName, WindowsServiceState state, TimeSpan timeout)
         {
@@ -313,6 +324,13 @@ namespace Continuous.WindowsService.Shell
         {
             UpdateRegistryProperty(serviceName, "Description", description, "ExpandString");
         }
+
+        private void UpdateDelayedStart(string serviceName, bool isDelayedStart)
+        {
+           var isDelayedStr = Convert.ToInt32(isDelayedStart).ToString();
+           UpdateRegistryProperty(serviceName, "DelayedAutostart", isDelayedStr, RegistryValueKind.DWord.ToString() );
+        }
+
         private void UpdateRegistryProperty(string serviceName, string propertyName, string propertyValue, string propertyType)
         {
             var parameters = new List<CommandParameter>
@@ -364,6 +382,5 @@ namespace Continuous.WindowsService.Shell
             return config.DriverName ?? 
                 String.Join(@"\",config.AccountDomain?? ".", config.AccountName ?? "LocalSystem");
         }
-
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ServiceProcess;
 using Continuous.Management;
+using Continuous.WindowsService.Model;
 using Continuous.WindowsService.Model.Enums;
 using Continuous.WindowsService.Shell;
 using Continuous.WindowsService.Tests.TestHelpers;
@@ -27,7 +28,6 @@ namespace Continuous.WindowsService.Tests.Tests
         public void TearDown()
         {
             _serviceInstaller.Dispose();
-          
         }
 
         private ServiceInstaller _serviceInstaller;
@@ -84,6 +84,51 @@ namespace Continuous.WindowsService.Tests.Tests
             service.CanPause.Should().BeTrue();
             service.CanStop.Should().BeTrue();
         }
+
+        [Test]
+        public void Get_Should_Return_Proper_StartMode_When_Is_AutomaticWithDelayedStart()
+        {
+            // arrange
+            var serviceName = _nameGenerator.GetRandomName(Prefix);
+
+            var config = new WindowsServiceConfiguration
+            {
+                Name = serviceName,
+                Path = _serviceInstaller.ServicePath,
+                StartMode = WindowsServiceStartMode.AutomaticDelayedStart
+            };
+
+            _serviceInstaller.InstallService(config);
+
+            // act
+            var service = _shell.Get(serviceName);
+
+            // assert
+            service.StartMode.Should().Be(WindowsServiceStartMode.AutomaticDelayedStart);
+        }
+
+        [Test]
+        public void Get_Should_Return_Updated_Description()
+        {
+            // arrange
+            var serviceName = _nameGenerator.GetRandomName(Prefix);
+
+            var config = new WindowsServiceConfiguration
+            {
+                Name = serviceName,
+                Path = _serviceInstaller.ServicePath,
+                Description = "test"
+            };
+
+            _serviceInstaller.InstallService(config);
+
+            // act
+            var service = _shell.Get(serviceName);
+
+            // assert
+            service.Description.Should().Be(config.Description);
+        }
+
 
         [Test]
         public void Get_Should_Return_Null_When_ServiceNotExisting()

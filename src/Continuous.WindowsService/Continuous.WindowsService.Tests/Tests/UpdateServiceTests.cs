@@ -20,6 +20,7 @@ namespace Continuous.WindowsService.Tests.Tests
         private NameGenerator _nameGenerator;
 
         private const string Prefix = "uTestService";
+        private const WindowsServiceStartMode AutomaticStartMode = WindowsServiceStartMode.Automatic;
 
         [SetUp]
         public void SetUp()
@@ -66,7 +67,7 @@ namespace Continuous.WindowsService.Tests.Tests
             model.DisplayName.Should().Be(configForUpdate.DisplayName);
 
             model.Path.Should().Be(configForCreate.Path);
-            model.StartMode.Should().Be(configForCreate.StartMode);
+            model.StartMode.Should().Be(AutomaticStartMode);
             model.Type.Should().Be(configForCreate.Type);
             model.ErrorControl.Should().Be(configForCreate.ErrorControl);
             model.Account.Should().Be("LocalSystem");
@@ -101,7 +102,7 @@ namespace Continuous.WindowsService.Tests.Tests
             model.Path.Should().Be(configForUpdate.Path);
 
             model.DisplayName.Should().Be(name);
-            model.StartMode.Should().Be(configForCreate.StartMode);
+            model.StartMode.Should().Be(AutomaticStartMode);
             model.Type.Should().Be(configForCreate.Type);
             model.ErrorControl.Should().Be(configForCreate.ErrorControl);
             model.Account.Should().Be("LocalSystem");
@@ -139,7 +140,7 @@ namespace Continuous.WindowsService.Tests.Tests
         {
             // arrange
             var name = _nameGenerator.GetRandomName(Prefix);
-
+           
             var configForCreate = new WindowsServiceConfiguration
             {
                 Name = name,
@@ -159,7 +160,7 @@ namespace Continuous.WindowsService.Tests.Tests
             // assert
             var model = ServiceHelper.GetService(name);
 
-            model.StartMode.Should().Be(configForUpdate.StartMode);
+            model.StartMode.Should().Be(WindowsServiceStartMode.Disabled);
 
             model.Path.Should().Be(configForCreate.Path);
             model.DisplayName.Should().Be(name);
@@ -196,7 +197,7 @@ namespace Continuous.WindowsService.Tests.Tests
 
             model.Type.Should().Be(configForUpdate.Type);
 
-            model.StartMode.Should().Be(configForCreate.StartMode);
+            model.StartMode.Should().Be(AutomaticStartMode);
             model.Path.Should().Be(configForCreate.Path);
             model.DisplayName.Should().Be(name);
             model.ErrorControl.Should().Be(configForCreate.ErrorControl);
@@ -232,7 +233,7 @@ namespace Continuous.WindowsService.Tests.Tests
             model.ErrorControl.Should().Be(configForUpdate.ErrorControl);
 
             model.Type.Should().Be(configForCreate.Type);
-            model.StartMode.Should().Be(configForCreate.StartMode);
+            model.StartMode.Should().Be(AutomaticStartMode);
             model.Path.Should().Be(configForCreate.Path);
             model.DisplayName.Should().Be(name);
             model.Account.Should().Be("LocalSystem");
@@ -269,7 +270,7 @@ namespace Continuous.WindowsService.Tests.Tests
             ((int) model.Type).Should().Be((int)configForCreate.Type.GetValueOrDefault() | interactiveWithDekstopFlag);
 
             model.ErrorControl.Should().Be(configForCreate.ErrorControl);
-            model.StartMode.Should().Be(configForCreate.StartMode);
+            model.StartMode.Should().Be(AutomaticStartMode);
             model.Path.Should().Be(configForCreate.Path);
             model.DisplayName.Should().Be(name);
             model.Account.Should().Be("LocalSystem");
@@ -305,7 +306,78 @@ namespace Continuous.WindowsService.Tests.Tests
 
             model.Description.Should().Be(configForUpdate.Description);
             model.ErrorControl.Should().Be(configForCreate.ErrorControl);
-            model.StartMode.Should().Be(configForCreate.StartMode);
+            model.StartMode.Should().Be(AutomaticStartMode);
+            model.Path.Should().Be(configForCreate.Path);
+            model.DisplayName.Should().Be(name);
+            model.Account.Should().Be("LocalSystem");
+        }
+
+        [Test]
+        public void Update_Should_Update_DelayedAutostart_Only_ToTrue()
+        {
+            // arrange
+            var name = _nameGenerator.GetRandomName(Prefix);
+
+            var configForCreate = new WindowsServiceConfiguration
+            {
+                Name = name,
+                Path = _serviceInstaller.ServicePath,
+            };
+
+            _serviceInstaller.InstallService(configForCreate);
+
+            var configForUpdate = new WindowsServiceConfigurationForUpdate
+            {
+                StartMode = WindowsServiceStartMode.AutomaticDelayedStart
+            };
+
+            // act
+            _shell.Update(name, configForUpdate);
+
+            // assert
+            var model = ServiceHelper.GetService(name);
+
+            ServiceHelper.GetDelayedAutostart(name).Should().BeTrue();
+
+            model.Description.Should().Be(configForUpdate.Description);
+            model.ErrorControl.Should().Be(configForCreate.ErrorControl);
+            model.StartMode.Should().Be(AutomaticStartMode);
+            model.Path.Should().Be(configForCreate.Path);
+            model.DisplayName.Should().Be(name);
+            model.Account.Should().Be("LocalSystem");
+        }
+
+        [Test]
+        public void Update_Should_Update_DelayedAutostart_Only_ToFalse()
+        {
+            // arrange
+            var name = _nameGenerator.GetRandomName(Prefix);
+
+            var configForCreate = new WindowsServiceConfiguration
+            {
+                Name = name,
+                Path = _serviceInstaller.ServicePath,
+                StartMode = WindowsServiceStartMode.AutomaticDelayedStart
+            };
+
+            _serviceInstaller.InstallService(configForCreate);
+
+            var configForUpdate = new WindowsServiceConfigurationForUpdate
+            {
+                StartMode = WindowsServiceStartMode.Automatic
+            };
+
+            // act
+            _shell.Update(name, configForUpdate);
+
+            // assert
+            var model = ServiceHelper.GetService(name);
+
+            ServiceHelper.GetDelayedAutostart(name).Should().BeFalse();
+
+            model.Description.Should().Be(configForUpdate.Description);
+            model.ErrorControl.Should().Be(configForCreate.ErrorControl);
+            model.StartMode.Should().Be(AutomaticStartMode);
             model.Path.Should().Be(configForCreate.Path);
             model.DisplayName.Should().Be(name);
             model.Account.Should().Be("LocalSystem");
