@@ -12,10 +12,7 @@
     <description>This library is providing easy way to manage windows services: install/uninstall, start/stop, change user, etc. 
     </description>
     <releaseNotes>
-    - Added Exist method
-    - Optimized execution time
-    - Added default value for empty DisplayName property, when installing service
-    - Added Description field to install/update service configuration
+    - Added new windows service start mode: "AutomaticDelayedStart"
     </releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>Continuous Management WindowsService Service Windows</tags>
