@@ -1,4 +1,5 @@
 ﻿
+using System.Collections.Generic;
 using Continuous.WindowsService.Model.Enums;
 
 namespace Continuous.WindowsService.Model
@@ -93,5 +94,10 @@ namespace Continuous.WindowsService.Model
         /// Determines if service can be paused now
         /// </summary>
         public bool CanPause { get; set; }
+
+        /// <summary>
+        /// List of services names that must start before this service will start
+        /// </summary>
+        public ICollection<string> ServiceDependencies { get; set; }
     }
 }

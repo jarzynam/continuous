@@ -1,5 +1,6 @@
 ﻿using System;
-using System.ServiceProcess;
+using System.Collections.Generic;
+using System.Linq;
 using Continuous.Management;
 using Continuous.WindowsService.Model;
 using Continuous.WindowsService.Model.Enums;
@@ -63,8 +64,8 @@ namespace Continuous.WindowsService.Tests.Tests
             service.Status.Should().Be(WindowsServiceStatus.Ok);
             service.CanPause.Should().BeFalse();
             service.CanStop.Should().BeFalse();
-
             service.ExitCode.Should().Be(1077u);
+            service.ServiceDependencies.Should().BeEmpty();
         }
 
         [Test]
@@ -108,6 +109,33 @@ namespace Continuous.WindowsService.Tests.Tests
         }
 
         [Test]
+        public void Get_Should_Return_Proper_ServiceDependencies_When_Is_Collection()
+        {
+            // arrange
+            var serviceName = _nameGenerator.GetRandomName(Prefix);
+            var serviceDependencies = new List<string>
+            {
+                _nameGenerator.GetRandomName(Prefix),
+                _nameGenerator.GetRandomName(Prefix)
+            };
+
+            var config = new WindowsServiceConfiguration
+            {
+                Name = serviceName,
+                Path = _serviceInstaller.ServicePath,
+                ServiceDependencies = serviceDependencies
+            };
+
+            _serviceInstaller.InstallService(config);
+
+            // act
+            var service = _shell.Get(serviceName);
+
+            // assert
+            service.ServiceDependencies.Should().BeEquivalentTo(serviceDependencies);
+        }
+
+        [Test]
         public void Get_Should_Return_Updated_Description()
         {
             // arrange
@@ -146,11 +174,48 @@ namespace Continuous.WindowsService.Tests.Tests
         [Test]
         public void GetAll_Should_Fetch_AllServices()
         {
+            // arrange
+            var serviceName = _nameGenerator.GetRandomName(Prefix);
+
+            var config = new WindowsServiceConfiguration
+            {
+                Name = serviceName,
+                Path = _serviceInstaller.ServicePath,
+                Description = "new description",
+                ServiceDependencies = new List<string>
+                {
+                    _nameGenerator.GetRandomName(Prefix),
+                    _nameGenerator.GetRandomName(Prefix)
+                },
+                StartMode = WindowsServiceStartMode.AutomaticDelayedStart
+            };
+
+            _serviceInstaller.InstallService(config);
+
             // act
             var services = _shell.GetAll();
-
+            
             // assert
             services.Should().NotBeNullOrEmpty();
+
+            var testService = services.First(p => p.Name == serviceName);
+
+            testService.AccountDomain.Should().Be(null);
+            testService.AccountName.Should().Be("LocalSystem");
+            testService.Description.Should().Be(config.Description);
+            testService.DisplayName.Should().Be(serviceName);
+            testService.ErrorControl.Should().Be(WindowsServiceErrorControl.Normal);
+            testService.InteractWithDesktop.Should().Be(false);
+            testService.Name.Should().Be(serviceName);
+            testService.Path.Should().Be(_serviceInstaller.ServicePath);
+            testService.ProcessId.Should().Be(0);
+            testService.StartMode.Should().Be(WindowsServiceStartMode.AutomaticDelayedStart);
+            testService.State.Should().Be(WindowsServiceState.Stopped);
+            testService.Status.Should().Be(WindowsServiceStatus.Ok);
+            testService.CanPause.Should().BeFalse();
+            testService.CanStop.Should().BeFalse();
+            testService.ExitCode.Should().Be(1077u);
+            testService.ServiceDependencies.Should().BeEquivalentTo(config.ServiceDependencies);
         }
 
         [Test]

@@ -1,4 +1,5 @@
-﻿using Continuous.WindowsService.Model.Enums;
+﻿using System.Collections.Generic;
+using Continuous.WindowsService.Model.Enums;
 
 namespace Continuous.WindowsService.Model
 {
@@ -41,5 +42,10 @@ namespace Continuous.WindowsService.Model
         /// If true, the service can create or communicate with windows on the desktop. False as default;
         /// </summary>
         public bool? InteractWithDesktop { get; set; } 
+
+        /// <summary>
+        /// List of services names that must start before this service will start 
+        /// </summary>
+        public ICollection<string> ServiceDependencies { get; set; }
     }
 }

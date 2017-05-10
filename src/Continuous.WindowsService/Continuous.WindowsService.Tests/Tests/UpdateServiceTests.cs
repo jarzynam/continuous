@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Continuous.Management;
 using Continuous.WindowsService.Model;
@@ -381,6 +382,160 @@ namespace Continuous.WindowsService.Tests.Tests
             model.Path.Should().Be(configForCreate.Path);
             model.DisplayName.Should().Be(name);
             model.Account.Should().Be("LocalSystem");
+        }
+
+        [Test]
+        public void Update_Should_Update_ServiceDependencies_Only_FromEmpty_ToCollection()
+        {
+            // arrange
+            var name = _nameGenerator.GetRandomName(Prefix);
+            var serviceDependencies = new List<string>()
+            {
+                _nameGenerator.GetRandomName(Prefix),
+                _nameGenerator.GetRandomName(Prefix)
+            };
+
+            var configForCreate = new WindowsServiceConfiguration
+            {
+                Name = name,
+                Path = _serviceInstaller.ServicePath,
+            };
+
+            _serviceInstaller.InstallService(configForCreate);
+
+            var configForUpdate = new WindowsServiceConfigurationForUpdate
+            {
+                ServiceDependencies = serviceDependencies
+            };
+
+            // act
+            _shell.Update(name, configForUpdate);
+
+            // assert
+            var model = ServiceHelper.GetService(name);
+
+            model.ServiceDependencies.Should().BeEquivalentTo(serviceDependencies);
+
+            model.Description.Should().Be(configForUpdate.Description);
+            model.ErrorControl.Should().Be(configForCreate.ErrorControl);
+            model.StartMode.Should().Be(AutomaticStartMode);
+            model.Path.Should().Be(configForCreate.Path);
+            model.DisplayName.Should().Be(name);
+            model.Account.Should().Be("LocalSystem");
+        }
+
+        [Test]
+        public void Update_Should_Update_ServiceDependencies_Only_FromCollection_ToCollection()
+        {
+            // arrange
+            var name = _nameGenerator.GetRandomName(Prefix);
+            var serviceDependencies = new List<string>()
+            {
+                _nameGenerator.GetRandomName(Prefix),
+                _nameGenerator.GetRandomName(Prefix)
+            };
+
+            var serviceDependencies2 = new List<string>()
+            {
+                _nameGenerator.GetRandomName(Prefix),
+                _nameGenerator.GetRandomName(Prefix)
+            };
+
+
+            var configForCreate = new WindowsServiceConfiguration
+            {
+                Name = name,
+                Path = _serviceInstaller.ServicePath,
+                ServiceDependencies = serviceDependencies
+            };
+
+            _serviceInstaller.InstallService(configForCreate);
+
+            var configForUpdate = new WindowsServiceConfigurationForUpdate
+            {
+                ServiceDependencies = serviceDependencies2
+            };
+
+            // act
+            _shell.Update(name, configForUpdate);
+
+            // assert
+            var model = ServiceHelper.GetServiceDependencies(name);
+
+            model.Should().BeEquivalentTo(serviceDependencies2);
+        }
+
+        [Test]
+        public void Update_Should_Update_ServiceDependencies_Only_FromCollection_ToEmpty()
+        {
+            // arrange
+            var name = _nameGenerator.GetRandomName(Prefix);
+            var serviceDependencies = new List<string>()
+            {
+                _nameGenerator.GetRandomName(Prefix),
+                _nameGenerator.GetRandomName(Prefix)
+            };
+
+            var serviceDependencies2 = new List<string>()
+            {
+                
+            };
+
+            var configForCreate = new WindowsServiceConfiguration
+            {
+                Name = name,
+                Path = _serviceInstaller.ServicePath,
+                ServiceDependencies = serviceDependencies
+            };
+
+            _serviceInstaller.InstallService(configForCreate);
+
+            var configForUpdate = new WindowsServiceConfigurationForUpdate
+            {
+                ServiceDependencies = serviceDependencies2
+            };
+
+            // act
+            _shell.Update(name, configForUpdate);
+
+            // assert
+            var model = ServiceHelper.GetServiceDependencies(name);
+
+            model.Should().BeEquivalentTo(serviceDependencies2);
+        }
+
+        [Test]
+        public void Update_Should_Ignore_ServiceDependencies_When_Null()
+        {
+            // arrange
+            var name = _nameGenerator.GetRandomName(Prefix);
+            var serviceDependencies = new List<string>()
+            {
+                _nameGenerator.GetRandomName(Prefix),
+                _nameGenerator.GetRandomName(Prefix)
+            };
+
+            var configForCreate = new WindowsServiceConfiguration
+            {
+                Name = name,
+                Path = _serviceInstaller.ServicePath,
+                ServiceDependencies = serviceDependencies
+            };
+
+            _serviceInstaller.InstallService(configForCreate);
+
+            var configForUpdate = new WindowsServiceConfigurationForUpdate
+            {
+                ServiceDependencies = null
+            };
+
+            // act
+            _shell.Update(name, configForUpdate);
+
+            // assert
+            var model = ServiceHelper.GetServiceDependencies(name);
+
+            model.Should().BeEquivalentTo(serviceDependencies);
         }
 
         [Test]

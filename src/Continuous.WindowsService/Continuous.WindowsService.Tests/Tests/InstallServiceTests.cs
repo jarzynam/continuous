@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.ServiceProcess;
 using Continuous.WindowsService.Model;
@@ -462,6 +463,61 @@ namespace Continuous.WindowsService.Tests.Tests
 
             startMode.Should().Be(AutomaticStartMode);
             delayedAutostart.Should().BeTrue();
+        }
+
+        [Test]
+        public void Install_Should_Change_ServiceDependencies_ToCollection()
+        {
+            // arrange
+            var name = _nameGenerator.GetRandomName(Prefix);
+
+            var serviceDependencies = new List<string>
+            {
+                _nameGenerator.GetRandomName(Prefix),
+                _nameGenerator.GetRandomName(Prefix)
+            };
+
+            var config = new WindowsServiceConfiguration
+            {
+                Name = name,
+                Path = _serviceInstaller.ServicePath,
+                ServiceDependencies = serviceDependencies
+            };
+
+            // act 
+            _serviceInstaller.InstallService(config);
+
+            // assert
+            var actualServiceDependencies = ServiceHelper.GetServiceDependencies(name);
+
+            actualServiceDependencies.Should().BeEquivalentTo(serviceDependencies);
+        }
+
+        [Test]
+        public void Install_Should_Change_ServiceDependencies_EmptyCollection()
+        {
+            // arrange
+            var name = _nameGenerator.GetRandomName(Prefix);
+
+            var serviceDependencies = new List<string>
+            {
+                
+            };
+
+            var config = new WindowsServiceConfiguration
+            {
+                Name = name,
+                Path = _serviceInstaller.ServicePath,
+                ServiceDependencies = serviceDependencies
+            };
+
+            // act 
+            _serviceInstaller.InstallService(config);
+
+            // assert
+            var actualServiceDependencies = ServiceHelper.GetServiceDependencies(name);
+
+            actualServiceDependencies.Should().BeEquivalentTo(serviceDependencies);
         }
     }
 }

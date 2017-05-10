@@ -94,6 +94,7 @@ namespace Continuous.WindowsService.Shell
                 new CommandParameter("fullServicePath", config.Path),
                 new CommandParameter("startPassword", config.AccountPassword),
                 new CommandParameter("startName", startName),
+                new CommandParameter("serviceDependencies", config.ServiceDependencies?.Count > 0 ? config.ServiceDependencies : null)
             };
 
             var result = _executor.Execute(_scripts.InstallServiceWithParameters, parameters);
@@ -127,7 +128,8 @@ namespace Continuous.WindowsService.Shell
                 new CommandParameter("startMode",   startMode),
                 new CommandParameter("serviceType", (byte?) config.Type),
                 new CommandParameter("desktopInteract", config.InteractWithDesktop.GetValueOrDefault()),
-                new CommandParameter("fullServicePath", config.Path)
+                new CommandParameter("fullServicePath", config.Path),
+                new CommandParameter("serviceDependencies", config.ServiceDependencies?.Count == 0 ? new [] {String.Empty} :  config.ServiceDependencies)
             };
 
             var result = _executor.Execute(_scripts.UpdateServiceWithParameters, parameters);

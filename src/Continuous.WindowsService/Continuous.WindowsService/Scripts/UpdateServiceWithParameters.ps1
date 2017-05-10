@@ -8,10 +8,15 @@
 #	Byte		ErrorControl,
 #	String		StartMode, 
 #	Boolean		DesktopInteract,
+#   string		StartName,
+#	String		StartPassword,
+#	String		LoadOrderGroup,
+#	String[]	LoadOrderGroupDependencies
+#	String[]	ServiceDependencies
 
 
 param(
-	[string] $serviceName, 
+	[String] $serviceName, 
 	$fullServicePath,
 	$displayName,
 	$startName,
@@ -19,9 +24,10 @@ param(
 	$serviceType,
 	$errorControl,
 	$startMode,
-	$desktopInteract
+	$desktopInteract,
+	$serviceDependencies
 )
 
 $service = Get-WMIObject -Class Win32_Service -Filter "Name = '$serviceName'";
 
-$service.Change($displayName, $fullServicePath, $serviceType, $errorControl, $startMode, $desktopInteract)
+$service.Change($displayName, $fullServicePath, $serviceType, $errorControl, $startMode, $desktopInteract, $null, $null, $null, $null, $serviceDependencies)

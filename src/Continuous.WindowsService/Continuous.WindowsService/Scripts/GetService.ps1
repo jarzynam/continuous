@@ -2,10 +2,14 @@
   
 $service = Get-WMIObject -Class Win32_Service -Filter "Name = '$serviceName'";
 
-if($service){
-	$registryPath = "HKLM:\SYSTEM\CurrentControlSet\Services\$serviceName";
+if($service)
+{	
+	$registry = Get-Item -Path "HKLM:\SYSTEM\CurrentControlSet\Services\$serviceName";
 
-	$isDelayed = (Get-Item -Path $registryPath).GetValue("DelayedAutostart"); 
-	$service.DelayedAutoStart = $isDelayed
+	$service.DelayedAutoStart = $registry.GetValue("DelayedAutostart");
+
+	$serviceDependencies = $registry.GetValue("DependOnService");
+	$service | Add-Member ServiceDependencies $serviceDependencies;
 }
+
 return $service

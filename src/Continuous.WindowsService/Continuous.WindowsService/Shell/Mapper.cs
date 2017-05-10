@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
 using Continuous.Management.Common.Extensions;
@@ -28,7 +29,8 @@ namespace Continuous.WindowsService.Shell
                 ExitCode = (result.Properties["ExitCode"]?.Value as UInt32?) .GetValueOrDefault(),
                 ServiceSpecificExitCode = (result.Properties["ServiceSpecificExitCode"]?.Value as UInt32?).GetValueOrDefault(),
                 CanPause = (result.Properties["AcceptPause"]?.Value as bool?).GetValueOrDefault(),
-                CanStop = (result.Properties["AcceptStop"]?.Value as bool?).GetValueOrDefault()
+                CanStop = (result.Properties["AcceptStop"]?.Value as bool?).GetValueOrDefault(),
+                ServiceDependencies = (result.Properties["ServiceDependencies"]?.Value as string[])?.ToList()?? new List<string>()
             };
 
             if (info.StartMode == WindowsServiceStartMode.Automatic &&

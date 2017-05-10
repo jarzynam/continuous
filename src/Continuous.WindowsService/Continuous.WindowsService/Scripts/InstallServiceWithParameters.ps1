@@ -25,12 +25,13 @@ param(
 	[byte] $serviceType,
 	[byte] $errorControl,
 	[string] $startMode,
-	[boolean] $desktopInteract
+	[boolean] $desktopInteract,
+	[string[]] $serviceDependencies
 )
 
 
  
-$params = $desktopInteract, $displayName, $errorControl, $null, $null, $serviceName, $fullServicePath, $null, $serviceType, $startMode, $startName, $startPassword
+$params = $desktopInteract, $displayName, $errorControl, $null, $null, $serviceName, $fullServicePath, $serviceDependencies, $serviceType, $startMode, $startName, $startPassword
 
 
 Invoke-WmiMethod -Class "Win32_Service" -Name "Create" -ArgumentList $params 

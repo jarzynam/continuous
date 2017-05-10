@@ -13,6 +13,7 @@
     </description>
     <releaseNotes>
     - Added new windows service start mode: "AutomaticDelayedStart"
+    - Added new "ServiceDependencies" property
     </releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>Continuous Management WindowsService Service Windows</tags>
