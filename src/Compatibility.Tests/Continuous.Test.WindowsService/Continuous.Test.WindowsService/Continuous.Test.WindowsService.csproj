@@ -44,7 +44,7 @@
       <HintPath>..\packages\Continuous.Management.1.0.43\lib\net452\Continuous.Management.dll</HintPath>
     </Reference>
     <Reference Include="Continuous.WindowsService, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Continuous.WindowsService.2.3.4-alpha\lib\net452\Continuous.WindowsService.dll</HintPath>
+      <HintPath>..\packages\Continuous.WindowsService.2.4.1-alpha\lib\net452\Continuous.WindowsService.dll</HintPath>
     </Reference>
     <Reference Include="FluentAssertions, Version=4.19.2.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentAssertions.4.19.2\lib\net45\FluentAssertions.dll</HintPath>

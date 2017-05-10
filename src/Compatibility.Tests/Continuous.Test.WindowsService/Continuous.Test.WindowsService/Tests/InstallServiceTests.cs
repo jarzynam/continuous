@@ -19,6 +19,7 @@ namespace Continuous.Test.WindowsService.Tests
         private NameGenerator _nameGenerator;
         private UserInstaller _userInstaller;
 
+        private const int AutomaticStartMode = 2;
         private const string Prefix = "cTestService";
 
         [SetUp]
@@ -436,6 +437,31 @@ namespace Continuous.Test.WindowsService.Tests
 
             // assert 
             act.ShouldThrow<InvalidOperationException>();
+        }
+
+        [Test]
+        public void Install_Should_Change_DelayAutostart_ToTrue()
+        {
+            // arrange
+            var name = _nameGenerator.GetRandomName(Prefix);
+            
+
+            var config = new WindowsServiceConfiguration
+            {
+                Name = name,
+                Path = _serviceInstaller.ServicePath,
+                StartMode = WindowsServiceStartMode.AutomaticDelayedStart
+            };
+
+            // act 
+            _serviceInstaller.InstallService(config);
+
+            // assert
+            var startMode = ServiceHelper.GetStartMode(name);
+            var delayedAutostart = ServiceHelper.GetDelayedAutostart(name);
+
+            startMode.Should().Be(AutomaticStartMode);
+            delayedAutostart.Should().BeTrue();
         }
     }
 }

@@ -21,6 +21,7 @@ namespace Continuous.Test.WindowsService.Tests
         private UserInstaller _userInstaller;
         private NameGenerator _nameGenerator;
 
+        private const WindowsServiceStartMode AutomaticStartMode = WindowsServiceStartMode.Automatic;
         private const string Prefix = "uTestService";
 
         [SetUp]
@@ -312,6 +313,78 @@ namespace Continuous.Test.WindowsService.Tests
             model.DisplayName.Should().Be(name);
             model.Account.Should().Be("LocalSystem");
         }
+
+        [Test]
+        public void Update_Should_Update_DelayedAutostart_Only_ToTrue()
+        {
+            // arrange
+            var name = _nameGenerator.GetRandomName(Prefix);
+
+            var configForCreate = new WindowsServiceConfiguration
+            {
+                Name = name,
+                Path = _serviceInstaller.ServicePath,
+            };
+
+            _serviceInstaller.InstallService(configForCreate);
+
+            var configForUpdate = new WindowsServiceConfigurationForUpdate
+            {
+                StartMode = WindowsServiceStartMode.AutomaticDelayedStart
+            };
+
+            // act
+            _shell.Update(name, configForUpdate);
+
+            // assert
+            var model = ServiceHelper.GetService(name);
+
+            ServiceHelper.GetDelayedAutostart(name).Should().BeTrue();
+
+            model.Description.Should().Be(configForUpdate.Description);
+            model.ErrorControl.Should().Be(configForCreate.ErrorControl);
+            model.StartMode.Should().Be(AutomaticStartMode);
+            model.Path.Should().Be(configForCreate.Path);
+            model.DisplayName.Should().Be(name);
+            model.Account.Should().Be("LocalSystem");
+        }
+
+        [Test]
+        public void Update_Should_Update_DelayedAutostart_Only_ToFalse()
+        {
+            // arrange
+            var name = _nameGenerator.GetRandomName(Prefix);
+
+            var configForCreate = new WindowsServiceConfiguration
+            {
+                Name = name,
+                Path = _serviceInstaller.ServicePath,
+                StartMode = WindowsServiceStartMode.AutomaticDelayedStart
+            };
+
+            _serviceInstaller.InstallService(configForCreate);
+
+            var configForUpdate = new WindowsServiceConfigurationForUpdate
+            {
+                StartMode = WindowsServiceStartMode.Automatic
+            };
+
+            // act
+            _shell.Update(name, configForUpdate);
+
+            // assert
+            var model = ServiceHelper.GetService(name);
+
+            ServiceHelper.GetDelayedAutostart(name).Should().BeFalse();
+
+            model.Description.Should().Be(configForUpdate.Description);
+            model.ErrorControl.Should().Be(configForCreate.ErrorControl);
+            model.StartMode.Should().Be(AutomaticStartMode);
+            model.Path.Should().Be(configForCreate.Path);
+            model.DisplayName.Should().Be(name);
+            model.Account.Should().Be("LocalSystem");
+        }
+
 
         [Test]
         public void Update_Should_Throw_When_Service_NotExist()

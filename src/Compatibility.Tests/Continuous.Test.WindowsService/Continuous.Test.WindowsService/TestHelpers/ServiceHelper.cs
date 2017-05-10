@@ -52,13 +52,19 @@ namespace Continuous.Test.WindowsService.TestHelpers
             return GetProperty(serviceName, "Description")?.ToString();
         }
 
+        internal static bool GetDelayedAutostart(string serviceName)
+        {
+            var isDelayedStr = GetProperty(serviceName, "DelayedAutostart")?.ToString();
+
+            return isDelayedStr == "1";
+        }
+
         private static PSObject GetProperty(string serviceName, string property)
         {
             string command = $@"(Get-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Services\{serviceName}').{property}";
 
             return ScriptInvoker.InvokeScript(command).FirstOrDefault();
         }
-
 
         internal static void StartService(string name)
         {
