@@ -284,6 +284,25 @@ namespace Continuous.WindowsService.Shell
         }
 
         /// <inheritdoc />
+        public void ExecuteCommand(string serviceName, int commandCode)
+        {
+            ThrowIfCantFindService(serviceName);
+
+            if(commandCode < 128 || commandCode > 256)
+                throw new ArgumentException("Command code value must be between 128 and 256, inclusive but was: " + commandCode);
+
+            var parameters = new List<CommandParameter>()
+            {
+                new CommandParameter("serviceName", serviceName),
+                new CommandParameter("commandCode", commandCode)
+            };
+
+            var result = _executor.Execute(_scripts.ExecuteCommand, parameters);
+
+            ThrowServiceExceptionIfNecessary(result);
+        }
+
+        /// <inheritdoc />
         public WindowsServiceInfo Get(string serviceName)
         {
             var parameters = new List<CommandParameter>

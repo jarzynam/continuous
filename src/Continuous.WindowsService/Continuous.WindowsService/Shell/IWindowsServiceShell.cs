@@ -114,5 +114,12 @@ namespace Continuous.WindowsService.Shell
         /// <param name="serviceName">windows service name</param>
         /// <returns>true if service exists</returns>
         bool Exists(string serviceName);
+
+        /// <summary>
+        /// Execute a custom command on the service. The value must be between 128 and 256, inclusive.
+        /// </summary>
+        /// <param name="serviceName">windows service name</param>
+        /// <param name="commandCode">flag indicates which custom command to execute</param>
+        void ExecuteCommand(string serviceName, int commandCode);
     }
 }

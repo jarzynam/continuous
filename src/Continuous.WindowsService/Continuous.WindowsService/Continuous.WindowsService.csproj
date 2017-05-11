@@ -80,6 +80,7 @@
     <EmbeddedResource Include="Scripts\GetServiceState.ps1" />
     <EmbeddedResource Include="Scripts\ExistsService.ps1" />
     <EmbeddedResource Include="Scripts\UpdateServiceRegistryProperty.ps1" />
+    <EmbeddedResource Include="Scripts\ExecuteCommand.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

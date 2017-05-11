@@ -12,8 +12,7 @@
     <description>This library is providing easy way to manage windows services: install/uninstall, start/stop, change user, etc. 
     </description>
     <releaseNotes>
-    - Added new windows service start mode: "AutomaticDelayedStart"
-    - Added new "ServiceDependencies" property
+    - Added ExecuteCommand method
     </releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>Continuous Management WindowsService Service Windows</tags>
