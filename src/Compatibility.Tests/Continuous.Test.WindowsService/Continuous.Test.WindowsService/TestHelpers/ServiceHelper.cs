@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
 using System.ServiceProcess;
@@ -59,11 +60,26 @@ namespace Continuous.Test.WindowsService.TestHelpers
             return isDelayedStr == "1";
         }
 
+        internal static ICollection<string> GetServiceDependencies(string serviceName)
+        {
+            var result = GetProperties(serviceName, "DependOnService")
+                .Where(p => p?.BaseObject != null)
+                .Select(p => p.BaseObject.ToString())
+                .ToList();
+
+            return result;
+        }
+
         private static PSObject GetProperty(string serviceName, string property)
+        {
+            return GetProperties(serviceName, property).FirstOrDefault();
+        }
+
+        private static ICollection<PSObject> GetProperties(string serviceName, string property)
         {
             string command = $@"(Get-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Services\{serviceName}').{property}";
 
-            return ScriptInvoker.InvokeScript(command).FirstOrDefault();
+            return ScriptInvoker.InvokeScript(command);
         }
 
         internal static void StartService(string name)
@@ -121,7 +137,8 @@ namespace Continuous.Test.WindowsService.TestHelpers
                 StartMode = (WindowsServiceStartMode)GetStartMode(name),
                 Account = GetAccount(name),
                 Path = GetPath(name),
-                Description = GetDescription(name)
+                Description = GetDescription(name),
+                ServiceDependencies = GetServiceDependencies(name)
             };
 
             return model;
@@ -138,5 +155,6 @@ namespace Continuous.Test.WindowsService.TestHelpers
         internal string Account { get; set; }
         public string Path { get; set; }
         public string Description { get; set; }
+        public ICollection<string> ServiceDependencies { get; set; }
     }
 }
