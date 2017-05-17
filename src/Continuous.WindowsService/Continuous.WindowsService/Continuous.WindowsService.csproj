@@ -58,10 +58,15 @@
     <Compile Include="Model\WindowsServiceInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Win32ServiceMessages.cs" />
+    <Compile Include="Shell\Extensions\WindowsServiceInfo\ConfigurationCache.cs" />
+    <Compile Include="Shell\Extensions\WindowsServiceInfo\IWindowsServiceUpdate.cs" />
     <Compile Include="Shell\IWindowsServiceShell.cs" />
     <Compile Include="Shell\Mapper.cs" />
     <Compile Include="Shell\ScriptsBoundle.cs" />
+    <Compile Include="Shell\Extensions\WindowsServiceInfoExtensions.cs" />
+    <Compile Include="Shell\Extensions\WindowsServiceInfo\WindowsServiceModelManager.cs" />
     <Compile Include="Shell\WindowsServiceShell.cs" />
+    <Compile Include="Shell\Extensions\WindowsServiceInfo\WindowsServiceInfoUpdate.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Continuous.WindowsService.nuspec" />
@@ -82,5 +87,6 @@
     <EmbeddedResource Include="Scripts\UpdateServiceRegistryProperty.ps1" />
     <EmbeddedResource Include="Scripts\ExecuteCommand.ps1" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

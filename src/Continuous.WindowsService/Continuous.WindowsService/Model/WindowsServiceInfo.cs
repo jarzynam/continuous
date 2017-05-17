@@ -1,14 +1,19 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Continuous.WindowsService.Model.Enums;
+using Continuous.WindowsService.Shell.Extensions;
 
 namespace Continuous.WindowsService.Model
 {
     /// <summary>
     /// Base informations about windows service
     /// </summary>
-    public class WindowsServiceInfo
+    public class WindowsServiceInfo : WindowsServiceInfoExtensions
     {
+        public WindowsServiceInfo()
+        {
+            InitializeBase(this);
+        }
+
         /// <summary>
         /// Service name
         /// </summary>
