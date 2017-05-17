@@ -32,7 +32,7 @@ namespace Continuous.WindowsService.Shell.Extensions
         /// Start windows service modification proccess. To make changes perform Apply() method.
         /// </summary>
         /// <returns></returns>
-        public IWindowsServiceInfoUpdate Update()
+        public IWindowsServiceInfoUpdate Change()
         {
             return _service.Value;
         }
