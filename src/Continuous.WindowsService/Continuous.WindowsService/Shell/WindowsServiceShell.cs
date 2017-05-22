@@ -332,7 +332,7 @@ namespace Continuous.WindowsService.Shell
             var parameters = new List<CommandParameter>
             {
                 new CommandParameter("serviceName", serviceName),
-                new CommandParameter("newAccount", string.Join(@"\", domain, accountName)),
+                new CommandParameter("newAccount", string.Join(@"\", domain??".", accountName)),
                 new CommandParameter("newPassword", password)
             };
 

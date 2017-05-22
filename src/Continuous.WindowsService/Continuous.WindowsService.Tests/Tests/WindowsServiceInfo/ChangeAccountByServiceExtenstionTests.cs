@@ -36,7 +36,7 @@ namespace Continuous.WindowsService.Tests.Tests.WindowsServiceInfo
         {
             // arrange
             var serviceName = _nameGenerator.GetRandomName(Prefix);
-            var userName = serviceName;
+            var userName = _nameGenerator.GetRandomName("test");
             var userPassword = "test";
 
             var service = _serviceInstaller.InstallAndGetService(serviceName);

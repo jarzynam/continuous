@@ -74,6 +74,13 @@ namespace Continuous.WindowsService.Shell.Extensions.WindowsServiceInfo
         IWindowsServiceInfoUpdate InteractWithDesktop(bool newInteracWithDesktop);
 
         /// <summary>
+        /// Replace service dependencies with new list
+        /// </summary>
+        /// <param name="newDepencencies">List of services names that must start before this service will start </param>
+        /// <returns></returns>
+        IWindowsServiceInfoUpdate ServiceDependencies(List<string> newDepencencies);
+
+        /// <summary>
         /// Rollback all properties except user password when error occur.
         /// </summary>
         /// <returns>sss</returns>
@@ -91,6 +98,7 @@ namespace Continuous.WindowsService.Shell.Extensions.WindowsServiceInfo
         /// <returns></returns>
         Model.WindowsServiceInfo Apply();
 
-        IWindowsServiceInfoUpdate ServiceDependencies(List<string> newDepencencies);
+
+        
     }
 }

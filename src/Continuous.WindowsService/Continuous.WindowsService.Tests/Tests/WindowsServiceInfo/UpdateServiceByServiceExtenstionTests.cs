@@ -88,8 +88,7 @@ namespace Continuous.WindowsService.Tests.Tests.WindowsServiceInfo
             var path = configForCreate.Path.Replace("BasicService", "BasicService2");
             
             // act
-            service.Change()
-                .Path(path);
+            service.Change().Path(path).Apply();
 
             // assert
             var model = ServiceHelper.GetService(name);
@@ -411,7 +410,7 @@ namespace Continuous.WindowsService.Tests.Tests.WindowsServiceInfo
             var service = _serviceInstaller.InstallAndGetService(configForCreate);
 
             // act
-            service.Change().ServiceDependencies(serviceDependencies2);
+            service.Change().ServiceDependencies(serviceDependencies2).Apply();
 
             // assert
             var model = ServiceHelper.GetServiceDependencies(name);
@@ -442,7 +441,7 @@ namespace Continuous.WindowsService.Tests.Tests.WindowsServiceInfo
             var service = _serviceInstaller.InstallAndGetService(configForCreate);
 
             // act
-            service.Change().ServiceDependencies(serviceDependencies2);
+            service.Change().ServiceDependencies(serviceDependencies2).Apply();
 
             // assert
             var model = ServiceHelper.GetServiceDependencies(name);

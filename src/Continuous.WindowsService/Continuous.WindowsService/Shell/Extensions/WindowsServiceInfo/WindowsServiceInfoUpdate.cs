@@ -143,7 +143,7 @@ namespace Continuous.WindowsService.Shell.Extensions.WindowsServiceInfo
 
             if (_cache.HasUserChanged())
             {
-                _shell.ChangeAccount(_cache.AccountName, _cache.AccountPassword, _cache.AccountDomain);
+                _shell.ChangeAccount(_service.Name, _cache.AccountName, _cache.AccountPassword, _cache.AccountDomain);
             }
         }
 
