@@ -26,7 +26,7 @@ namespace Continuous.WindowsService.Tests.TestHelpers.Installer
             _shell.Install(serviceName, ServicePath);
 
             AddInstance(serviceName);
-        }
+        }  
 
         public void InstallService(WindowsServiceConfiguration configuration)
         {
@@ -35,7 +35,21 @@ namespace Continuous.WindowsService.Tests.TestHelpers.Installer
             AddInstance(configuration.Name);
         }
 
-        private void UninstallService(string serviceName)
+        public WindowsServiceInfo InstallAndGetService(string serviceName)
+        {
+            InstallService(serviceName);
+
+            return _shell.Get(serviceName);
+        }
+
+        public WindowsServiceInfo InstallAndGetService(WindowsServiceConfiguration configuration)
+        {
+            InstallService(configuration);
+
+            return _shell.Get(configuration.Name);
+        }
+
+        public void UninstallService(string serviceName)
         {
             _shell.Uninstall(serviceName);
 

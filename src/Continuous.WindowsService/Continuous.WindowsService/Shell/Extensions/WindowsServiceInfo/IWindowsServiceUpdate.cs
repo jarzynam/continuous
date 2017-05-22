@@ -1,4 +1,5 @@
-﻿using Continuous.WindowsService.Model.Enums;
+﻿using System.Collections.Generic;
+using Continuous.WindowsService.Model.Enums;
 
 namespace Continuous.WindowsService.Shell.Extensions.WindowsServiceInfo
 {
@@ -89,5 +90,7 @@ namespace Continuous.WindowsService.Shell.Extensions.WindowsServiceInfo
         /// </summary>
         /// <returns></returns>
         Model.WindowsServiceInfo Apply();
+
+        IWindowsServiceInfoUpdate ServiceDependencies(List<string> newDepencencies);
     }
 }

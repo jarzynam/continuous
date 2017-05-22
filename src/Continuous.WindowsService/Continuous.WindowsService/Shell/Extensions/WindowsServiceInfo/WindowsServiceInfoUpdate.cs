@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Continuous.WindowsService.Model.Enums;
 
 namespace Continuous.WindowsService.Shell.Extensions.WindowsServiceInfo
@@ -98,6 +99,13 @@ namespace Continuous.WindowsService.Shell.Extensions.WindowsServiceInfo
             return this;
         }
 
+        public IWindowsServiceInfoUpdate ServiceDependencies(List<string> newDepencencies)
+        {
+            _cache.ServiceDependencies = newDepencencies;
+
+            return this;
+        }
+
         public Model.WindowsServiceInfo Cancel()
         {
             _cache.Clear();
@@ -122,8 +130,12 @@ namespace Continuous.WindowsService.Shell.Extensions.WindowsServiceInfo
                 _cache.Clear();
             }
 
-            return _service.Refresh();
+            _service.Refresh();
+
+            return _service;
         }
+
+        
 
         private void Update()
         {

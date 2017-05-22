@@ -4,11 +4,29 @@ using Continuous.WindowsService.Shell.Extensions.WindowsServiceInfo;
 
 namespace Continuous.WindowsService.Shell.Extensions
 {
+    public interface IWindowsServiceInfoExtensions
+    {
+        /// <summary>
+        /// Start windows service modification proccess. To make changes perform Apply() method.
+        /// </summary>
+        /// <returns></returns>
+        IWindowsServiceInfoUpdate Change();
+
+        /// <summary>
+        /// Refresh windows service
+        /// </summary>
+        /// <returns></returns>
+        IWindowsServiceInfoExtensions Refresh();
+
+        IWindowsServiceInfoExtensions WaitForState(WindowsServiceState state);
+        IWindowsServiceInfoExtensions Start(bool waitForState = true);
+        IWindowsServiceInfoExtensions Stop(bool waitForState = true);
+    }
 
     /// <summary>
     /// Extended WindowsServiceInfo with managing services functionality
     /// </summary>
-    public class WindowsServiceInfoExtensions 
+    public class WindowsServiceInfoExtensions : IWindowsServiceInfoExtensions
     {
         private Lazy<WindowsServiceShell> _shell;
         private Lazy<IWindowsServiceModelManager> _mapper;
@@ -41,7 +59,7 @@ namespace Continuous.WindowsService.Shell.Extensions
         /// Refresh windows service
         /// </summary>
         /// <returns></returns>
-        public Model.WindowsServiceInfo Refresh()
+        public IWindowsServiceInfoExtensions Refresh()
         {
             var source = _shell.Value.Get(_info.Name);
 
@@ -50,14 +68,14 @@ namespace Continuous.WindowsService.Shell.Extensions
             return _info;
         }
 
-        public Model.WindowsServiceInfo WaitForState(WindowsServiceState state)
+        public IWindowsServiceInfoExtensions WaitForState(WindowsServiceState state)
         {
             _shell.Value.WaitForState(_info.Name, state);
 
             return Refresh();
         }
 
-        public Model.WindowsServiceInfo Start(bool waitForState = true)
+        public IWindowsServiceInfoExtensions Start(bool waitForState = true)
         {
             _shell.Value.Start(_info.Name);
 
@@ -67,7 +85,7 @@ namespace Continuous.WindowsService.Shell.Extensions
             return _info;
         }
 
-        public Model.WindowsServiceInfo Stop(bool waitForState = true)
+        public IWindowsServiceInfoExtensions Stop(bool waitForState = true)
         {
             _shell.Value.Stop(_info.Name);
 
