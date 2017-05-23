@@ -9,13 +9,12 @@ using ServiceInstaller = Continuous.WindowsService.Tests.TestHelpers.Installer.S
 namespace Continuous.WindowsService.Tests.Tests.WindowsServiceInfo
 {
     [TestFixture]
-    public class StartAndStopServiceByServiceExtensionTests
+    public class PauseAndContinueByServiceExtensionTests
     {
         [SetUp]
         public void SetUp()
         {
             _serviceInstaller = new ServiceInstaller();
-
             _nameGenerator = new NameGenerator();
         }
 
@@ -27,28 +26,30 @@ namespace Continuous.WindowsService.Tests.Tests.WindowsServiceInfo
 
         private ServiceInstaller _serviceInstaller;
         private NameGenerator _nameGenerator;
-      
-        private const string Prefix = "gsTestService";
+        
+        private const string Prefix = "prTestService";
 
         [Test]
-        public void Start_Should_Start_StoppedService()
+        public void Continue_Should_Resume_PausedService()
         {
             // arrange
             var serviceName = _nameGenerator.GetRandomName(Prefix);
 
             var service = _serviceInstaller.InstallAndGetService(serviceName);
 
-            ServiceHelper.GetState(serviceName).Should().Be(WindowsServiceState.Stopped);
+            ServiceHelper.StartService(serviceName);
+            ServiceHelper.PauseService(serviceName);
+            ServiceHelper.GetState(serviceName).Should().Be(WindowsServiceState.Paused);
 
             // act
-            service.Start();
-           
+            service.Continue();
+
             // assert
             ServiceHelper.GetState(serviceName).Should().Be(WindowsServiceState.Running);
         }
 
         [Test]
-        public void Start_Should_Not_Start_RunningService()
+        public void Continue_Should_Not_Resume_RunningService()
         {
             // arrange
             var serviceName = _nameGenerator.GetRandomName(Prefix);
@@ -59,33 +60,33 @@ namespace Continuous.WindowsService.Tests.Tests.WindowsServiceInfo
             ServiceHelper.GetState(serviceName).Should().Be(WindowsServiceState.Running);
 
             // act
-            service.Start();
-         
+            service.Continue();
+
             // assert
             ServiceHelper.GetState(serviceName).Should().Be(WindowsServiceState.Running);
         }
 
-       
-
         [Test]
-        public void Stop_Should_Not_Stop_StoppedService()
+        public void Pause_Should_Not_Pause_PausedService()
         {
             // arrange
             var serviceName = _nameGenerator.GetRandomName(Prefix);
 
             var service = _serviceInstaller.InstallAndGetService(serviceName);
 
-            ServiceHelper.GetState(serviceName).Should().Be(WindowsServiceState.Stopped);
+            ServiceHelper.StartService(serviceName);
+            ServiceHelper.PauseService(serviceName);
+            ServiceHelper.GetState(serviceName).Should().Be(WindowsServiceState.Paused);
 
             // act
-            service.Stop();
-         
+            service.Pause();
+
             // assert
-           ServiceHelper.GetState(serviceName).Should().Be(WindowsServiceState.Stopped);
+            ServiceHelper.GetState(serviceName).Should().Be(WindowsServiceState.Paused);
         }
 
         [Test]
-        public void Stop_Should_Stop_RunningService()
+        public void Pause_Should_Pause_RunningService()
         {
             // arrange
             var serviceName = _nameGenerator.GetRandomName(Prefix);
@@ -96,10 +97,10 @@ namespace Continuous.WindowsService.Tests.Tests.WindowsServiceInfo
             ServiceHelper.GetState(serviceName).Should().Be(WindowsServiceState.Running);
 
             // act
-            service.Stop();
-      
+            service.Pause();
+        
             // assert
-            ServiceHelper.GetState(serviceName).Should().Be(WindowsServiceState.Stopped);
+            ServiceHelper.GetState(serviceName).Should().Be(WindowsServiceState.Paused);
         }
     }
 }

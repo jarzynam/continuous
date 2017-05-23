@@ -11,7 +11,7 @@ using NUnit.Framework;
 namespace Continuous.WindowsService.Tests.Tests.WindowsServiceInfo
 {
     [TestFixture]
-    public class UpdateServiceByServiceExtenstionTests
+    public class UpdateByServiceExtenstionTests
     {
         private ServiceInstaller _serviceInstaller;
         private UserInstaller _userInstaller;

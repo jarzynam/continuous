@@ -51,14 +51,16 @@ namespace Continuous.WindowsService.Tests.TestHelpers.Installer
 
         public void UninstallService(string serviceName)
         {
-            _shell.Uninstall(serviceName);
+            if(_shell.Exists(serviceName))
+                _shell.Uninstall(serviceName);
 
             RemoveInstance(serviceName);
         }
 
         protected override void Uninstall(string instanceName)
         {
-            _shell.Uninstall(instanceName);
+            if(_shell.Exists(instanceName))
+                _shell.Uninstall(instanceName);
         }
     }
 }

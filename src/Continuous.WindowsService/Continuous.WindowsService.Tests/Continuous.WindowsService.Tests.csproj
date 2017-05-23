@@ -85,8 +85,12 @@
     <Compile Include="Tests\UpdateServiceTests.cs" />
     <Compile Include="Tests\WaitForStateTests.cs" />
     <Compile Include="Tests\WindowsServiceInfo\ChangeAccountByServiceExtenstionTests.cs" />
-    <Compile Include="Tests\WindowsServiceInfo\StartAndStopServiceByServiceExtensionTests.cs" />
-    <Compile Include="Tests\WindowsServiceInfo\UpdateServiceByServiceExtenstionTests.cs" />
+    <Compile Include="Tests\WindowsServiceInfo\ExecuteCommandByServiceExtensionTests.cs" />
+    <Compile Include="Tests\WindowsServiceInfo\ExistsByServiceExtensionTests.cs" />
+    <Compile Include="Tests\WindowsServiceInfo\PauseAndContinueByServiceExtensionTests.cs" />
+    <Compile Include="Tests\WindowsServiceInfo\StartAndStopByServiceExtensionTests.cs" />
+    <Compile Include="Tests\WindowsServiceInfo\UninstallByServiceExtensionTests.cs" />
+    <Compile Include="Tests\WindowsServiceInfo\UpdateByServiceExtenstionTests.cs" />
     <Compile Include="Tests\WindowsServiceInfo\WaitForStateByServiceExtensionTests.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -56,6 +56,19 @@ namespace Continuous.WindowsService.Shell.Extensions
         IWindowsServiceInfoExtensions Continue(bool waitForState = true);
 
         /// <summary>
+        ///     Execute a custom command on the service. The value must be between 128 and 256, inclusive.
+        /// </summary>
+        /// <param name="commandCode">code which will be send to service</param>
+        /// <returns></returns>
+        IWindowsServiceInfoExtensions ExecuteCommand(int commandCode);
+
+        /// <summary>
+        ///     Check if service has not been removed
+        /// </summary>
+        /// <returns></returns>
+        bool Exists();
+
+        /// <summary>
         ///     Uninstall this service
         /// </summary>
         void Uninstall();
@@ -141,6 +154,20 @@ namespace Continuous.WindowsService.Shell.Extensions
                 WaitForState(WindowsServiceState.Running);
 
             return _info;
+        }
+
+        /// <inheritdoc />
+        public IWindowsServiceInfoExtensions ExecuteCommand(int commandCode)
+        {
+            _shell.Value.ExecuteCommand(_info.Name, commandCode);
+
+            return this;
+        }
+
+        /// <inheritdoc />
+        public bool Exists()
+        {
+            return _shell.Value.Exists(_info.Name);
         }
 
         /// <inheritdoc />

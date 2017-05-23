@@ -15,21 +15,21 @@ namespace Continuous.WindowsService.Tests.TestHelpers
         {
             var result = GetProperty(serviceName, "ErrorControl");
 
-            return Int32.Parse(result.ToString());
+            return int.Parse(result.ToString());
         }
 
         internal static int GetServiceType(string serviceName)
         {
             var result = GetProperty(serviceName, "Type");
 
-            return Int32.Parse(result.ToString());
+            return int.Parse(result.ToString());
         }
 
         internal static int GetStartMode(string serviceName)
         {
             var result = GetProperty(serviceName, "Start");
 
-            return Int32.Parse(result.ToString());
+            return int.Parse(result.ToString());
         }
 
         internal static string GetPath(string serviceName)
@@ -76,11 +76,19 @@ namespace Continuous.WindowsService.Tests.TestHelpers
 
         private static ICollection<PSObject> GetProperties(string serviceName, string property)
         {
-            string command = $@"(Get-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Services\{serviceName}').{property}";
+            var command = $@"(Get-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Services\{serviceName}').{property}";
 
             return ScriptInvoker.InvokeScript(command);
         }
 
+        internal static bool Exist(string name)
+        {
+            var command = $"Get-Service {name} -ErrorAction Ignore";
+
+            var result =  ScriptInvoker.InvokeScript(command);
+
+            return result.Any();
+        }
 
         internal static void StartService(string name)
         {
@@ -93,7 +101,7 @@ namespace Continuous.WindowsService.Tests.TestHelpers
 
         internal static void StopService(string name)
         {
-            var service  = new ServiceController(name);
+            var service = new ServiceController(name);
 
             service.Stop();
 
@@ -107,9 +115,7 @@ namespace Continuous.WindowsService.Tests.TestHelpers
             service.Pause();
 
             if (waitForStatus)
-            {
                 service.WaitForStatus(ServiceControllerStatus.Paused);
-            }
         }
 
         internal static WindowsServiceState GetState(string serviceName)
