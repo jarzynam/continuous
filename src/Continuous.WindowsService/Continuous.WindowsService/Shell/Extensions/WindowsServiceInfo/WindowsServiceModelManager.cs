@@ -28,6 +28,7 @@ namespace Continuous.WindowsService.Shell.Extensions.WindowsServiceInfo
             target.ServiceSpecificExitCode = source.ServiceSpecificExitCode;
             target.State = source.State;
             target.Status = source.Status;
+            target.StartMode = source.StartMode;
         }
 
         public WindowsServiceConfigurationForUpdate CreateBackupConfig(Model.WindowsServiceInfo originalService, ConfigurationCache cachedChanges)

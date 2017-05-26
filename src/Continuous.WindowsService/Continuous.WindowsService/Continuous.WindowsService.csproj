@@ -67,6 +67,7 @@
     <Compile Include="Shell\Extensions\WindowsServiceInfo\WindowsServiceModelManager.cs" />
     <Compile Include="Shell\WindowsServiceShell.cs" />
     <Compile Include="Shell\Extensions\WindowsServiceInfo\WindowsServiceInfoUpdate.cs" />
+    <Compile Include="Shell\WindowsServiceExceptionFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Continuous.WindowsService.nuspec" />

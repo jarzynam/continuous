@@ -20,12 +20,12 @@ namespace Continuous.WindowsService.Shell
     public class WindowsServiceShell : IWindowsServiceShell
     {
         private readonly IScriptExecutor _executor;
+        private readonly IWindowsServiceExceptionFactory _exceptionFactoryFactory;
         private readonly ScriptsBoundle _scripts;
 
         private const int DelayTimeInMiliseconds = 250;
         private readonly TimeSpan _timeout = TimeSpan.FromMilliseconds(1000);
 
-        private readonly IWin32ServiceMessages _messages;
         private readonly Mapper _mapper;
 
 
@@ -38,7 +38,7 @@ namespace Continuous.WindowsService.Shell
             _executor = new ScriptExecutor(GetType());
             _scripts = new ScriptsBoundle();
 
-            _messages = new Win32ServiceMessages();
+            _exceptionFactoryFactory = new WindowsServiceExceptionFactory(new Win32ServiceMessages());
             _mapper = new Mapper();
         }
 
@@ -325,7 +325,6 @@ namespace Continuous.WindowsService.Shell
             return result.Select(p => _mapper.Map(p)).ToList();
         }
 
-
         /// <inheritdoc />
         public void ChangeAccount(string serviceName, string accountName, string password, string domain = ".")
         {
@@ -378,24 +377,20 @@ namespace Continuous.WindowsService.Shell
 
             var mappedValue = Convert.ToUInt32(returnValue); 
 
-            if ( mappedValue != 0)
-                throw new InvalidOperationException("Error occured Reason: " + _messages.GetMessage(mappedValue));
+            if(mappedValue != 0)
+                _exceptionFactoryFactory.ServiceException(mappedValue);
         }
 
-        private static void ThrowIfCantFindFile(string path)
+        private void ThrowIfCantFindFile(string path)
         {
             if (!File.Exists(path))
-            {
-                throw new FileNotFoundException("Can't find file in path: " + path);
-            }
+                _exceptionFactoryFactory.FileNotFoundException(path);
         }
 
         private void ThrowIfCantFindService(string serviceName)
         {
-            var isExist = Exists(serviceName);
-
-            if(!isExist)
-                throw new InvalidOperationException("Can't find service with name: " + serviceName);
+            if(!Exists(serviceName))
+                _exceptionFactoryFactory.ServiceNotFoundException(serviceName);
         }
 
         private static string GetStartName(WindowsServiceConfiguration config)

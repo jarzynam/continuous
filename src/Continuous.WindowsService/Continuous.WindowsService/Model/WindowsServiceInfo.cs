@@ -5,13 +5,28 @@ using Continuous.WindowsService.Shell.Extensions;
 namespace Continuous.WindowsService.Model
 {
     /// <summary>
-    /// Base informations about windows service
+    /// Base information about windows service
     /// </summary>
     public class WindowsServiceInfo : WindowsServiceInfoExtensions
     {
+        /// <summary>
+        /// Create empty instance
+        /// </summary>
         public WindowsServiceInfo()
         {
             InitializeBase(this);
+        }
+
+        /// <summary>
+        /// Create instance with existing service data. Throw exception if service not found
+        /// </summary>
+        /// <param name="serviceName">Existing windows service name</param>
+        public WindowsServiceInfo(string serviceName)
+        {
+            Name = serviceName;
+
+            InitializeBase(this);
+            Refresh();
         }
 
         /// <summary>

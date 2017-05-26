@@ -87,6 +87,7 @@
     <Compile Include="Tests\WindowsServiceInfo\ChangeAccountByServiceExtenstionTests.cs" />
     <Compile Include="Tests\WindowsServiceInfo\ExecuteCommandByServiceExtensionTests.cs" />
     <Compile Include="Tests\WindowsServiceInfo\ExistsByServiceExtensionTests.cs" />
+    <Compile Include="Tests\WindowsServiceInfo\GetByServiceExtensionTests.cs" />
     <Compile Include="Tests\WindowsServiceInfo\PauseAndContinueByServiceExtensionTests.cs" />
     <Compile Include="Tests\WindowsServiceInfo\StartAndStopByServiceExtensionTests.cs" />
     <Compile Include="Tests\WindowsServiceInfo\UninstallByServiceExtensionTests.cs" />

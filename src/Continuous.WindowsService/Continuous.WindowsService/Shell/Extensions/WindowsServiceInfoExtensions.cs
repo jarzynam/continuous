@@ -1,5 +1,6 @@
 ﻿using System;
 using Continuous.WindowsService.Model.Enums;
+using Continuous.WindowsService.Resources;
 using Continuous.WindowsService.Shell.Extensions.WindowsServiceInfo;
 
 namespace Continuous.WindowsService.Shell.Extensions
@@ -83,6 +84,7 @@ namespace Continuous.WindowsService.Shell.Extensions
         private Lazy<IWindowsServiceModelManager> _mapper;
         private Lazy<IWindowsServiceInfoUpdate> _service;
         private Lazy<WindowsServiceShell> _shell;
+        private Lazy<IWindowsServiceExceptionFactory> _exceptionFactory;
 
         protected WindowsServiceInfoExtensions()
         {
@@ -98,6 +100,9 @@ namespace Continuous.WindowsService.Shell.Extensions
         public IWindowsServiceInfoExtensions Refresh()
         {
             var source = _shell.Value.Get(_info.Name);
+
+            if(source == null)
+                _exceptionFactory.Value.ServiceNotFoundException(_info.Name);
 
             _mapper.Value.CopyProperties(_info, source);
 
@@ -183,6 +188,10 @@ namespace Continuous.WindowsService.Shell.Extensions
             _mapper = new Lazy<IWindowsServiceModelManager>(() => new WindowsServiceModelManager());
             _service = new Lazy<IWindowsServiceInfoUpdate>(
                 () => new WindowsServiceInfoUpdate(windowsServiceInfo, _shell.Value, _mapper.Value));
+
+            _exceptionFactory =
+                new Lazy<IWindowsServiceExceptionFactory>(
+                    () => new WindowsServiceExceptionFactory(new Win32ServiceMessages()));
         }
     }
 }

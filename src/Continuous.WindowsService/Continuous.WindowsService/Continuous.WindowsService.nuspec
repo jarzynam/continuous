@@ -13,6 +13,7 @@
     </description>
     <releaseNotes>
     - Added possibility to manipulate service directly from WindowsServiceInfo instance
+    - Added new constructor to WindowsServiceInfo for creating instance with existing windows service data
     </releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>Continuous Management WindowsService Service Windows</tags>
