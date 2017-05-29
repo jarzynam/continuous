@@ -1,4 +1,5 @@
-﻿using Continuous.WindowsService.Model.Enums;
+﻿using System;
+using Continuous.WindowsService.Model.Enums;
 
 namespace Continuous.WindowsService.Model
 {
@@ -14,6 +15,7 @@ namespace Continuous.WindowsService.Model
             ErrorControl = WindowsServiceErrorControl.Normal;
             StartMode = WindowsServiceStartMode.Automatic;
             InteractWithDesktop = false;
+            Description = String.Empty;
         }
 
         /// <summary>

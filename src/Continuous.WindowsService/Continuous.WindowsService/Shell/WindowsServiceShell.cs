@@ -99,8 +99,7 @@ namespace Continuous.WindowsService.Shell
 
             var result = _executor.Execute(_scripts.InstallServiceWithParameters, parameters);
 
-            if(config.Description != null)
-                UpdateDescription(config.Name, config.Description);
+            UpdateDescription(config.Name, config.Description);
 
             if(isDelayedStart)
                 UpdateDelayedStart(config.Name, true);
@@ -342,7 +341,7 @@ namespace Continuous.WindowsService.Shell
 
         private void UpdateDescription(string serviceName, string description)
         {
-            UpdateRegistryProperty(serviceName, "Description", description, "ExpandString");
+            UpdateRegistryProperty(serviceName, "Description", description?? String.Empty, "ExpandString");
         }
 
         private void UpdateDelayedStart(string serviceName, bool isDelayedStart)

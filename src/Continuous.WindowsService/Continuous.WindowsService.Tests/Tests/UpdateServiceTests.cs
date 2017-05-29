@@ -340,7 +340,7 @@ namespace Continuous.WindowsService.Tests.Tests
 
             ServiceHelper.GetDelayedAutostart(name).Should().BeTrue();
 
-            model.Description.Should().Be(configForUpdate.Description);
+            model.Description.Should().Be(configForCreate.Description);
             model.ErrorControl.Should().Be(configForCreate.ErrorControl);
             model.StartMode.Should().Be(AutomaticStartMode);
             model.Path.Should().Be(configForCreate.Path);
@@ -376,7 +376,7 @@ namespace Continuous.WindowsService.Tests.Tests
 
             ServiceHelper.GetDelayedAutostart(name).Should().BeFalse();
 
-            model.Description.Should().Be(configForUpdate.Description);
+            model.Description.Should().Be(configForCreate.Description);
             model.ErrorControl.Should().Be(configForCreate.ErrorControl);
             model.StartMode.Should().Be(AutomaticStartMode);
             model.Path.Should().Be(configForCreate.Path);
@@ -416,7 +416,7 @@ namespace Continuous.WindowsService.Tests.Tests
 
             model.ServiceDependencies.Should().BeEquivalentTo(serviceDependencies);
 
-            model.Description.Should().Be(configForUpdate.Description);
+            model.Description.Should().Be(configForCreate.Description);
             model.ErrorControl.Should().Be(configForCreate.ErrorControl);
             model.StartMode.Should().Be(AutomaticStartMode);
             model.Path.Should().Be(configForCreate.Path);

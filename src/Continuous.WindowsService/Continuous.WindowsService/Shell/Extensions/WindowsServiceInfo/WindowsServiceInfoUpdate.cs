@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Continuous.WindowsService.Model;
 using Continuous.WindowsService.Model.Enums;
 
 namespace Continuous.WindowsService.Shell.Extensions.WindowsServiceInfo
@@ -11,7 +12,8 @@ namespace Continuous.WindowsService.Shell.Extensions.WindowsServiceInfo
         private readonly IWindowsServiceModelManager _manager;
 
         private readonly ConfigurationCache _cache;
-     
+        private WindowsServiceConfigurationForUpdate _backupConfig;
+
         internal WindowsServiceInfoUpdate(Model.WindowsServiceInfo service, IWindowsServiceShell windowsShell, IWindowsServiceModelManager manager)
         {
             _shell = windowsShell;
@@ -95,7 +97,14 @@ namespace Continuous.WindowsService.Shell.Extensions.WindowsServiceInfo
         public IWindowsServiceInfoUpdate RollbackOnError()
         {
             _cache.RollbackOnError = true;
-            
+
+            if (_cache.RollbackOnError)
+            {
+                var service = _shell.Get(_service.Name);
+
+                _backupConfig = _manager.CreateBackupConfig(service, _cache);
+            }
+
             return this;
         }
 
@@ -136,7 +145,6 @@ namespace Continuous.WindowsService.Shell.Extensions.WindowsServiceInfo
         }
 
         
-
         private void Update()
         {
             _shell.Update(_service.Name, _cache);
@@ -149,14 +157,7 @@ namespace Continuous.WindowsService.Shell.Extensions.WindowsServiceInfo
 
         private void Rollback()
         {
-            var config = _manager.CreateBackupConfig(_service, _cache);
-
-            _shell.Update(_service.Name, config);
-
-            if (_cache.HasUserChanged())
-            {
-                _shell.ChangeAccount(_service.AccountName, null, _service.AccountDomain);
-            }
+            _shell.Update(_service.Name, _backupConfig);
         }
     }
 }

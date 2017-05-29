@@ -576,6 +576,8 @@ namespace Continuous.WindowsService.Tests.Tests.WindowsServiceInfo
 
             // act
             Action act = () => service.Change()
+                .AccountName("fakeAccount")
+                .AccountDomain("fakeDomain")
                 .ServiceDependencies(serviceDependencies)
                 .Description(description)
                 .DisplayName(displayName)
@@ -584,12 +586,11 @@ namespace Continuous.WindowsService.Tests.Tests.WindowsServiceInfo
                 .StartMode(startMode)
                 .Type(type)
                 .InteractWithDesktop(true)
-                .AccountName("fakeAccount")
-                .AccountDomain("fakeDomain")
+                
                 .RollbackOnError()
                 .Apply();
 
-            act.ShouldNotThrow<FileNotFoundException>();
+            act.ShouldThrow<FileNotFoundException>();
 
             // assert
             var model = ServiceHelper.GetService(serviceName);
@@ -603,6 +604,66 @@ namespace Continuous.WindowsService.Tests.Tests.WindowsServiceInfo
             model.StartMode.Should().Be(installConfig.StartMode);
             model.Type.Should().Be(installConfig.Type);
             model.Account.Should().Be("LocalSystem"); 
+        }
+
+        [Test]
+        public void Update_Can_Rollback_WhenUserIsInvalid()
+        {
+            // arrange
+            var serviceName = _nameGenerator.GetRandomName(Prefix);
+
+            var installConfig = new WindowsServiceConfiguration
+            {
+                Name = serviceName,
+                DisplayName = serviceName,
+                Path = _serviceInstaller.ServicePath
+            };
+
+            var service = _serviceInstaller.InstallAndGetService(installConfig);
+
+            var path = "fakePath";
+
+
+            var displayName = "new displayName";
+            var errorControl = WindowsServiceErrorControl.Critical;
+            var startMode = WindowsServiceStartMode.Disabled;
+            var serviceDependencies = new List<string>
+            {
+                _nameGenerator.GetRandomName(Prefix),
+                _nameGenerator.GetRandomName(Prefix)
+            };
+            var description = "test service to delete";
+            var type = WindowsServiceType.ShareProcess;
+
+            // act
+            Action act = () => service.Change()
+                .AccountName("fakeAccount")
+                .AccountDomain("fakeDomain")
+                .ServiceDependencies(serviceDependencies)
+                .Description(description)
+                .DisplayName(displayName)
+                .ErrorControl(errorControl)
+                .StartMode(startMode)
+                .Type(type)
+                .InteractWithDesktop(true)
+
+                .RollbackOnError()
+                .Apply();
+
+            act.ShouldThrow<InvalidOperationException>();
+
+            // assert
+            var model = ServiceHelper.GetService(serviceName);
+
+            model.ServiceDependencies.Should().BeNullOrEmpty();
+
+            model.Description.Should().Be(installConfig.Description);
+            model.DisplayName.Should().Be(installConfig.DisplayName);
+            model.ErrorControl.Should().Be(installConfig.ErrorControl);
+            model.Path.Should().Be(installConfig.Path);
+            model.StartMode.Should().Be(installConfig.StartMode);
+            model.Type.Should().Be(installConfig.Type);
+            model.Account.Should().Be("LocalSystem");
         }
     }
 }

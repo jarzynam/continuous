@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Continuous.WindowsService.Model;
 
@@ -35,7 +36,7 @@ namespace Continuous.WindowsService.Shell.Extensions.WindowsServiceInfo
         {
             var config = new WindowsServiceConfigurationForUpdate();
 
-            if (cachedChanges.Description != null) config.Description = originalService.Description;
+            if (cachedChanges.Description != null) config.Description = originalService.Description?? String.Empty;
             if (cachedChanges.DisplayName != null) config.DisplayName = originalService.DisplayName;
             if (cachedChanges.Path != null) config.Path = originalService.Path;
             if (cachedChanges.ServiceDependencies != null) config.ServiceDependencies = originalService.ServiceDependencies;
