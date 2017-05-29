@@ -44,7 +44,7 @@
       <HintPath>..\packages\Continuous.Management.1.0.43\lib\net452\Continuous.Management.dll</HintPath>
     </Reference>
     <Reference Include="Continuous.WindowsService, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Continuous.WindowsService.3.0.2-alpha\lib\net452\Continuous.WindowsService.dll</HintPath>
+      <HintPath>..\packages\Continuous.WindowsService.3.0.4-alpha\lib\net452\Continuous.WindowsService.dll</HintPath>
     </Reference>
     <Reference Include="FluentAssertions, Version=4.19.2.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentAssertions.4.19.2\lib\net45\FluentAssertions.dll</HintPath>
@@ -120,11 +120,26 @@
     <Compile Include="..\..\..\Continuous.WindowsService\Continuous.WindowsService.Tests\Tests\WindowsServiceInfo\ChangeAccountByServiceExtenstionTests.cs">
       <Link>Tests\WindowsServiceInfo\ChangeAccountByServiceExtenstionTests.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Continuous.WindowsService\Continuous.WindowsService.Tests\Tests\WindowsServiceInfo\StartAndStopServiceByServiceExtensionTests.cs">
-      <Link>Tests\WindowsServiceInfo\StartAndStopServiceByServiceExtensionTests.cs</Link>
+    <Compile Include="..\..\..\Continuous.WindowsService\Continuous.WindowsService.Tests\Tests\WindowsServiceInfo\ExecuteCommandByServiceExtensionTests.cs">
+      <Link>Tests\WindowsServiceInfo\ExecuteCommandByServiceExtensionTests.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Continuous.WindowsService\Continuous.WindowsService.Tests\Tests\WindowsServiceInfo\UpdateServiceByServiceExtenstionTests.cs">
-      <Link>Tests\WindowsServiceInfo\UpdateServiceByServiceExtenstionTests.cs</Link>
+    <Compile Include="..\..\..\Continuous.WindowsService\Continuous.WindowsService.Tests\Tests\WindowsServiceInfo\ExistsByServiceExtensionTests.cs">
+      <Link>Tests\WindowsServiceInfo\ExistsByServiceExtensionTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Continuous.WindowsService\Continuous.WindowsService.Tests\Tests\WindowsServiceInfo\GetByServiceExtensionTests.cs">
+      <Link>Tests\WindowsServiceInfo\GetByServiceExtensionTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Continuous.WindowsService\Continuous.WindowsService.Tests\Tests\WindowsServiceInfo\PauseAndContinueByServiceExtensionTests.cs">
+      <Link>Tests\WindowsServiceInfo\PauseAndContinueByServiceExtensionTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Continuous.WindowsService\Continuous.WindowsService.Tests\Tests\WindowsServiceInfo\StartAndStopByServiceExtensionTests.cs">
+      <Link>Tests\WindowsServiceInfo\StartAndStopByServiceExtensionTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Continuous.WindowsService\Continuous.WindowsService.Tests\Tests\WindowsServiceInfo\UninstallByServiceExtensionTests.cs">
+      <Link>Tests\WindowsServiceInfo\UninstallByServiceExtensionTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Continuous.WindowsService\Continuous.WindowsService.Tests\Tests\WindowsServiceInfo\UpdateByServiceExtenstionTests.cs">
+      <Link>Tests\WindowsServiceInfo\UpdateByServiceExtenstionTests.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Continuous.WindowsService\Continuous.WindowsService.Tests\Tests\WindowsServiceInfo\WaitForStateByServiceExtensionTests.cs">
       <Link>Tests\WindowsServiceInfo\WaitForStateByServiceExtensionTests.cs</Link>
