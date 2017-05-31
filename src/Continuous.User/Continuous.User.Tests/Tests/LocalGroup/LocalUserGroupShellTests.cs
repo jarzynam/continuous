@@ -6,7 +6,7 @@ using Continuous.User.Users.Model;
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace Continuous.User.Tests
+namespace Continuous.User.Tests.Tests.LocalGroup
 {
     [TestFixture]
     public class LocalUserGroupShellTests

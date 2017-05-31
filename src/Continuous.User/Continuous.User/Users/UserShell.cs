@@ -33,7 +33,7 @@ namespace Continuous.User.Users
                 new CommandParameter("password", userModel.Password),
                 new CommandParameter("description", userModel.Description),
                 new CommandParameter("fullName", userModel.FullName),
-                new CommandParameter("expires", userModel.Expires?.ToString("dd/MM/yyyy") ?? "never")
+                new CommandParameter("expires", userModel.Expires?.Date.ToShortDateString() ?? "never")
             };
 
             var result = _executor.Execute(_scripts.CreateUser, parameters);
@@ -60,11 +60,18 @@ namespace Continuous.User.Users
                 new CommandParameter("name", userName)
             };
 
-            var results = _executor.Execute(_scripts.GetUser, parameters);
+            try
+            {
+                var results = _executor.Execute(_scripts.GetUser, parameters);
 
-            if (!results.Any()) return null;
+                return MapToLocalUser(results);
+            }
+            catch (Exception)
+            {
+                //todo add to _executor flag 'NotThrowException' and remove this closure 
+            }
 
-            return MapToLocalUser(results);
+            return null;
         }
 
         private UserModel MapToLocalUser(ICollection<PSObject> results)
