@@ -45,7 +45,7 @@ namespace Continuous.User.Tests.Tests.User
             // act
             _shell.Create(user);
 
-            _installer.AddAsCreated(user.Name);
+            _installer.AddAsInstalled(user.Name);
 
             // assert
             var createdUser = UserHelper.GetUser(user.Name);
@@ -66,7 +66,7 @@ namespace Continuous.User.Tests.Tests.User
             // act
             Action act = () => _shell.Create(user);
 
-            _installer.AddAsCreated(_generator.RandomName);
+            _installer.AddAsInstalled(_generator.RandomName);
 
             // assert
             act.ShouldNotThrow();

@@ -35,7 +35,7 @@ namespace Continuous.User.Tests.TestHelpers.Installer
             UserHelper.DeleteUser(instanceName);
         }
 
-        public void AddAsCreated(string userName)
+        public void AddAsInstalled(string userName)
         {
             AddInstance(userName);
         }

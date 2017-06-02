@@ -64,11 +64,17 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestHelpers\Installer\Installer.cs" />
+    <Compile Include="TestHelpers\Installer\LocalGroupInstaller.cs" />
     <Compile Include="TestHelpers\Installer\UserInstaller.cs" />
+    <Compile Include="TestHelpers\LocalGroupHelper.cs" />
     <Compile Include="TestHelpers\NameGenerator.cs" />
     <Compile Include="TestHelpers\ScriptInvoker.cs" />
     <Compile Include="TestHelpers\UserHelper.cs" />
-    <Compile Include="Tests\LocalGroup\LocalUserGroupShellTests.cs" />
+    <Compile Include="Tests\LocalGroup\RemoveUsersFromLocalGroupTests.cs" />
+    <Compile Include="Tests\LocalGroup\AssignUsersToLocalGroupTests.cs" />
+    <Compile Include="Tests\LocalGroup\CreateLocalGroupTests.cs" />
+    <Compile Include="Tests\LocalGroup\GetLocalGroupTests.cs" />
+    <Compile Include="Tests\LocalGroup\RemoveLocalGroupTests.cs" />
     <Compile Include="Tests\User\RemoveUserTests.cs" />
     <Compile Include="Tests\User\CreateUserTests.cs" />
     <Compile Include="Tests\User\GetUserTests.cs" />

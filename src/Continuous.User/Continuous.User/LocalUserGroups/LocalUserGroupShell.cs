@@ -12,8 +12,8 @@ namespace Continuous.User.LocalUserGroups
     public class LocalUserGroupShell : ILocalUserGroupShell
     {
         private readonly ScriptExecutor _executor;
-        private readonly ScriptsBoundle _scripts;
         private readonly Mapper _mapper;
+        private readonly ScriptsBoundle _scripts;
 
         public LocalUserGroupShell()
         {
@@ -26,8 +26,8 @@ namespace Continuous.User.LocalUserGroups
         {
             var parameters = new List<CommandParameter>
             {
-                new CommandParameter("name", name),       
-                new CommandParameter("description", description),
+                new CommandParameter("name", name),
+                new CommandParameter("description", description)
             };
 
             var result = _executor.Execute(_scripts.CreateLocalUserGroup, parameters);
@@ -53,10 +53,16 @@ namespace Continuous.User.LocalUserGroups
             {
                 new CommandParameter("name", groupName)
             };
+            try
+            {
+                var results = _executor.Execute(_scripts.GetLocalUserGroup, parameters);
 
-            var results = _executor.Execute(_scripts.GetLocalUserGroup, parameters);
-
-            return !results.Any() ? null : _mapper.Map(results);
+                return !results.Any() ? null : _mapper.Map(results);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public void AssignUsers(string groupName, List<string> userNames)
@@ -74,7 +80,7 @@ namespace Continuous.User.LocalUserGroups
             ThrowServiceExceptionIfNecessary(results, nameof(AssignUsers));
         }
 
-        public void RemoveUsers(string groupName, List<string> userNames) 
+        public void RemoveUsers(string groupName, List<string> userNames)
         {
             ThrowIfListIsEmpty(userNames);
 
