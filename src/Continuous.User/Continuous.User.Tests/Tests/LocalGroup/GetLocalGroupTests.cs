@@ -53,17 +53,21 @@ namespace Continuous.User.Tests.Tests.LocalGroup
             // arrange
             string groupName = _generator.RandomName;
             string userName = _generator.RandomName;
+            string userName2 = _generator.RandomName;
 
             _groupInstaller.Install(groupName);
             _userInstaller.Install(userName, _generator.RandomName);
+            _userInstaller.Install(userName2, _generator.RandomName);
 
             LocalGroupHelper.AssignUser(groupName, userName);
+            LocalGroupHelper.AssignUser(groupName, userName2);
 
             // act
             var group = _shell.Get(groupName);
 
             // assert
             group.Members.Should().Contain(p => p == userName);
+            group.Members.Should().Contain(p => p == userName2);
         }
 
 
