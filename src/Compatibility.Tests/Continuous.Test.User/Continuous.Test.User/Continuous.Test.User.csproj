@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{863F36CF-7151-4013-990E-64F2F9E81A81}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Continuous.Test.User</RootNamespace>
+    <AssemblyName>Continuous.Test.User</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
+    <IsCodedUITest>False</IsCodedUITest>
+    <TestProjectType>UnitTest</TestProjectType>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.4.0.0\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Continuous.Management, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Continuous.Management.1.0.1\lib\net452\Continuous.Management.dll</HintPath>
+    </Reference>
+    <Reference Include="Continuous.User, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Continuous.User.1.0.40-alpha\lib\net452\Continuous.User.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentAssertions, Version=4.19.2.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentAssertions.4.19.2\lib\net45\FluentAssertions.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentAssertions.Core, Version=4.19.2.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentAssertions.4.19.2\lib\net45\FluentAssertions.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq, Version=4.7.12.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\packages\Moq.4.7.12\lib\net45\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=3.7.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.7.0\lib\net45\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Management.Automation.dll.10.0.10586.0\lib\net40\System.Management.Automation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\TestHelpers\Installer\Installer.cs">
+      <Link>TestHelpers\Installer\Installer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\TestHelpers\Installer\LocalGroupInstaller.cs">
+      <Link>TestHelpers\Installer\LocalGroupInstaller.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\TestHelpers\Installer\UserInstaller.cs">
+      <Link>TestHelpers\Installer\UserInstaller.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\TestHelpers\LocalGroupHelper.cs">
+      <Link>TestHelpers\LocalGroupHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\TestHelpers\NameGenerator.cs">
+      <Link>TestHelpers\NameGenerator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\TestHelpers\ScriptInvoker.cs">
+      <Link>TestHelpers\ScriptInvoker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\TestHelpers\UserHelper.cs">
+      <Link>TestHelpers\UserHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\Tests\LocalGroup\AssignUsersToLocalGroupTests.cs">
+      <Link>Tests\LocalGroups\AssignUsersToLocalGroupTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\Tests\LocalGroup\CreateLocalGroupTests.cs">
+      <Link>Tests\LocalGroups\CreateLocalGroupTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\Tests\LocalGroup\GetLocalGroupTests.cs">
+      <Link>Tests\LocalGroups\GetLocalGroupTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\Tests\LocalGroup\RemoveLocalGroupTests.cs">
+      <Link>Tests\LocalGroups\RemoveLocalGroupTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\Tests\LocalGroup\RemoveUSersFromLocalGroupTests.cs">
+      <Link>Tests\LocalGroups\RemoveUSersFromLocalGroupTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\Tests\User\CreateUserTests.cs">
+      <Link>Tests\Users\CreateUserTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\Tests\User\GetUserTests.cs">
+      <Link>Tests\Users\GetUserTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\Tests\User\RemoveUserTests.cs">
+      <Link>Tests\Users\RemoveUserTests.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
