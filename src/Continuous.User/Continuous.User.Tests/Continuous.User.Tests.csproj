@@ -75,6 +75,7 @@
     <Compile Include="Tests\LocalGroup\CreateLocalGroupTests.cs" />
     <Compile Include="Tests\LocalGroup\GetLocalGroupTests.cs" />
     <Compile Include="Tests\LocalGroup\RemoveLocalGroupTests.cs" />
+    <Compile Include="Tests\User\ChangeUserPassword.cs" />
     <Compile Include="Tests\User\RemoveUserTests.cs" />
     <Compile Include="Tests\User\CreateUserTests.cs" />
     <Compile Include="Tests\User\GetUserTests.cs" />

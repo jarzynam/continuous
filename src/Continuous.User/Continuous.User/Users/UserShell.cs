@@ -74,6 +74,19 @@ namespace Continuous.User.Users
             return null;
         }
 
+        public void ChangePassword(string userName, string userPassword)
+        {
+            ThrowIfNotExist(userName);
+
+            var parameters = new List<CommandParameter>
+            {
+                new CommandParameter("userName", userName),
+                new CommandParameter("password", userPassword)
+            };
+
+            _executor.Execute(_scripts.ChangeUserPassword, parameters);
+        }
+
         private UserModel MapToLocalUser(ICollection<PSObject> results)
         {
             var properties = new Dictionary<string, string>();
@@ -117,5 +130,12 @@ namespace Continuous.User.Users
             if (returnValue != "The command completed successfully.")
                 throw new InvalidOperationException($"Cannot invoke command {commandName}. Reason: " + returnValue);
         }
+
+        private void ThrowIfNotExist(string userName)
+        {
+            if(Get(userName) == null )
+                throw new InvalidOperationException($"User '{userName}' is not existing");
+        }
+        
     }
 }

@@ -69,6 +69,7 @@
     <EmbeddedResource Include="LocalUserGroups\Scripts\RemoveLocalUserGroup.ps1" />
     <EmbeddedResource Include="LocalUserGroups\Scripts\RemoveUsersFromLocalGroup.ps1" />
     <None Include="Continuous.User.nuspec" />
+    <EmbeddedResource Include="Users\Scripts\ChangeUserPassword.ps1" />
     <None Include="packages.config" />
     <EmbeddedResource Include="Users\Scripts\CreateUser.ps1" />
     <EmbeddedResource Include="Users\Scripts\GetUser.ps1" />
