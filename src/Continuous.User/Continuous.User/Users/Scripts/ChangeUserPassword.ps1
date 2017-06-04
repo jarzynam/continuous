@@ -3,5 +3,4 @@
 #
 param([string]$userName, [string] $password)
   
- $user = [ADSI]"WinNT://./$username";
- $user.SetPassword($password)
+ net user $userName $password

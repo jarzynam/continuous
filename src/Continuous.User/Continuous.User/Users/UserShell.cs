@@ -84,7 +84,9 @@ namespace Continuous.User.Users
                 new CommandParameter("password", userPassword)
             };
 
-            _executor.Execute(_scripts.ChangeUserPassword, parameters);
+            var result = _executor.Execute(_scripts.ChangeUserPassword, parameters);
+
+            ThrowServiceExceptionIfNecessary(result, nameof(ChangePassword));
         }
 
         private UserModel MapToLocalUser(ICollection<PSObject> results)
