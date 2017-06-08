@@ -38,6 +38,38 @@ namespace Continuous.User.Tests.TestHelpers
             return model;
         }
 
+        public static DateTime GetPasswordLastSet(string userName)
+        {
+            return DateTime.Parse(GetUserProperty(userName, "Password last set"));
+        }
+        
+        public static DateTime GetPasswordExpirationDate(string userName)
+        {
+            return DateTime.Parse(GetUserProperty(userName, "Password expires"));
+        }
+
+        public static TimeSpan GetPasswordBadAttemptsInterval(string userName)
+        {
+            var seconds = (int) GetPropertyFromAdsi(userName, "LockoutObservationInterval");
+
+            return TimeSpan.FromSeconds(seconds);
+        }
+
+        public static int GetPasswordMinLength(string userName)
+        {
+            return (int) GetPropertyFromAdsi(userName, "MinPasswordLength");
+        }
+
+        public static int GetPasswordMaxBadAttempts(string userName)
+        {
+            return (int) GetPropertyFromAdsi(userName, "BadPasswordAttempts");
+        }
+
+        public static int GetUserFlags(string userName)
+        {
+            return (int) GetPropertyFromAdsi(userName, "UserFlags");
+        }
+
         public static UserModel BuildLocalUser(string name)
         {
             return new UserModel
@@ -50,12 +82,20 @@ namespace Continuous.User.Tests.TestHelpers
             };
         }
 
+        
         private static string GetUserProperty(string userName, string propertyName)
         {
-            var regex = @"'\s{2,}'";
-            var result = ScriptInvoker.InvokeScript($"(((net user {userName})  -match \"{propertyName}\") -split {regex})");
+            var propertyRegex = @"'\s{2,}'";
+            var result = ScriptInvoker.InvokeScript($"(((net user {userName})  -match \"{propertyName}\") -split {propertyRegex})");
 
             return result[1].BaseObject as string;
+        }
+
+        private static object GetPropertyFromAdsi(string userName, string propertyName)
+        {
+            var script = $"([ADSI] \"WinNT://./{userName}, user\").{propertyName}.Value";
+
+            return ScriptInvoker.InvokeScript(script).FirstOrDefault()?.BaseObject;
         }
     }
 }

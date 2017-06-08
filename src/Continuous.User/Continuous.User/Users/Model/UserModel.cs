@@ -40,12 +40,12 @@ namespace Continuous.User.Users.Model
         /// <summary>
         /// Last date when password has been changed
         /// </summary>
-        public DateTime? PasswordLastSet { get; set; }
+        public DateTime? PasswordLastChange { get; set; }
 
         /// <summary>
         /// Determines if user must change password on next logon
         /// </summary>
-        public bool PasswordChangeOnNextLogon { get; set; }
+        public bool PasswordMustChangeOnNextLogon { get; set; }
 
         /// <summary>
         /// Minimum length that password must have

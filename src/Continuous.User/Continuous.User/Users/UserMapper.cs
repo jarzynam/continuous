@@ -38,7 +38,7 @@ namespace Continuous.User.Users
             var maxPasswordAge =  properties.Get("MaxPasswordAge");
             var passwordExpired = properties.Get("PasswordExpired");
 
-            user.PasswordLastSet = passwordAge == null?  null : (DateTime?) DateTime.Now.AddSeconds(-(int) passwordAge);
+            user.PasswordLastChange = passwordAge == null?  null : (DateTime?) DateTime.Now.AddSeconds(-(int) passwordAge);
 
             user.AccountExpires = accountExpirationDate == null
                 ? null
@@ -48,7 +48,7 @@ namespace Continuous.User.Users
                 ? null
                 : GetExpirationDate( (int?) passwordAge, (int?) maxPasswordAge);
         
-            user.PasswordChangeOnNextLogon = IsPasswordChangeRequiredOnNextLogon((int) passwordAge, (int) passwordExpired);
+            user.PasswordMustChangeOnNextLogon = IsPasswordChangeRequiredOnNextLogon((int) passwordAge, (int) passwordExpired);
 
             return user;
         }

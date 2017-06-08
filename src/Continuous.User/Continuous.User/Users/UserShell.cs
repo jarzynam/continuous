@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.DirectoryServices;
 using System.Linq;
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
-using System.Text.RegularExpressions;
 using Continuous.Management.Common;
 using Continuous.User.Users.Model;
 
