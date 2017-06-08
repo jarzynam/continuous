@@ -32,7 +32,7 @@ namespace Continuous.User.Users
                 new CommandParameter("password", userModel.Password),
                 new CommandParameter("description", userModel.Description),
                 new CommandParameter("fullName", userModel.FullName),
-                new CommandParameter("expires", userModel.Expires?.Date.ToShortDateString() ?? "never")
+                new CommandParameter("expires", userModel.AccountExpires?.Date.ToShortDateString() ?? "never")
             };
 
             var result = _executor.Execute(_scripts.CreateUser, parameters);

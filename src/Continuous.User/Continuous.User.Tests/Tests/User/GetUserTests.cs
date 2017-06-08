@@ -36,7 +36,7 @@ namespace Continuous.User.Tests.Tests.User
             var originalUser = new UserModel
             {
                 Name = _generator.RandomName,
-                Expires = null,
+                AccountExpires = null,
                 Password = null,
                 Description = "",
                 FullName = "test user to delete"
@@ -50,7 +50,7 @@ namespace Continuous.User.Tests.Tests.User
             // assert
             actualUser.Name.Should().Be(originalUser.Name);
             actualUser.Description.Should().Be(originalUser.Description);
-            actualUser.Expires.Should().Be(originalUser.Expires);
+            actualUser.AccountExpires.Should().Be(originalUser.AccountExpires);
             actualUser.FullName.Should().Be(originalUser.FullName);
             actualUser.Password.Should().Be(null);
         }

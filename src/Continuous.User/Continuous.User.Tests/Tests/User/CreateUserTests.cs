@@ -36,7 +36,7 @@ namespace Continuous.User.Tests.Tests.User
             var user = new UserModel
             {
                 Description = "Test",
-                Expires = DateTime.Today.AddDays(1),
+                AccountExpires = DateTime.Today.AddDays(1),
                 FullName = "Test User",
                 Name = _generator.RandomName,
                 Password = _generator.RandomName
@@ -52,7 +52,7 @@ namespace Continuous.User.Tests.Tests.User
 
             createdUser.Name.Should().Be(user.Name);
             createdUser.Description.Should().Be(user.Description);
-            createdUser.Expires.Should().Be(user.Expires);
+            createdUser.AccountExpires.Should().Be(user.AccountExpires);
             createdUser.FullName.Should().Be(user.FullName);
             createdUser.Password.Should().Be(null);
         }

@@ -63,6 +63,7 @@
     <Compile Include="Users\ScriptsBoundle.cs" />
     <Compile Include="Users\UserFlags.cs" />
     <Compile Include="Users\UserMapper.cs" />
+    <Compile Include="Users\UserResultProperties.cs" />
     <Compile Include="Users\UserShell.cs" />
   </ItemGroup>
   <ItemGroup>
