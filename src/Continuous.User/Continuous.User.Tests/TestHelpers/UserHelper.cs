@@ -32,7 +32,7 @@ namespace Continuous.User.Tests.TestHelpers
             };
             
             var p = GetUserProperty(userName, "Account expires");
-            model.Expires = p == "Never" ? null : (DateTime?) DateTime.Parse(p);
+            model.AccountExpires = p == "Never" ? null : (DateTime?) DateTime.Parse(p);
             
 
             return model;
@@ -46,7 +46,7 @@ namespace Continuous.User.Tests.TestHelpers
                 FullName = "Test User 1",
                 Description = "Delete this user after tests",
                 Password = "Test123",
-                Expires = new DateTime(2018, 01, 01)
+                AccountExpires = new DateTime(2018, 01, 01)
             };
         }
 

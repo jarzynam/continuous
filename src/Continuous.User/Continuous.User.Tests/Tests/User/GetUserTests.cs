@@ -30,7 +30,7 @@ namespace Continuous.User.Tests.Tests.User
 
 
         [Test]
-        public void Get_Fetch_User()
+        public void Get_Fetches_User()
         {
             // arrange
             var originalUser = new UserModel
@@ -52,7 +52,7 @@ namespace Continuous.User.Tests.Tests.User
             actualUser.Description.Should().Be(originalUser.Description);
             actualUser.Expires.Should().Be(originalUser.Expires);
             actualUser.FullName.Should().Be(originalUser.FullName);
-            actualUser.Password.Should().Be(string.Empty);
+            actualUser.Password.Should().Be(null);
         }
 
         [Test]

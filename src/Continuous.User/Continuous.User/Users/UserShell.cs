@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.DirectoryServices;
 using System.Linq;
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
@@ -13,16 +14,14 @@ namespace Continuous.User.Users
     {
         private readonly ScriptExecutor _executor;
         private readonly ScriptsBoundle _scripts;
-        private readonly Regex _userLineRegex = new Regex(@"[\s]{2,}");
-
-        private readonly int nameIndex = 0;
-        private readonly int valueIndex = 1;
+        private readonly UserMapper _userMapper;
 
 
         public UserShell()
         {
             _executor = new ScriptExecutor(GetType());
             _scripts = new ScriptsBoundle();
+            _userMapper = new UserMapper();
         }
 
         public void Create(UserModel userModel)
@@ -60,18 +59,9 @@ namespace Continuous.User.Users
                 new CommandParameter("name", userName)
             };
 
-            try
-            {
-                var results = _executor.Execute(_scripts.GetUser, parameters);
+            var results = _executor.Execute(_scripts.GetUser, parameters);
 
-                return MapToLocalUser(results);
-            }
-            catch (Exception)
-            {
-                //todo add to _executor flag 'NotThrowException' and remove this closure 
-            }
-
-            return null;
+            return _userMapper.MapToLocalUser(results);
         }
 
         public void ChangePassword(string userName, string userPassword)
@@ -87,42 +77,6 @@ namespace Continuous.User.Users
             var result = _executor.Execute(_scripts.ChangeUserPassword, parameters);
 
             ThrowServiceExceptionIfNecessary(result, nameof(ChangePassword));
-        }
-
-        private UserModel MapToLocalUser(ICollection<PSObject> results)
-        {
-            var properties = new Dictionary<string, string>();
-
-            foreach (var result in results)
-            {
-                var propertyLine = _userLineRegex.Split(result.BaseObject.ToString());
-
-                if (HasNameAndValue(propertyLine))
-                    properties.Add(propertyLine[nameIndex], propertyLine[valueIndex]);
-            }
-
-            return MapToLocalUser(properties);
-        }
-
-        private static bool HasNameAndValue(string[] propertyLine)
-        {
-            return propertyLine.Length == 2;
-        }
-
-        private static UserModel MapToLocalUser(Dictionary<string, string> properties)
-        {
-            var model = new UserModel
-            {
-                Name = properties["User name"],
-                FullName = properties["Full Name"],
-                Description = properties["Comment"],
-                Password = "",
-                Expires = properties["Account expires"] == "Never"
-                    ? null
-                    : (DateTime?) DateTime.Parse(properties["Account expires"]),
-            };
-
-            return model;
         }
 
         private static void ThrowServiceExceptionIfNecessary(ICollection<PSObject> result, string commandName)

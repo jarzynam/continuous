@@ -11,7 +11,9 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>This library is providing easy way to manage users and local user groups: add/remove new user/userGroup, assing user to group, etc. 
     </description>
-    <releaseNotes>added changePassword method</releaseNotes>
+    <releaseNotes>
+- added pasword properties to user model
+    </releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>Continuous Management User LocalGroup Group Windows</tags>
   </metadata>
