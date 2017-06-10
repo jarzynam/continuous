@@ -41,10 +41,10 @@
       <HintPath>..\packages\Castle.Core.4.0.0\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
     <Reference Include="Continuous.Management, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Continuous.Management.1.0.1\lib\net452\Continuous.Management.dll</HintPath>
+      <HintPath>..\packages\Continuous.Management.1.0.43\lib\net452\Continuous.Management.dll</HintPath>
     </Reference>
     <Reference Include="Continuous.User, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Continuous.User.1.0.40-alpha\lib\net452\Continuous.User.dll</HintPath>
+      <HintPath>..\packages\Continuous.User.1.1.3-alpha\lib\net452\Continuous.User.dll</HintPath>
     </Reference>
     <Reference Include="FluentAssertions, Version=4.19.2.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentAssertions.4.19.2\lib\net45\FluentAssertions.dll</HintPath>
@@ -104,8 +104,14 @@
     <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\Tests\LocalGroup\RemoveUSersFromLocalGroupTests.cs">
       <Link>Tests\LocalGroups\RemoveUSersFromLocalGroupTests.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\Tests\User\ChangeUserPassword.cs">
+      <Link>Tests\Users\ChangeUserPassword.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\Tests\User\CreateUserTests.cs">
       <Link>Tests\Users\CreateUserTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\Tests\User\ExistsUserTest.cs">
+      <Link>Tests\Users\ExistsUserTest.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\Tests\User\GetUserTests.cs">
       <Link>Tests\Users\GetUserTests.cs</Link>
