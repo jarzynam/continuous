@@ -6,7 +6,7 @@ using Continuous.User.Users.Model;
 
 namespace Continuous.User.Users
 {
-    internal partial class UserMapper
+    internal class UserMapper
     {
         internal UserModel MapToLocalUser(ICollection<PSObject> results)
         {

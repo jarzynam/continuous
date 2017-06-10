@@ -9,7 +9,7 @@ using NUnit.Framework;
 namespace Continuous.User.Tests.Tests.LocalGroup
 {
     [TestFixture]
-    public class RmoveUsersFromLocalGroupTests
+    public class RemoveUsersFromLocalGroupTests
     {
         private ILocalUserGroupShell _shell;
         private LocalGroupInstaller _groupInstaller;

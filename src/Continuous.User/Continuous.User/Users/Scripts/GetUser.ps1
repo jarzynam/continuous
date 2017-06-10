@@ -3,4 +3,4 @@
 #
 param([string]$name)
 
-[ADSI]"WinNT://./$name, user"
+[ADSI]("WinNT://./$name, user")

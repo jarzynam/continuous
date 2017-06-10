@@ -15,6 +15,7 @@ namespace Continuous.User.Users
         public string RemoveUser => AddToPath(_currentPath, "RemoveUser.ps1");
         public string GetUser => AddToPath(_currentPath, "GetUser.ps1");
         public string ChangeUserPassword => AddToPath(_currentPath, "ChangeUserPassword.ps1");
+        public string ExistsUser => AddToPath(_currentPath, "ExistsUser.ps1");
 
     }
 }

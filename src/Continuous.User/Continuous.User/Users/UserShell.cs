@@ -52,6 +52,8 @@ namespace Continuous.User.Users
 
         public UserModel Get(string userName)
         {
+            if (!Exists(userName)) return null;
+
             var parameters = new List<CommandParameter>
             {
                 new CommandParameter("name", userName)
@@ -77,6 +79,18 @@ namespace Continuous.User.Users
             ThrowServiceExceptionIfNecessary(result, nameof(ChangePassword));
         }
 
+        public bool Exists(string userName)
+        {
+            var parameters = new List<CommandParameter>
+            {
+                new CommandParameter("userName", userName)
+            };
+
+            var result = _executor.Execute(_scripts.ExistsUser, parameters).FirstOrDefault();
+
+            return result?.BaseObject is bool && (bool) result.BaseObject;
+        }
+
         private static void ThrowServiceExceptionIfNecessary(ICollection<PSObject> result, string commandName)
         {
             var returnValue = result.FirstOrDefault()?.BaseObject as string;
@@ -87,7 +101,7 @@ namespace Continuous.User.Users
 
         private void ThrowIfNotExist(string userName)
         {
-            if(Get(userName) == null )
+            if(!Exists(userName))
                 throw new InvalidOperationException($"User '{userName}' is not existing");
         }
         

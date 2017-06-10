@@ -32,5 +32,12 @@ namespace Continuous.User.Users
         /// <param name="userName">user name</param>
         /// <param name="userPassword">new password</param>
         void ChangePassword(string userName, string userPassword);
+
+        /// <summary>
+        /// Check if user exists
+        /// </summary>
+        /// <param name="userName">user name</param>
+        /// <returns></returns>
+        bool Exists(string userName);
     }
 }

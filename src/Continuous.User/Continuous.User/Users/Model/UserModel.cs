@@ -68,7 +68,7 @@ namespace Continuous.User.Users.Model
         public bool PasswordCantChange { get; set; }
 
         /// <summary>
-        /// No password required
+        /// Password is not required to logon
         /// </summary>
         public bool PasswordNotRequired { get; set; }
     }
