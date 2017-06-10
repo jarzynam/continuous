@@ -19,7 +19,7 @@ namespace Continuous.User.Tests.Tests.User
         public void SetUp()
         {
             _shell = new UserShell();
-            _generator = new NameGenerator("testCU");
+            _generator = new NameGenerator("testRU");
             _installer = new UserInstaller();
         }
 
