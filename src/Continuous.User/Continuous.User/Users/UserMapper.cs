@@ -25,7 +25,7 @@ namespace Continuous.User.Users
             user.Name = properties.Get("Name") as string;
             user.FullName = properties.Get("FullName") as string;
             user.Description = properties.Get("Description") as string;
-            user.PasswordCanChange = userFlags.PasswordCanChange;
+            user.PasswordCanChange = userFlags.PasswordCanBeChangedByUser;
             user.PasswordRequired = userFlags.PasswordRequired;
 
             user.PasswordMaxBadAttempts = (int?)  properties.Get("MaxBadPasswordsAllowed")?? default(int);
@@ -44,9 +44,9 @@ namespace Continuous.User.Users
                 ? null
                 : GetExpirationDate(0, (int?) accountExpirationDate);
 
-            user.PasswordExpires = userFlags.DontExpirePassword
-                ? null
-                : GetExpirationDate( (int?) passwordAge, (int?) maxPasswordAge);
+            user.PasswordExpires = userFlags.PasswordCanExpire
+                ? GetExpirationDate( (int?) passwordAge, (int?) maxPasswordAge)
+                : null;
         
             user.PasswordMustChangeOnNextLogon = IsPasswordChangeRequiredOnNextLogon((int) passwordAge, (int) passwordExpired);
 

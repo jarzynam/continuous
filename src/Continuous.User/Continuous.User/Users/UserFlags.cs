@@ -2,6 +2,10 @@ namespace Continuous.User.Users
 {
     internal class UserFlags
     {
+        internal const int PasswordNotRequiredFlag = 0x20;
+        internal const int PasswordCantChangeFlag = 0x40;
+        internal const int PasswordCantExpireFlag = 0x10000;
+      
         private readonly int _flags;
 
         public UserFlags(int flags)
@@ -9,14 +13,17 @@ namespace Continuous.User.Users
             _flags = flags;
         }
 
-        internal bool PasswordRequired => !HasFlag(_flags, 0x20);
-        internal bool PasswordCanChange => !HasFlag(_flags, 0x40);
-        internal bool DontExpirePassword => HasFlag(_flags, 0x1000);
+        internal int Flags => _flags;
 
+        internal bool PasswordRequired => !HasFlag(PasswordNotRequiredFlag);
 
-        private bool HasFlag (long flags, int flag)
+        internal bool PasswordCanBeChangedByUser => !HasFlag(PasswordCantChangeFlag);
+
+        internal bool PasswordCanExpire => !HasFlag(PasswordCantExpireFlag);
+
+        private bool HasFlag(int flag)
         {
-            return (flags & flag) > 0;
+            return (_flags & flag) > 0;
         }
     }
 }

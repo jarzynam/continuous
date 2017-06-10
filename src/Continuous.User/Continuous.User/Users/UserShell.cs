@@ -91,6 +91,40 @@ namespace Continuous.User.Users
             return result?.BaseObject is bool && (bool) result.BaseObject;
         }
 
+        public void SetPasswordRequired(string userName, bool value)
+        {
+            SetUserFlags(userName, UserFlags.PasswordNotRequiredFlag, !value);
+        }
+
+        public void SetPasswordCanBeChangedByUser(string userName, bool value)
+        {
+            SetUserFlags(userName, UserFlags.PasswordCantChangeFlag, !value);
+        }
+
+        public void SetPasswordCanExpire(string userName, bool value)
+        {
+            SetUserFlags(userName, UserFlags.PasswordCantExpireFlag, !value);
+        }
+
+        //public void SetPasswordExpired(string userName, bool value)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        private void SetUserFlags(string userName, int flag, bool value)
+        {
+            ThrowIfNotExist(userName);
+
+            var parameters = new List<CommandParameter>
+            {
+                new CommandParameter("name", userName),
+                new CommandParameter("flag", flag),
+                new CommandParameter("value", value)
+            };
+
+             _executor.Execute(_scripts.SetUserFlag, parameters);
+        }
+
         private static void ThrowServiceExceptionIfNecessary(ICollection<PSObject> result, string commandName)
         {
             var returnValue = result.FirstOrDefault()?.BaseObject as string;

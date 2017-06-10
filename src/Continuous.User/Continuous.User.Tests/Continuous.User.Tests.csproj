@@ -75,11 +75,13 @@
     <Compile Include="Tests\LocalGroup\CreateLocalGroupTests.cs" />
     <Compile Include="Tests\LocalGroup\GetLocalGroupTests.cs" />
     <Compile Include="Tests\LocalGroup\RemoveLocalGroupTests.cs" />
+    <Compile Include="Tests\User\SetUserFlagsTests.cs" />
     <Compile Include="Tests\User\ChangeUserPassword.cs" />
     <Compile Include="Tests\User\ExistsUserTest.cs" />
     <Compile Include="Tests\User\RemoveUserTests.cs" />
     <Compile Include="Tests\User\CreateUserTests.cs" />
     <Compile Include="Tests\User\GetUserTests.cs" />
+    <Compile Include="UnitTests\UserFlags\UserFlagsTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -90,6 +92,7 @@
       <Name>Continuous.User</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

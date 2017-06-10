@@ -82,7 +82,17 @@ namespace Continuous.User.Tests.TestHelpers
             };
         }
 
-        
+        public static void SetUserFlag(string userName, int flag, bool value)
+        {
+            var userFlags = GetUserFlags(userName);
+
+            userFlags = value
+                ? userFlags | flag
+                : userFlags & ~flag;
+
+            SetPropertyFromAdsi(userName, "UserFlags", userFlags.ToString());
+        }
+
         private static string GetUserProperty(string userName, string propertyName)
         {
             var propertyRegex = @"'\s{2,}'";
@@ -96,6 +106,15 @@ namespace Continuous.User.Tests.TestHelpers
             var script = $"([ADSI] \"WinNT://./{userName}, user\").{propertyName}.Value";
 
             return ScriptInvoker.InvokeScript(script).FirstOrDefault()?.BaseObject;
+        }
+
+        private static void SetPropertyFromAdsi(string userName, string propertyName, string value)
+        {
+            var script = $"$user = [ADSI] (\"WinNT://./{userName}, user\");" +
+                         $" $user.{propertyName}.Value = {value};" +
+                         $" $user.SetInfo()";
+
+            ScriptInvoker.InvokeScript(script);
         }
     }
 }

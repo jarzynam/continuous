@@ -79,6 +79,7 @@
     <EmbeddedResource Include="Users\Scripts\GetUser.ps1" />
     <EmbeddedResource Include="Users\Scripts\RemoveUser.ps1" />
     <EmbeddedResource Include="Users\Scripts\ExistsUser.ps1" />
+    <EmbeddedResource Include="Users\Scripts\SetUserFlag.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

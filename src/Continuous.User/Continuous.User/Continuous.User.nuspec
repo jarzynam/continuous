@@ -12,9 +12,9 @@
     <description>This library is providing easy way to manage users and local user groups: add/remove new user/userGroup, assing user to group, etc. 
     </description>
     <releaseNotes>
-- added ExistsUser method to user shell
-- added ChangePassword method to user shell
-- added new password properties to UserModel
+      - added ExistsUser method to user shell
+      - added ChangePassword, SetPasswordCanBeChangedByUser, SetPasswordCanExpire, SetPasswordRequired methods to user shell
+      - added new password properties to UserModel
     </releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>Continuous Management User LocalGroup Group Windows</tags>
