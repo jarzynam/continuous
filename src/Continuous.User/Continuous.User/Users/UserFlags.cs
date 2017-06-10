@@ -9,8 +9,8 @@ namespace Continuous.User.Users
             _flags = flags;
         }
 
-        internal bool PasswordNotRequired => HasFlag(_flags, 0x20);
-        internal bool PasswordCantChange => HasFlag(_flags, 0x40);
+        internal bool PasswordRequired => !HasFlag(_flags, 0x20);
+        internal bool PasswordCanChange => !HasFlag(_flags, 0x40);
         internal bool DontExpirePassword => HasFlag(_flags, 0x1000);
 
 

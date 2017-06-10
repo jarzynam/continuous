@@ -60,8 +60,8 @@ namespace Continuous.User.Tests.Tests.User
             actualUser.PasswordMustChangeOnNextLogon.Should().Be(false);
             actualUser.PasswordExpires.GetValueOrDefault().Date.Should().Be(UserHelper.GetPasswordExpirationDate(originalUser.Name).Date);
             actualUser.PasswordMinLength.Should().Be(UserHelper.GetPasswordMinLength(originalUser.Name));
-            actualUser.PasswordCantChange.Should().Be(false);
-            actualUser.PasswordNotRequired.Should().Be(false);
+            actualUser.PasswordCanChange.Should().Be(true);
+            actualUser.PasswordRequired.Should().Be(true);
         }
 
         [Test]

@@ -25,8 +25,8 @@ namespace Continuous.User.Users
             user.Name = properties.Get("Name") as string;
             user.FullName = properties.Get("FullName") as string;
             user.Description = properties.Get("Description") as string;
-            user.PasswordCantChange = userFlags.PasswordCantChange;
-            user.PasswordNotRequired = userFlags.PasswordNotRequired;
+            user.PasswordCanChange = userFlags.PasswordCanChange;
+            user.PasswordRequired = userFlags.PasswordRequired;
 
             user.PasswordMaxBadAttempts = (int?)  properties.Get("MaxBadPasswordsAllowed")?? default(int);
 

@@ -63,13 +63,13 @@ namespace Continuous.User.Users.Model
         public TimeSpan PasswordBadAttemptsInterval { get; set; }
 
         /// <summary>
-        /// User cannot change password by himself
+        /// User can change password by himself
         /// </summary>
-        public bool PasswordCantChange { get; set; }
+        public bool PasswordCanChange { get; set; }
 
         /// <summary>
-        /// Password is not required to logon
+        /// Password is required to logon
         /// </summary>
-        public bool PasswordNotRequired { get; set; }
+        public bool PasswordRequired { get; set; }
     }
 }
