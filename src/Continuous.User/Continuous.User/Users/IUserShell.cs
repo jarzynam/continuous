@@ -41,7 +41,7 @@ namespace Continuous.User.Users
         bool Exists(string userName);
 
         /// <summary>
-        /// Change if password is required on user logon
+        /// Specify wheter password is required at user logon
         /// </summary>
         /// <param name="userName">user name</param>
         /// <param name="value">flag value</param>
@@ -49,7 +49,7 @@ namespace Continuous.User.Users
         void SetPasswordRequired(string userName, bool value);
 
         /// <summary>
-        /// Set if password can be changed by user
+        /// Specify wheter the password can be changed by user
         /// </summary>
         /// <param name="userName">user name</param>
         /// <param name="value">flag value</param>
@@ -57,7 +57,7 @@ namespace Continuous.User.Users
         void SetPasswordCanBeChangedByUser(string userName, bool value);
 
         /// <summary>
-        /// When set, the password will not expire for this account
+        /// Specify wheter the password can expire
         /// </summary>
         /// <param name="userName">user name</param>
         /// <param name="value">flag value</param>
@@ -65,12 +65,11 @@ namespace Continuous.User.Users
         void SetPasswordCanExpire(string userName, bool value);
 
         /// <summary>
-        /// Set if password has been expired or not
+        /// Specify wheter password has been expired
         /// </summary>
         /// <param name="userName">user name</param>
         /// <param name="value">flag value</param>
         /// <returns></returns>
         void SetPasswordExpired(string userName, bool value);
-
     }
 }

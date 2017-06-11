@@ -13,7 +13,7 @@
     </description>
     <releaseNotes>
       - added ExistsUser method to user shell
-      - added ChangePassword, SetPasswordCanBeChangedByUser, SetPasswordCanExpire, SetPasswordRequired methods to user shell
+      - added ChangePassword, SetPasswordExpired, SetPasswordCanBeChangedByUser, SetPasswordCanExpire, SetPasswordRequired methods to user shell
       - added new password properties to UserModel
     </releaseNotes>
     <copyright>Copyright 2017</copyright>
