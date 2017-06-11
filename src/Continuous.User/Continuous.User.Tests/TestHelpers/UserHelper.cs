@@ -4,73 +4,74 @@ using Continuous.User.Users.Model;
 
 namespace Continuous.User.Tests.TestHelpers
 {
-    public static class UserHelper
+    internal static class UserHelper
     {
-
-        public static void CreateUser(string userName, string userPassword)
+        internal static void CreateUser(string userName, string userPassword)
         {
             ScriptInvoker.InvokeScript($"net user {userName} {userPassword} /add");
         }
 
-        public static void DeleteUser(string userName)
+        internal static void DeleteUser(string userName)
         {
             ScriptInvoker.InvokeScript($"net user {userName} /delete");
         }
 
-        public static UserModel GetUser(string userName)
+        internal static UserModel GetUser(string userName)
         {
-            var result = ScriptInvoker.InvokeScript($"Get-WMIObject -Class Win32_UserAccount -Filter \"Name = '{userName}'\"").FirstOrDefault();
+            var result = ScriptInvoker
+                .InvokeScript($"Get-WMIObject -Class Win32_UserAccount -Filter \"Name = '{userName}'\"")
+                .FirstOrDefault();
 
             if (result == null) return null;
 
-            var model =  new UserModel
+            var model = new UserModel
             {
                 Name = (string) result.Properties["Name"].Value,
                 Description = (string) result.Properties["Description"].Value,
                 FullName = (string) result.Properties["FullName"].Value,
                 Password = null
             };
-            
+
             var p = GetUserProperty(userName, "Account expires");
             model.AccountExpires = p == "Never" ? null : (DateTime?) DateTime.Parse(p);
-            
+
 
             return model;
         }
 
-        public static DateTime GetPasswordLastSet(string userName)
+        internal static DateTime GetPasswordLastSet(string userName)
         {
             return DateTime.Parse(GetUserProperty(userName, "Password last set"));
         }
-        
-        public static DateTime GetPasswordExpirationDate(string userName)
+
+        internal static DateTime GetPasswordExpirationDate(string userName)
         {
             return DateTime.Parse(GetUserProperty(userName, "Password expires"));
         }
 
-        public static TimeSpan GetPasswordBadAttemptsInterval(string userName)
+        internal static TimeSpan GetPasswordBadAttemptsInterval(string userName)
         {
             var seconds = (int) GetPropertyFromAdsi(userName, "LockoutObservationInterval");
 
             return TimeSpan.FromSeconds(seconds);
         }
 
-        public static int GetPasswordMinLength(string userName)
+        internal static int GetPasswordMinLength(string userName)
         {
             return (int) GetPropertyFromAdsi(userName, "MinPasswordLength");
         }
 
-        public static int GetPasswordMaxBadAttempts(string userName)
+        internal static int GetPasswordMaxBadAttempts(string userName)
         {
             return (int) GetPropertyFromAdsi(userName, "BadPasswordAttempts");
         }
 
-        public static int GetUserFlags(string userName)
+        internal static int GetUserFlags(string userName)
         {
             return (int) GetPropertyFromAdsi(userName, "UserFlags");
         }
 
-        public static UserModel BuildLocalUser(string name)
+        internal static UserModel BuildLocalUser(string name)
         {
             return new UserModel
             {
@@ -82,7 +83,7 @@ namespace Continuous.User.Tests.TestHelpers
             };
         }
 
-        public static void SetUserFlag(string userName, int flag, bool value)
+        internal static void SetUserFlag(string userName, int flag, bool value)
         {
             var userFlags = GetUserFlags(userName);
 
@@ -93,10 +94,37 @@ namespace Continuous.User.Tests.TestHelpers
             SetPropertyFromAdsi(userName, "UserFlags", userFlags.ToString());
         }
 
+        internal static bool GetPasswordExpired(string userName)
+        {
+            return (int) GetPropertyFromAdsi(userName, "PasswordExpired") > 0;
+        }
+
+        internal static void SetPasswordExipred(string userName, bool value)
+        {
+             SetPropertyFromAdsi(userName, "PasswordExpired", (value ?1: 0).ToString());
+        }
+
+        internal static void SetPassword(string userName, string newPassword)
+        {
+            var script = $"([ADSI] \"WinNT://./{userName}, user\").SetPassword({newPassword})";
+
+            ScriptInvoker.InvokeScript(script);
+        }
+
+        internal static TimeSpan GetPassowrdAge(string userName)
+        {
+            var script = $"([ADSI] \"WinNT://./{userName}, user\").PasswordAge.Value";
+
+            var result = (int) (ScriptInvoker.InvokeScript(script).FirstOrDefault()?.BaseObject??default(int));
+
+            return TimeSpan.FromSeconds(result);
+        }
+
         private static string GetUserProperty(string userName, string propertyName)
         {
             var propertyRegex = @"'\s{2,}'";
-            var result = ScriptInvoker.InvokeScript($"(((net user {userName})  -match \"{propertyName}\") -split {propertyRegex})");
+            var result = ScriptInvoker.InvokeScript(
+                $"(((net user {userName})  -match \"{propertyName}\") -split {propertyRegex})");
 
             return result[1].BaseObject as string;
         }

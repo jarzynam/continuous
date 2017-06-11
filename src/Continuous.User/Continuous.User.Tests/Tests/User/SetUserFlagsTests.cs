@@ -13,8 +13,7 @@ namespace Continuous.User.Tests.Tests.User
         private const int PasswordNotRequiredFlag = 0x20;
         private const int PasswordCantChangeFlag = 0x40;
         private const int PasswordCantExpireFlag = 0x10000;
-        private const int PasswordExpiredFlag = 0x800000;
-
+       
         private IUserShell _shell;
         private NameGenerator _generator;
         private UserInstaller _installer;

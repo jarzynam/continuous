@@ -57,11 +57,100 @@ namespace Continuous.User.Tests.Tests.User
             actualUser.PasswordLastChange.GetValueOrDefault().Date.Should().Be(UserHelper.GetPasswordLastSet(originalUser.Name).Date);
             actualUser.PasswordMaxBadAttempts.Should().Be(UserHelper.GetPasswordMaxBadAttempts(originalUser.Name));
             actualUser.PasswordBadAttemptsInterval.Should().Be(UserHelper.GetPasswordBadAttemptsInterval(originalUser.Name));
-            actualUser.PasswordMustChangeOnNextLogon.Should().Be(false);
+            actualUser.PasswordMustBeChangedAtNextLogon.Should().Be(false);
             actualUser.PasswordExpires.GetValueOrDefault().Date.Should().Be(UserHelper.GetPasswordExpirationDate(originalUser.Name).Date);
             actualUser.PasswordMinLength.Should().Be(UserHelper.GetPasswordMinLength(originalUser.Name));
-            actualUser.PasswordCanChange.Should().Be(true);
+            actualUser.PasswordCanBeChangedByUser.Should().Be(true);
             actualUser.PasswordRequired.Should().Be(true);
+        }
+
+        [Test]
+        public void Get_WhenPasswordExpired_ReturnsProperFlag()
+        {
+            // arrange
+            var userName = _generator.RandomName;
+            
+            _installer.Install(userName, _generator.RandomName);
+
+            UserHelper.SetPasswordExipred(userName, true);
+            UserHelper.GetPasswordExpired(userName).Should().BeTrue();
+
+            // act
+            var user = _shell.Get(userName);
+
+            // assert
+            user.PasswordMustBeChangedAtNextLogon.Should().BeTrue();
+        }
+
+        [Test]
+        public void Get_WhenPasswordSetFromExpiredToNot_ReturnsProperFlag()
+        {
+            // arrange
+            var userName = _generator.RandomName;
+
+            _installer.Install(userName, _generator.RandomName);
+
+            UserHelper.SetPasswordExipred(userName, true);
+            UserHelper.SetPasswordExipred(userName, false);
+            UserHelper.GetPasswordExpired(userName).Should().BeFalse();
+
+            // act
+            var user = _shell.Get(userName);
+
+            // assert
+            user.PasswordMustBeChangedAtNextLogon.Should().BeFalse();
+        }
+
+        [Test]
+        public void Get_WhenPasswordNeverExpires_ReturnsNullDateTime()
+        {
+            // arrange
+            var userName = _generator.RandomName;
+
+            _installer.Install(userName, _generator.RandomName);
+
+            UserHelper.SetUserFlag(userName, 0x10000, true);
+            
+            // act
+            var user = _shell.Get(userName);
+
+            // assert
+            user.PasswordExpires.Should().BeNull();
+        }
+
+        [Test]
+        public void Get_WhenPassordCantChange_ReturnsProperFlag()
+        {
+
+            // arrange
+            var userName = _generator.RandomName;
+
+            _installer.Install(userName, _generator.RandomName);
+
+            UserHelper.SetUserFlag(userName, 0x40, true);
+
+            // act
+            var user = _shell.Get(userName);
+
+            // assert
+            user.PasswordCanBeChangedByUser.Should().BeFalse();
+        }
+
+        [Test]
+        public void Get_WhenPasswordNotRequired_ReturnsProperFlag()
+        {
+            // arrange
+            var userName = _generator.RandomName;
+
+            _installer.Install(userName, _generator.RandomName);
+
+            UserHelper.SetUserFlag(userName, 0x20, true);
+
+            // act
+            var user = _shell.Get(userName);
+            
+            // assert
+            user.PasswordRequired.Should().BeFalse();
         }
 
         [Test]

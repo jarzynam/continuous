@@ -106,10 +106,24 @@ namespace Continuous.User.Users
             SetUserFlags(userName, UserFlags.PasswordCantExpireFlag, !value);
         }
 
-        //public void SetPasswordExpired(string userName, bool value)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public void SetPasswordExpired(string userName, bool value)
+        {
+            SetUserProperty(userName, "PasswordExpired", value ? 1:0);
+        }
+
+        private void SetUserProperty(string userName, string propertyName, object value)
+        {
+            ThrowIfNotExist(userName);
+
+            var parameters = new List<CommandParameter>
+            {
+                new CommandParameter("name", userName),
+                new CommandParameter("propertyName", propertyName),
+                new CommandParameter("propertyValue", value)
+            };
+
+            _executor.Execute(_scripts.SetUserProperty, parameters);
+        }
 
         private void SetUserFlags(string userName, int flag, bool value)
         {

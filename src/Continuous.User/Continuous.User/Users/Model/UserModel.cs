@@ -43,9 +43,9 @@ namespace Continuous.User.Users.Model
         public DateTime? PasswordLastChange { get; set; }
 
         /// <summary>
-        /// Determines if user must change password on next logon
+        /// Determines if user must change password at next logon
         /// </summary>
-        public bool PasswordMustChangeOnNextLogon { get; set; }
+        public bool PasswordMustBeChangedAtNextLogon { get; set; }
 
         /// <summary>
         /// Minimum length that password must have
@@ -65,7 +65,7 @@ namespace Continuous.User.Users.Model
         /// <summary>
         /// User can change password by himself
         /// </summary>
-        public bool PasswordCanChange { get; set; }
+        public bool PasswordCanBeChangedByUser { get; set; }
 
         /// <summary>
         /// Password is required to logon

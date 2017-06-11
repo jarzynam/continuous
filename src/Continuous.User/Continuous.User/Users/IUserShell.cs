@@ -64,12 +64,13 @@ namespace Continuous.User.Users
         /// <returns></returns>
         void SetPasswordCanExpire(string userName, bool value);
 
-        ///// <summary>
-        ///// Set if password has been expired or not
-        ///// </summary>
-        ///// <param name="userName">user name</param>
-        ///// <param name="value">flag value</param>
-        ///// <returns></returns>
-        //void SetPasswordExpired(string userName, bool value);
+        /// <summary>
+        /// Set if password has been expired or not
+        /// </summary>
+        /// <param name="userName">user name</param>
+        /// <param name="value">flag value</param>
+        /// <returns></returns>
+        void SetPasswordExpired(string userName, bool value);
+
     }
 }
