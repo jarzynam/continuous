@@ -66,7 +66,7 @@ namespace Continuous.User.Tests.Tests.User
             // act
             Action act = () => _shell.Create(user);
 
-            _installer.AddAsInstalled(_generator.RandomName);
+            _installer.AddAsInstalled(user.Name);
 
             // assert
             act.ShouldNotThrow();
