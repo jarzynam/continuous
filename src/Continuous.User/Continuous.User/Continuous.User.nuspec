@@ -12,9 +12,6 @@
     <description>This library is providing easy way to manage users and local user groups: add/remove new user/userGroup, assing user to group, etc. 
     </description>
     <releaseNotes>
-      - Added GetLocalUser method ('Get' method is obselote and will no longer be supported)
-      - Added new Create(LocalUserCreateModel) method  (previous Create(UserModel) is obselote and will no loger be supported)
-      - Made UserModel class obselote
     </releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>Continuous Management User LocalGroup Group Windows</tags>
