@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
 
-namespace Continuous.User.Tests.UnitTests.UserFlags
+namespace Continuous.User.Tests.UnitTests
 {
     [TestFixture]
     public class UserFlagsTest

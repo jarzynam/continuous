@@ -54,6 +54,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Management.Automation.dll.10.0.10586.0\lib\net40\System.Management.Automation.dll</HintPath>
       <Private>True</Private>
@@ -82,7 +83,8 @@
     <Compile Include="Tests\User\RemoveUserTests.cs" />
     <Compile Include="Tests\User\CreateUserTests.cs" />
     <Compile Include="Tests\User\GetUserTests.cs" />
-    <Compile Include="UnitTests\UserFlags\UserFlagsTest.cs" />
+    <Compile Include="UnitTests\User\UserFlagsTest.cs" />
+    <Compile Include="UnitTests\User\UserMapperTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

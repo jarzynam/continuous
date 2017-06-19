@@ -71,9 +71,9 @@ namespace Continuous.User.Tests.TestHelpers
             return (int) GetPropertyFromAdsi(userName, "UserFlags");
         }
 
-        internal static UserModel BuildLocalUser(string name)
+        internal static LocalUserCreateModel BuildLocalUser(string name)
         {
-            return new UserModel
+            return new LocalUserCreateModel
             {
                 Name = name,
                 FullName = "Test User 1",

@@ -33,7 +33,7 @@ namespace Continuous.User.Tests.Tests.User
         public void Create_Should_Add_NewUser()
         {
             // arrange
-            var user = new UserModel
+            var user = new LocalUserCreateModel
             {
                 Description = "Test",
                 AccountExpires = DateTime.Today.AddDays(1),

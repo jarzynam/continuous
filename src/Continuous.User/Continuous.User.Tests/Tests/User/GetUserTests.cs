@@ -33,7 +33,7 @@ namespace Continuous.User.Tests.Tests.User
         public void Get_Fetches_User()
         {
             // arrange
-            var originalUser = new UserModel
+            var originalUser = new LocalUserCreateModel()
             {
                 Name = _generator.RandomName,
                 AccountExpires = null,
@@ -45,15 +45,14 @@ namespace Continuous.User.Tests.Tests.User
 
 
             // act
-            var actualUser = _shell.Get(originalUser.Name);
+            var actualUser = _shell.GetLocalUser(originalUser.Name);
 
             // assert
             actualUser.Name.Should().Be(originalUser.Name);
             actualUser.Description.Should().Be(originalUser.Description);
             actualUser.AccountExpires.Should().Be(originalUser.AccountExpires);
             actualUser.FullName.Should().Be(originalUser.FullName);
-            actualUser.Password.Should().Be(null);
-
+         
             actualUser.PasswordLastChange.GetValueOrDefault().Date.Should().Be(UserHelper.GetPasswordLastSet(originalUser.Name).Date);
             actualUser.PasswordMaxBadAttempts.Should().Be(UserHelper.GetPasswordMaxBadAttempts(originalUser.Name));
             actualUser.PasswordBadAttemptsInterval.Should().Be(UserHelper.GetPasswordBadAttemptsInterval(originalUser.Name));
@@ -76,7 +75,7 @@ namespace Continuous.User.Tests.Tests.User
             UserHelper.GetPasswordExpired(userName).Should().BeTrue();
 
             // act
-            var user = _shell.Get(userName);
+            var user = _shell.GetLocalUser(userName);
 
             // assert
             user.PasswordMustBeChangedAtNextLogon.Should().BeTrue();
@@ -95,7 +94,7 @@ namespace Continuous.User.Tests.Tests.User
             UserHelper.GetPasswordExpired(userName).Should().BeFalse();
 
             // act
-            var user = _shell.Get(userName);
+            var user = _shell.GetLocalUser(userName);
 
             // assert
             user.PasswordMustBeChangedAtNextLogon.Should().BeFalse();
@@ -112,7 +111,7 @@ namespace Continuous.User.Tests.Tests.User
             UserHelper.SetUserFlag(userName, 0x10000, true);
             
             // act
-            var user = _shell.Get(userName);
+            var user = _shell.GetLocalUser(userName);
 
             // assert
             user.PasswordExpires.Should().BeNull();
@@ -130,7 +129,7 @@ namespace Continuous.User.Tests.Tests.User
             UserHelper.SetUserFlag(userName, 0x40, true);
 
             // act
-            var user = _shell.Get(userName);
+            var user = _shell.GetLocalUser(userName);
 
             // assert
             user.PasswordCanBeChangedByUser.Should().BeFalse();
@@ -147,7 +146,7 @@ namespace Continuous.User.Tests.Tests.User
             UserHelper.SetUserFlag(userName, 0x20, true);
 
             // act
-            var user = _shell.Get(userName);
+            var user = _shell.GetLocalUser(userName);
             
             // assert
             user.PasswordRequired.Should().BeFalse();
@@ -160,7 +159,7 @@ namespace Continuous.User.Tests.Tests.User
             var userName = _generator.RandomName;
 
             // act
-            var user = _shell.Get(userName);
+            var user = _shell.GetLocalUser(userName);
 
             // assert
             user.Should().BeNull();

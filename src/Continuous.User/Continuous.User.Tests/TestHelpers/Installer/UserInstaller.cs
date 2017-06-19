@@ -18,7 +18,7 @@ namespace Continuous.User.Tests.TestHelpers.Installer
             AddInstance(userName);
         }
 
-        public void Install(UserModel model)
+        public void Install(LocalUserCreateModel model)
         {
             _shell.Create(model);
             AddInstance(model.Name);

@@ -14,7 +14,6 @@ namespace Continuous.User.Users
         private readonly ScriptsBoundle _scripts;
         private readonly UserMapper _userMapper;
 
-
         public UserShell()
         {
             _executor = new ScriptExecutor(GetType());
@@ -22,7 +21,13 @@ namespace Continuous.User.Users
             _userMapper = new UserMapper();
         }
 
+        [Obsolete("Use create with LocalUserCreateModel as input parameter")]
         public void Create(UserModel userModel)
+        {
+           Create(_userMapper.MapToUserCreateModel(userModel));
+        }
+
+        public void Create(LocalUserCreateModel userModel)
         {
             var parameters = new List<CommandParameter>
             {
@@ -50,7 +55,15 @@ namespace Continuous.User.Users
             ThrowServiceExceptionIfNecessary(result, nameof(Remove));
         }
 
+        [Obsolete("Use GetLocalUser")]
         public UserModel Get(string userName)
+        {
+            var results = GetLocalUser(userName);
+
+            return _userMapper.MapToUserModel(results);
+        }
+
+        public LocalUserInfo GetLocalUser(string userName)
         {
             if (!Exists(userName)) return null;
 
@@ -61,7 +74,7 @@ namespace Continuous.User.Users
 
             var results = _executor.Execute(_scripts.GetUser, parameters);
 
-            return _userMapper.MapToLocalUser(results);
+            return _userMapper.MapToLocalUserInfo(results);
         }
 
         public void ChangePassword(string userName, string userPassword)

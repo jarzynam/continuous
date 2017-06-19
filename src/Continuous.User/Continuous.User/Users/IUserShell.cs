@@ -1,4 +1,5 @@
-﻿using Continuous.User.Users.Model;
+﻿using System;
+using Continuous.User.Users.Model;
 
 namespace Continuous.User.Users
 {
@@ -11,7 +12,14 @@ namespace Continuous.User.Users
         /// Create new user account
         /// </summary>
         /// <param name="userModel">user model</param>
+        [Obsolete("Use create with LocalUserCreateModel as input parameter")]
         void Create(UserModel userModel);
+
+        /// <summary>
+        /// Create new user account
+        /// </summary>
+        /// <param name="model"></param>
+        void Create(LocalUserCreateModel model);
 
         /// <summary>
         /// Remove user account
@@ -24,7 +32,15 @@ namespace Continuous.User.Users
         /// </summary>
         /// <param name="userName">user name</param>
         /// <returns></returns>
+        [Obsolete("Use GetLocalUser")]
         UserModel Get(string userName);
+
+        /// <summary>
+        /// Get local user account info
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+        LocalUserInfo GetLocalUser(string userName);
 
         /// <summary>
         /// Change user password

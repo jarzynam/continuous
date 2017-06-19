@@ -3,21 +3,20 @@
 namespace Continuous.User.Users.Model
 {
     /// <summary>
-    /// User representation 
+    /// Model for creating new local user
     /// </summary>
-    [Obsolete]
-    public class UserModel
+    public class LocalUserInfo
     {
         /// <summary>
         /// User name
         /// </summary>
         public string Name { get; set; }
-        
+
         /// <summary>
         /// User full name
         /// </summary>
         public string FullName { get; set; }
-        
+
         /// <summary>
         /// User description
         /// </summary>
@@ -27,11 +26,6 @@ namespace Continuous.User.Users.Model
         /// User account expiration date - if null, the account will never exipre
         /// </summary>
         public DateTime? AccountExpires { get; set; }
-
-        /// <summary>
-        /// User Password - will be empty for getUser
-        /// </summary>
-        public string Password { get; set; }
 
         /// <summary>
         /// User password expiration date - if null, password will never expire
