@@ -13,7 +13,10 @@ namespace Continuous.User.Tests.Tests.User
         private const int PasswordNotRequiredFlag = 0x20;
         private const int PasswordCantChangeFlag = 0x40;
         private const int PasswordCantExpireFlag = 0x10000;
-       
+        private const int AccountDisabledFlag = 0x2;
+        private const int AccountLockedOutFlag = 0x10;
+
+
         private IUserShell _shell;
         private NameGenerator _generator;
         private UserInstaller _installer;
@@ -177,6 +180,54 @@ namespace Continuous.User.Tests.Tests.User
 
             // act
             Action act = () => _shell.SetPasswordRequired(userName, true);
+
+            // assert
+            act.ShouldThrow<InvalidOperationException>();
+        }
+
+        [Test]
+        public void SetAccountDisabled_ShouldSet_ToTrue()
+        {
+            // arrange
+            var userName = _generator.RandomName;
+
+            _installer.Install(userName, _generator.RandomName);
+
+            // act
+            _shell.SetAccountDisabled(userName, true);
+
+            // assert
+            var flags = UserHelper.GetUserFlags(userName);
+
+            GetFlag(flags, AccountDisabledFlag).Should().BeTrue();
+        }
+
+        [Test]
+        public void SetAccountDisabled_ShouldSet_ToFalse()
+        {
+            // arrange
+            var userName = _generator.RandomName;
+
+            _installer.Install(userName, _generator.RandomName);
+            UserHelper.SetUserFlag(userName, AccountDisabledFlag, true);
+
+            // act
+            _shell.SetAccountDisabled(userName, false);
+
+            // assert
+            var flags = UserHelper.GetUserFlags(userName);
+
+            GetFlag(flags, AccountDisabledFlag).Should().BeFalse();
+        }
+
+        [Test]
+        public void SetAccountDisabled_Should_Throw_When_CantFindUser()
+        {
+            // arrange
+            var userName = _generator.RandomName;
+
+            // act
+            Action act = () => _shell.SetAccountDisabled(userName, true);
 
             // assert
             act.ShouldThrow<InvalidOperationException>();

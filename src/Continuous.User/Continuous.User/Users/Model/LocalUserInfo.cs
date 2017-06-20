@@ -10,61 +10,71 @@ namespace Continuous.User.Users.Model
         /// <summary>
         /// User name
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; internal set; }
 
         /// <summary>
         /// User full name
         /// </summary>
-        public string FullName { get; set; }
+        public string FullName { get; internal set; }
 
         /// <summary>
         /// User description
         /// </summary>
-        public string Description { get; set; }
+        public string Description { get; internal set; }
+
+        /// <summary>
+        /// Determines wheter account is disabled.
+        /// </summary>
+        public bool AccountDisabled { get; internal set; }
+
+        /// <summary>
+        /// Determines wheter account is locked out
+        /// </summary>
+        public bool AccountLocked { get; internal set; }
 
         /// <summary>
         /// User account expiration date - if null, the account will never exipre
         /// </summary>
-        public DateTime? AccountExpires { get; set; }
+        public DateTime? AccountExpires { get; internal set; }
 
         /// <summary>
         /// User password expiration date - if null, password will never expire
         /// </summary>
-        public DateTime? PasswordExpires { get; set; }
+        public DateTime? PasswordExpires { get; internal set; }
 
         /// <summary>
         /// Last date when password has been changed
         /// </summary>
-        public DateTime? PasswordLastChange { get; set; }
+        public DateTime? PasswordLastChange { get; internal set; }
 
         /// <summary>
         /// Determines if user must change password at next logon
         /// </summary>
-        public bool PasswordMustBeChangedAtNextLogon { get; set; }
+        public bool PasswordMustBeChangedAtNextLogon { get; internal set; }
 
         /// <summary>
         /// Minimum length that password must have
         /// </summary>
-        public Int64 PasswordMinLength { get; set; }
+        public Int64 PasswordMinLength { get; internal set; }
 
         /// <summary>
         /// How many times user can type wrong password
         /// </summary>
-        public int PasswordMaxBadAttempts { get; set; }
+        public int PasswordMaxBadAttempts { get; internal set; }
 
         /// <summary>
         /// For how long system will be remember number of bad password attempts
         /// </summary>
-        public TimeSpan PasswordBadAttemptsInterval { get; set; }
+        public TimeSpan PasswordBadAttemptsInterval { get; internal set; }
 
         /// <summary>
         /// User can change password by himself
         /// </summary>
-        public bool PasswordCanBeChangedByUser { get; set; }
+        public bool PasswordCanBeChangedByUser { get; internal set; }
 
         /// <summary>
         /// Password is required to logon
         /// </summary>
-        public bool PasswordRequired { get; set; }
+        public bool PasswordRequired { get; internal set; }
     }
 }

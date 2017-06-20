@@ -153,6 +153,25 @@ namespace Continuous.User.Tests.Tests.User
         }
 
         [Test]
+        public void Get_WhenAccountDisabled_ReturnsProperFlag()
+        {
+            // arrange
+            var userName = _generator.RandomName;
+
+            _installer.Install(userName, _generator.RandomName);
+
+            UserHelper.SetUserFlag(userName, 0x2, true);
+
+            // act
+            var user = _shell.GetLocalUser(userName);
+
+            // assert
+            user.AccountDisabled.Should().BeTrue();
+        }
+
+        //TODO: add test for locked user after 
+
+        [Test]
         public void Get_ReturnNull_When_User_NotExisting()
         {
             // arrange 

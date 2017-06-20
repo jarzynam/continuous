@@ -87,5 +87,12 @@ namespace Continuous.User.Users
         /// <param name="value">flag value</param>
         /// <returns></returns>
         void SetPasswordExpired(string userName, bool value);
+
+        /// <summary>
+        /// Specify wheter account has been disabled
+        /// </summary>
+        /// <param name="userName">user name</param>
+        /// <param name="value">flag value</param>
+        void SetAccountDisabled(string userName, bool value);
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 using Continuous.Management.Common;
+using Continuous.Management.Common.Extensions;
 using Continuous.User.Users.Model;
 
 namespace Continuous.User.Users
@@ -121,7 +122,12 @@ namespace Continuous.User.Users
 
         public void SetPasswordExpired(string userName, bool value)
         {
-            SetUserProperty(userName, "PasswordExpired", value ? 1:0);
+            SetUserProperty(userName, "PasswordExpired", value.ToInteger());
+        }
+
+        public void SetAccountDisabled(string userName, bool value)
+        {
+            SetUserFlags(userName, UserFlags.AccountDisabledFlag, value);
         }
 
         private void SetUserProperty(string userName, string propertyName, object value)
