@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.DirectoryServices;
 using System.Linq;
 using System.Management.Automation;
@@ -22,5 +23,21 @@ namespace Continuous.User.Users
             return _properties.FirstOrDefault(p => p.PropertyName == propertyName)
                 ?.Value;
         }
+
+        internal TimeSpan GetTimeSpan(string propertyName)
+        {
+            return TimeSpan.FromSeconds((int?) Get(propertyName) ?? default(int));
+        }
+
+        internal T Get<T>(string propertyName) where T: class
+        {
+            return Get(propertyName) as T;
+        }
+
+        internal T GetValue<T>(string propertyName) where T: struct
+        {
+            return  (T?) Get(propertyName) ?? default(T);
+        }
+      
     }
 }

@@ -58,53 +58,51 @@ namespace Continuous.User.Users
 
             var user = new LocalUserInfo();
 
-            user.Name = properties.Get("Name") as string;
-            user.FullName = properties.Get("FullName") as string;
-            user.Description = properties.Get("Description") as string;
+            user.Name = properties.Get<string>("Name");
+            user.FullName = properties.Get<string>("FullName");
+            user.Description = properties.Get<string>("Description");
 
             user.PasswordCanBeChangedByUser = userFlags.PasswordCanBeChangedByUser;
             user.PasswordRequired = userFlags.PasswordRequired;
             user.AccountDisabled = userFlags.AccountDisabled;
             user.AccountLocked = userFlags.AccountLocked;
 
-            user.PasswordMaxBadAttempts = (int?)properties.Get("MaxBadPasswordsAllowed") ?? default(int);
+            user.PasswordMaxBadAttempts = properties.GetValue<int>("MaxBadPasswordsAllowed");
 
-            user.PasswordBadAttemptsInterval = TimeSpan.FromSeconds((int?)properties.Get("LockoutObservationInterval") ?? default(int));
-            user.AutoUnlockInterval = TimeSpan.FromSeconds((int?)properties.Get("AutoUnlockInterval") ?? default(int));
+            user.PasswordBadAttemptsInterval = properties.GetTimeSpan("LockoutObservationInterval");
+            user.AutoUnlockInterval = properties.GetTimeSpan("AutoUnlockInterval");
 
-            user.PasswordMinLength = (int?)properties.Get("MinPasswordLength") ?? default(int);
+            user.PasswordMinLength = properties.GetValue<int>("MinPasswordLength");
 
-            var accountExpirationDate = properties.Get("AccountExpirationDate");
-            var passwordAge = properties.Get("PasswordAge");
-            var maxPasswordAge = properties.Get("MaxPasswordAge");
-            var passwordExpired = properties.Get("PasswordExpired");
+            var accountExpirationDate = properties.GetTimeSpan("AccountExpirationDate");
+            var passwordAge = properties.GetTimeSpan("PasswordAge");
+            var maxPasswordAge = properties.GetTimeSpan("MaxPasswordAge");
+            var passwordExpired = properties.GetValue<int>("PasswordExpired");
 
-            user.PasswordLastChange = passwordAge == null ? null : (DateTime?)DateTime.Now.AddSeconds(-(int)passwordAge);
+            user.PasswordLastChange = DateTime.Now.Add(passwordAge.Negate());
 
-            user.AccountExpires = accountExpirationDate == null
-                ? null
-                : GetExpirationDate(0, (int?)accountExpirationDate);
+            user.AccountExpires = GetExpirationDate(TimeSpan.Zero, accountExpirationDate);
 
             user.PasswordExpires = userFlags.PasswordCanExpire
-                ? GetExpirationDate((int?)passwordAge, (int?)maxPasswordAge)
+                ? GetExpirationDate(passwordAge, maxPasswordAge)
                 : null;
 
-            user.PasswordMustBeChangedAtNextLogon = IsPasswordChangeRequiredOnNextLogon((int)passwordAge, (int)passwordExpired);
+            user.PasswordMustBeChangedAtNextLogon = IsPasswordChangeRequiredOnNextLogon(passwordAge, passwordExpired);
 
             return user;
         }
 
-
-        private bool IsPasswordChangeRequiredOnNextLogon(long passwordAge, int passwordExpired)
+        private bool IsPasswordChangeRequiredOnNextLogon(TimeSpan passwordAge, int passwordExpired)
         {
-            return passwordAge == 0 && passwordExpired == 1;
+            return passwordAge == TimeSpan.Zero && passwordExpired == 1;
         }
-        private DateTime? GetExpirationDate(long? age, long? maxAge)
+        private DateTime? GetExpirationDate(TimeSpan age, TimeSpan maxAge)
         {
-            var deltaTime = TimeSpan.FromSeconds(maxAge.GetValueOrDefault()) -
-                TimeSpan.FromSeconds(age.GetValueOrDefault());
-            
-            return DateTime.Now.AddTicks(deltaTime.Ticks);
+            var deltaTime = maxAge - age;
+
+            if (deltaTime == TimeSpan.Zero) return null;
+
+            return DateTime.Now.Add(deltaTime);
         }
     }
 }
