@@ -61,6 +61,7 @@ namespace Continuous.User.Tests.Tests.User
             actualUser.PasswordMinLength.Should().Be(UserHelper.GetPasswordMinLength(originalUser.Name));
             actualUser.PasswordCanBeChangedByUser.Should().Be(true);
             actualUser.PasswordRequired.Should().Be(true);
+            actualUser.AutoUnlockInterval.Should().Be(UserHelper.GetAutoUnlockInterval(originalUser.Name));
         }
 
         [Test]

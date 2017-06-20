@@ -71,6 +71,13 @@ namespace Continuous.User.Tests.TestHelpers
             return (int) GetPropertyFromAdsi(userName, "UserFlags");
         }
 
+        internal static TimeSpan GetAutoUnlockInterval(string userName)
+        {
+            var seconds = (int) GetPropertyFromAdsi(userName, "AutoUnlockInterval");
+
+            return TimeSpan.FromSeconds(seconds);
+        }
+
         internal static LocalUserCreateModel BuildLocalUser(string name)
         {
             return new LocalUserCreateModel

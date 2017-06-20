@@ -70,6 +70,8 @@ namespace Continuous.User.Users
             user.PasswordMaxBadAttempts = (int?)properties.Get("MaxBadPasswordsAllowed") ?? default(int);
 
             user.PasswordBadAttemptsInterval = TimeSpan.FromSeconds((int?)properties.Get("LockoutObservationInterval") ?? default(int));
+            user.AutoUnlockInterval = TimeSpan.FromSeconds((int?)properties.Get("AutoUnlockInterval") ?? default(int));
+
             user.PasswordMinLength = (int?)properties.Get("MinPasswordLength") ?? default(int);
 
             var accountExpirationDate = properties.Get("AccountExpirationDate");

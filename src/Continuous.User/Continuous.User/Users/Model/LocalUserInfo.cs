@@ -33,6 +33,11 @@ namespace Continuous.User.Users.Model
         public bool AccountLocked { get; internal set; }
 
         /// <summary>
+        /// Determines when account will be unlock after locked by user
+        /// </summary>
+        public TimeSpan AutoUnlockInterval { get; internal set; }
+
+        /// <summary>
         /// User account expiration date - if null, the account will never exipre
         /// </summary>
         public DateTime? AccountExpires { get; internal set; }
