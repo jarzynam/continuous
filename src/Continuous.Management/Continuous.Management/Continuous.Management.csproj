@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Common\BoundleBase.cs" />
     <Compile Include="Common\EmbededFileReader.cs" />
+    <Compile Include="Common\Extensions\BoolExtensions.cs" />
     <Compile Include="Common\Extensions\StringCollectionExstension.cs" />
     <Compile Include="Common\ScriptExecutor.cs" />
     <Compile Include="Common\Extensions\StringToEnumExtension.cs" />
