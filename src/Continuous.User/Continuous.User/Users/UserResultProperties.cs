@@ -38,6 +38,12 @@ namespace Continuous.User.Users
         {
             return  (T?) Get(propertyName) ?? default(T);
         }
-      
+
+        public DateTime? GetDateTime(string propertyName)
+        {
+            var property = Get(propertyName);
+
+            return (DateTime?) property;
+        }
     }
 }

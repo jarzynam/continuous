@@ -33,7 +33,7 @@ namespace Continuous.User.Tests.Tests.User
         public void Get_Fetches_User()
         {
             // arrange
-            var originalUser = new LocalUserCreateModel()
+            var originalUser = new LocalUserCreateModel
             {
                 Name = _generator.RandomName,
                 AccountExpires = null,
@@ -62,6 +62,7 @@ namespace Continuous.User.Tests.Tests.User
             actualUser.PasswordCanBeChangedByUser.Should().Be(true);
             actualUser.PasswordRequired.Should().Be(true);
             actualUser.AutoUnlockInterval.Should().Be(UserHelper.GetAutoUnlockInterval(originalUser.Name));
+            actualUser.LastLogon.Should().Be(UserHelper.GetLastLogon(originalUser.Name));
         }
 
         [Test]

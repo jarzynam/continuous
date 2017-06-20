@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Management.Automation;
 using Continuous.User.Users.Model;
 
 namespace Continuous.User.Tests.TestHelpers
@@ -78,6 +79,13 @@ namespace Continuous.User.Tests.TestHelpers
             return TimeSpan.FromSeconds(seconds);
         }
 
+        internal static DateTime? GetLastLogon(string userName)
+        {
+            var property = GetPropertyFromAdsi(userName, "LastLogin");
+
+            return property as DateTime?;
+        }
+        
         internal static LocalUserCreateModel BuildLocalUser(string name)
         {
             return new LocalUserCreateModel

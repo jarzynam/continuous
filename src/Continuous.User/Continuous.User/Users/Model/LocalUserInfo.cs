@@ -53,6 +53,11 @@ namespace Continuous.User.Users.Model
         public DateTime? PasswordLastChange { get; internal set; }
 
         /// <summary>
+        /// Last date when user logon to account
+        /// </summary>
+        public DateTime? LastLogon { get; internal set; }
+
+        /// <summary>
         /// Determines if user must change password at next logon
         /// </summary>
         public bool PasswordMustBeChangedAtNextLogon { get; internal set; }
