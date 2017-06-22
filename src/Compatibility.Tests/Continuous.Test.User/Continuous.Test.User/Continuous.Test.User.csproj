@@ -113,6 +113,9 @@
     <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\Tests\User\ExistsUserTest.cs">
       <Link>Tests\Users\ExistsUserTest.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\Tests\User\GetCurrentLoggedUserTests.cs">
+      <Link>Tests\Users\GetCurrentLoggedUserTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\Tests\User\GetUserTests.cs">
       <Link>Tests\Users\GetUserTests.cs</Link>
     </Compile>
