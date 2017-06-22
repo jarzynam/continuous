@@ -18,10 +18,10 @@ namespace Continuous.User.Tests.Tests.User
 
 
         [Test]
-        public void GetCurrentLoggedInUser_Fetches_User()
+        public void GetLoggedInUser_Fetches_User()
         {
             // act
-            var actualUser = _shell.GetCurrentLoggedInUser();
+            var actualUser = _shell.GetLoggedInUser();
 
             // assert
             var username = UserHelper.GetCurrentLoggedUserName();

@@ -15,6 +15,7 @@
     - Added AccountDisabled and AccountLocked properties to LocalUserInfo
     - Added SetAccountDisabled to UserShell
     - Set LocalUserInfo setters to internal
+    - Added GetLoggedInUser method
     </releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>Continuous Management User LocalGroup Group Windows</tags>

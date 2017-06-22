@@ -130,7 +130,7 @@ namespace Continuous.User.Users
             SetUserFlags(userName, UserFlags.AccountDisabledFlag, value);
         }
 
-        public LocalUserInfo GetCurrentLoggedInUser()
+        public LocalUserInfo GetLoggedInUser()
         {
             var userWithDomain = _executor.Execute(_scripts.GetLoggedUsername, new List<CommandParameter>(0))
                 .FirstOrDefault();

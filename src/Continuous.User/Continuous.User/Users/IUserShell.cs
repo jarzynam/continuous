@@ -98,6 +98,6 @@ namespace Continuous.User.Users
         /// <summary>
         /// Get current logged in user
         /// </summary>
-        LocalUserInfo GetCurrentLoggedInUser();
+        LocalUserInfo GetLoggedInUser();
     }
 }
