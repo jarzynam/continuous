@@ -18,5 +18,6 @@ namespace Continuous.User.Users
         public string ExistsUser => AddToPath(_currentPath, "ExistsUser.ps1");
         public string SetUserFlag => AddToPath(_currentPath, "SetUserFlag.ps1");
         public string SetUserProperty => AddToPath(_currentPath, "SetUserProperty.ps1");
+        public string GetLoggedUsername => AddToPath(_currentPath, "GetLoggedUsername.ps1");
     }
 }

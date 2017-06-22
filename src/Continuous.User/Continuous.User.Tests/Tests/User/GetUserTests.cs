@@ -57,7 +57,7 @@ namespace Continuous.User.Tests.Tests.User
             actualUser.PasswordMaxBadAttempts.Should().Be(UserHelper.GetPasswordMaxBadAttempts(originalUser.Name));
             actualUser.PasswordBadAttemptsInterval.Should().Be(UserHelper.GetPasswordBadAttemptsInterval(originalUser.Name));
             actualUser.PasswordMustBeChangedAtNextLogon.Should().Be(false);
-            actualUser.PasswordExpires.GetValueOrDefault().Date.Should().Be(UserHelper.GetPasswordExpirationDate(originalUser.Name).Date);
+            actualUser.PasswordExpires.GetValueOrDefault().Date.Should().Be(UserHelper.GetPasswordExpirationDate(originalUser.Name).GetValueOrDefault().Date);
             actualUser.PasswordMinLength.Should().Be(UserHelper.GetPasswordMinLength(originalUser.Name));
             actualUser.PasswordCanBeChangedByUser.Should().Be(true);
             actualUser.PasswordRequired.Should().Be(true);

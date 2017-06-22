@@ -130,6 +130,24 @@ namespace Continuous.User.Users
             SetUserFlags(userName, UserFlags.AccountDisabledFlag, value);
         }
 
+        public LocalUserInfo GetCurrentLoggedInUser()
+        {
+            var userWithDomain = _executor.Execute(_scripts.GetLoggedUsername, new List<CommandParameter>(0))
+                .FirstOrDefault();
+
+            var userName = GetUserName(userWithDomain?.BaseObject as string);
+
+            return GetLocalUser(userName);
+        }
+
+        private string GetUserName(string username)
+        {
+            var separatorIndex = username.IndexOf('\\');
+
+            if (separatorIndex == -1) return username;
+
+            return username.Substring(separatorIndex+1);
+        }
         private void SetUserProperty(string userName, string propertyName, object value)
         {
             ThrowIfNotExist(userName);

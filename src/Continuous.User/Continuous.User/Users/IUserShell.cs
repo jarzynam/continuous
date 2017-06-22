@@ -94,5 +94,10 @@ namespace Continuous.User.Users
         /// <param name="userName">user name</param>
         /// <param name="value">flag value</param>
         void SetAccountDisabled(string userName, bool value);
+
+        /// <summary>
+        /// Get current logged in user
+        /// </summary>
+        LocalUserInfo GetCurrentLoggedInUser();
     }
 }

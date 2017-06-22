@@ -76,6 +76,7 @@
     <Compile Include="Tests\LocalGroup\CreateLocalGroupTests.cs" />
     <Compile Include="Tests\LocalGroup\GetLocalGroupTests.cs" />
     <Compile Include="Tests\LocalGroup\RemoveLocalGroupTests.cs" />
+    <Compile Include="Tests\User\GetCurrentLoggedUserTests.cs" />
     <Compile Include="Tests\User\SetPasswordExpiredTests.cs" />
     <Compile Include="Tests\User\SetUserFlagsTests.cs" />
     <Compile Include="Tests\User\ChangeUserPassword.cs" />

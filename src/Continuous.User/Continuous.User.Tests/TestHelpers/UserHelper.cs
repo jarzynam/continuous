@@ -45,9 +45,13 @@ namespace Continuous.User.Tests.TestHelpers
             return DateTime.Parse(GetUserProperty(userName, "Password last set"));
         }
 
-        internal static DateTime GetPasswordExpirationDate(string userName)
+        internal static DateTime? GetPasswordExpirationDate(string userName)
         {
-            return DateTime.Parse(GetUserProperty(userName, "Password expires"));
+            var result = GetUserProperty(userName, "Password expires");
+
+            if (result == "Never") return null;
+
+            return DateTime.Parse(result);
         }
 
         internal static TimeSpan GetPasswordBadAttemptsInterval(string userName)
@@ -133,6 +137,14 @@ namespace Continuous.User.Tests.TestHelpers
             var result = (int) (ScriptInvoker.InvokeScript(script).FirstOrDefault()?.BaseObject??default(int));
 
             return TimeSpan.FromSeconds(result);
+        }
+
+        internal static string GetCurrentLoggedUserName()
+        {
+            var script = "(whoami).Split('\\')[1]";
+            var result = ScriptInvoker.InvokeScript(script).FirstOrDefault()?.BaseObject;
+
+            return result as string;
         }
 
         private static string GetUserProperty(string userName, string propertyName)
