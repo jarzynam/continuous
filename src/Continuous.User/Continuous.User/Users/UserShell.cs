@@ -75,7 +75,7 @@ namespace Continuous.User.Users
 
             var results = _executor.Execute(_scripts.GetUser, parameters);
 
-            return _userMapper.MapToLocalUserInfo(results);
+            return _userMapper.MapToLocalUserInfo(results.FirstOrDefault());
         }
 
         public void ChangePassword(string userName, string userPassword)
@@ -138,6 +138,13 @@ namespace Continuous.User.Users
             var userName = GetUserName(userWithDomain?.BaseObject as string);
 
             return GetLocalUser(userName);
+        }
+
+        public List<LocalUserInfo> GetAllUsers()
+        {
+            var userObjects = _executor.Execute(_scripts.GetAllUsers, new List<CommandParameter>(0));
+
+            return userObjects.Select(p => _userMapper.MapToLocalUserInfo(p)).ToList();
         }
 
         private string GetUserName(string username)

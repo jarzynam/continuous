@@ -44,10 +44,8 @@ namespace Continuous.User.Users
             };
         }
 
-        internal LocalUserInfo MapToLocalUserInfo(ICollection<PSObject> results)
+        internal LocalUserInfo MapToLocalUserInfo(PSObject result)
         {
-            var result = results.FirstOrDefault();
-
             if (result == null) return null;
 
             var properties = new UserResultProperties(result);

@@ -9,13 +9,10 @@
     <licenseUrl>https://github.com/jarzynam/rescuer/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/jarzynam/continuous/wiki/User</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>This library is providing easy way to manage users and local user groups: add/remove new user/userGroup, assing user to group, etc. 
+    <description>This library is providing easy way to manage local users and local user groups: add/remove new user/userGroup, assing user to group, etc. 
     </description>
     <releaseNotes>
-    - Added AccountDisabled and AccountLocked properties to LocalUserInfo
-    - Added SetAccountDisabled to UserShell
-    - Set LocalUserInfo setters to internal
-    - Added GetLoggedInUser method
+    - Added GetAllUsers method
     </releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>Continuous Management User LocalGroup Group Windows</tags>

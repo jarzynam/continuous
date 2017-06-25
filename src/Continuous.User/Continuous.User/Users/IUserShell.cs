@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Continuous.User.Users.Model;
 
 namespace Continuous.User.Users
@@ -99,5 +100,11 @@ namespace Continuous.User.Users
         /// Get current logged in user
         /// </summary>
         LocalUserInfo GetLoggedInUser();
+
+        /// <summary>
+        /// Get all users from current domain 
+        /// </summary>
+        /// <returns></returns>
+        List<LocalUserInfo> GetAllUsers();
     }
 }
