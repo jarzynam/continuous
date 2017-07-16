@@ -193,6 +193,23 @@ namespace Continuous.User.Tests.Tests.User
             user.IsVisible.Should().BeFalse();
         }
 
+        [Test]
+        public void Get_WhenUSer_IsVisible_AndSpecialAccountRegistryExist()
+        {
+            // arrange
+            var userName = _generator.RandomName;
+
+            _installer.Install(userName, _generator.RandomName);
+
+            UserHelper.AddSpecialAccountRegistry();
+           
+            // act
+            var user = _shell.GetLocalUser(userName);
+
+            // assert
+            user.IsVisible.Should().BeTrue();
+        }
+
 
         [Test]
         public void Get_ReturnNull_When_User_NotExisting()

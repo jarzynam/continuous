@@ -1,5 +1,5 @@
 ﻿# 
-# Set user visibility
+# Set user visibility in windows welcome screen
 #
 param([string]$name, [bool] $isVisible)
   
@@ -15,5 +15,7 @@ if($isVisible -eq $false)
 	 New-ItemProperty -Path $path -Name $name -Value 0 -PropertyType DWord -Force
 
 } else {
-	Remove-ItemProperty $path -Name $name -Force -ErrorAction Ignore
+	if((Get-Item $path).GetValue($name) -ne $null ){
+		Remove-ItemProperty $path -Name $name -Force 
+	}
 }

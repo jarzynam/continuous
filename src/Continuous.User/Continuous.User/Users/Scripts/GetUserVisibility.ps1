@@ -1,5 +1,5 @@
 ﻿#  
-# get local user by username
+# get local user visiblity in windows welcome screen flag
 #
 param([string]$name)
 
@@ -10,4 +10,4 @@ if((Test-Path $path) -eq $false)
 	return $true
 }
 
-return (Get-ItemProperty -Path $path -Name $name -ErrorAction Ignore) -eq $null
+return (Get-Item -Path $path).GetValue($name) -eq $null

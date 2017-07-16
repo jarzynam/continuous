@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Runtime.InteropServices;
 using Continuous.User.Tests.TestHelpers;
 using Continuous.User.Tests.TestHelpers.Installer;
 using Continuous.User.Users;
