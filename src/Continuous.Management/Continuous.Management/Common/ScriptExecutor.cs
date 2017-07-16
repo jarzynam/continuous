@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 using System.Text;
@@ -60,11 +61,14 @@ namespace Continuous.Management.Common
         {
             if (!pipeline.HadErrors) return;
 
+            var errors = pipeline.Error.Read() as Collection<ErrorRecord>;
+
+            if (errors == null || errors.Count == 0) return;
+
             var errorBuilder = new StringBuilder();
-            var errors = pipeline.Error.ReadToEnd();
-            
+
             foreach (var error in errors)
-                errorBuilder.AppendLine(error.ToString());
+                errorBuilder.AppendLine(error.Exception.Message);
 
             throw new InvalidOperationException(errorBuilder.ToString());
         }
