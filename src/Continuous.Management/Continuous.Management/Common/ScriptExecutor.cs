@@ -1,15 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 using System.Text;
 
 namespace Continuous.Management.Common
 {
+    /// <summary>
+    /// Executor for embeded powershell scripts
+    /// </summary>
     internal interface IScriptExecutor
     {
-        ICollection<PSObject> Execute(string scriptFullPath, ICollection<CommandParameter> parameters);
+        /// <summary>
+        /// Execute embedded script
+        /// </summary>
+        /// <param name="scriptFullPath">script full path in assembly</param>
+        /// <param name="parameters">script parameters</param>
+        /// <param name="ignoreErrorStream">throw exception when powershell not throw but  error-stream contains elements</param>
+        /// <returns></returns>
+        ICollection<PSObject> Execute(string scriptFullPath, ICollection<CommandParameter> parameters, bool ignoreErrorStream = false);
     }
 
     internal class ScriptExecutor : IScriptExecutor
@@ -21,7 +30,7 @@ namespace Continuous.Management.Common
             _embededFileReader = new EmbededFileReader(typeForAssembly);
         }
 
-        public ICollection<PSObject> Execute(string scriptFullPath, ICollection<CommandParameter> parameters)
+        public ICollection<PSObject> Execute(string scriptFullPath, ICollection<CommandParameter> parameters, bool ignoreErrorStream = false)
         {
             var script = _embededFileReader.Read(scriptFullPath);
 
@@ -37,7 +46,8 @@ namespace Continuous.Management.Common
 
                     var results = pipeline.Invoke();
 
-                    ThrowErrorIfNecessary(pipeline);
+                    if(!ignoreErrorStream)
+                        ThrowFromErrorStream(pipeline);
 
                     return results;
                 }
@@ -57,20 +67,19 @@ namespace Continuous.Management.Common
         }
 
 
-        private void ThrowErrorIfNecessary(Pipeline pipeline)
+        private void ThrowFromErrorStream(Pipeline pipeline)
         {
             if (!pipeline.HadErrors) return;
 
-            var errors = pipeline.Error.Read() as Collection<ErrorRecord>;
+            var errors = pipeline.Error.ReadToEnd();
 
-            if (errors == null || errors.Count == 0) return;
-
-            var errorBuilder = new StringBuilder();
+            var str = new StringBuilder();
 
             foreach (var error in errors)
-                errorBuilder.AppendLine(error.Exception.Message);
+                str.AppendLine(error.ToString());
+            
 
-            throw new InvalidOperationException(errorBuilder.ToString());
+            throw new InvalidOperationException(str.ToString());
         }
     }
 }
