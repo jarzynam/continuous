@@ -2,6 +2,7 @@
 using Continuous.User.Tests.TestHelpers;
 using Continuous.User.Tests.TestHelpers.Installer;
 using Continuous.User.Users;
+using Continuous.User.Users.Model;
 using FluentAssertions;
 using NUnit.Framework;
 
@@ -14,8 +15,7 @@ namespace Continuous.User.Tests.Tests.User
         private const int PasswordCantChangeFlag = 0x40;
         private const int PasswordCantExpireFlag = 0x10000;
         private const int AccountDisabledFlag = 0x2;
-        private const int AccountLockedOutFlag = 0x10;
-
+       
 
         private IUserShell _shell;
         private NameGenerator _generator;
@@ -232,6 +232,8 @@ namespace Continuous.User.Tests.Tests.User
             // assert
             act.ShouldThrow<InvalidOperationException>();
         }
+
+       
     }
 
 }

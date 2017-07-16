@@ -25,7 +25,7 @@ namespace Continuous.User.Users
         [Obsolete("Use create with LocalUserCreateModel as input parameter")]
         public void Create(UserModel userModel)
         {
-           Create(_userMapper.MapToUserCreateModel(userModel));
+            Create(_userMapper.MapToUserCreateModel(userModel));
         }
 
         public void Create(LocalUserCreateModel userModel)
@@ -75,7 +75,11 @@ namespace Continuous.User.Users
 
             var results = _executor.Execute(_scripts.GetUser, parameters);
 
-            return _userMapper.MapToLocalUserInfo(results.FirstOrDefault());
+            var user =  _userMapper.MapToLocalUserInfo(results.FirstOrDefault());
+
+            user.IsVisible = IsUserVisible(userName);
+
+            return user;
         }
 
         public void ChangePassword(string userName, string userPassword)
@@ -130,6 +134,19 @@ namespace Continuous.User.Users
             SetUserFlags(userName, UserFlags.AccountDisabledFlag, value);
         }
 
+        public void SetUserVisibility(string userName, bool value)
+        {
+            ThrowIfNotExist(userName);
+
+            var parameters = new List<CommandParameter>
+            {
+                new CommandParameter("name", userName),
+                new CommandParameter("isVisible", value)
+            };
+
+            _executor.Execute(_scripts.SetUserVisibility, parameters);
+        }
+
         public LocalUserInfo GetLoggedInUser()
         {
             var userWithDomain = _executor.Execute(_scripts.GetLoggedUsername, new List<CommandParameter>(0))
@@ -153,8 +170,9 @@ namespace Continuous.User.Users
 
             if (separatorIndex == -1) return username;
 
-            return username.Substring(separatorIndex+1);
+            return username.Substring(separatorIndex + 1);
         }
+
         private void SetUserProperty(string userName, string propertyName, object value)
         {
             ThrowIfNotExist(userName);
@@ -180,7 +198,24 @@ namespace Continuous.User.Users
                 new CommandParameter("value", value)
             };
 
-             _executor.Execute(_scripts.SetUserFlag, parameters);
+            _executor.Execute(_scripts.SetUserFlag, parameters);
+        }
+
+        private bool IsUserVisible(string userName)
+        {
+            var parameters = new List<CommandParameter>
+            {
+                new CommandParameter("name", userName)
+            };
+
+            var results = _executor.Execute(_scripts.GetUserVisibility, parameters);
+
+            if (results.Any())
+            {
+                return (bool) results.First().BaseObject;
+            }
+
+            return false;
         }
 
         private static void ThrowServiceExceptionIfNecessary(ICollection<PSObject> result, string commandName)
@@ -193,9 +228,8 @@ namespace Continuous.User.Users
 
         private void ThrowIfNotExist(string userName)
         {
-            if(!Exists(userName))
+            if (!Exists(userName))
                 throw new InvalidOperationException($"User '{userName}' is not existing");
         }
-        
     }
 }

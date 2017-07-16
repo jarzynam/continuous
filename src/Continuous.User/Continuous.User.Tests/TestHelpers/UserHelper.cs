@@ -7,6 +7,8 @@ namespace Continuous.User.Tests.TestHelpers
 {
     internal static class UserHelper
     {
+        private const string SpecialAccountRegistry = @"HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\UserList";
+
         internal static void CreateUser(string userName, string userPassword)
         {
             ScriptInvoker.InvokeScript($"net user {userName} {userPassword} /add");
@@ -89,7 +91,7 @@ namespace Continuous.User.Tests.TestHelpers
 
             return property as DateTime?;
         }
-        
+
         internal static LocalUserCreateModel BuildLocalUser(string name)
         {
             return new LocalUserCreateModel
@@ -147,6 +149,45 @@ namespace Continuous.User.Tests.TestHelpers
             return result as string;
         }
 
+        internal static bool GetUserVisibility(string userName)
+        { 
+            var script = $"(Get-ItemProperty -Path '{SpecialAccountRegistry}' -Name {userName}) -eq $null";
+            var result = ScriptInvoker.InvokeScript(script);
+
+            return (bool) result.First().BaseObject;
+        }
+
+        internal static void AddSpecialAccountRegistry()
+        {
+            AddToRegistry(SpecialAccountRegistry);
+        }
+
+        internal static void RemoveSpecialAccountRegistry()
+        {
+            try
+            {
+                RemoveFromRegistry(SpecialAccountRegistry);
+            }
+            catch (Exception)
+            {
+                //ignore
+            }
+        }
+
+        internal static void HideUser(string userName)
+        {
+            var script = $"New-ItemProperty -Path '{SpecialAccountRegistry}' -Name {userName} -Value 0 -PropertyType DWord -Force";
+
+            ScriptInvoker.InvokeScript(script);
+        }
+
+        internal static void ShowUser(string userName)
+        {
+            var script = $"Remove-ItemProperty '{SpecialAccountRegistry}' -Name {userName} -Force";
+
+            ScriptInvoker.InvokeScript(script);
+        }
+
         private static string GetUserProperty(string userName, string propertyName)
         {
             var propertyRegex = @"'\s{2,}'";
@@ -168,6 +209,20 @@ namespace Continuous.User.Tests.TestHelpers
             var script = $"$user = [ADSI] (\"WinNT://./{userName}, user\");" +
                          $" $user.{propertyName}.Value = {value};" +
                          $" $user.SetInfo()";
+
+            ScriptInvoker.InvokeScript(script);
+        }
+
+        private static void AddToRegistry(string path)
+        {
+            var script = $"New-Item '{path}' -Force";
+
+            ScriptInvoker.InvokeScript(script);
+        }
+
+        private static void RemoveFromRegistry(string path)
+        {
+            var script = $"Remove-Item '{path}'";
 
             ScriptInvoker.InvokeScript(script);
         }

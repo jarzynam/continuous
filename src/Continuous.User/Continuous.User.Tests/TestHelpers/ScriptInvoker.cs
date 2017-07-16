@@ -10,13 +10,11 @@ namespace Continuous.User.Tests.TestHelpers
             using (var instance = PowerShell.Create())
             {
                 instance.AddScript(script);
-
+                
                 var results = instance.Invoke();
 
                 return results;
             }
         }
-
-
     }
 }

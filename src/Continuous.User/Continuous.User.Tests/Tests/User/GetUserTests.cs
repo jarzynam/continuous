@@ -63,6 +63,7 @@ namespace Continuous.User.Tests.Tests.User
             actualUser.PasswordRequired.Should().Be(true);
             actualUser.AutoUnlockInterval.Should().Be(UserHelper.GetAutoUnlockInterval(originalUser.Name));
             actualUser.LastLogon.Should().Be(UserHelper.GetLastLogon(originalUser.Name));
+            actualUser.IsVisible.Should().BeTrue();
         }
 
         [Test]
@@ -174,6 +175,26 @@ namespace Continuous.User.Tests.Tests.User
         //TODO: add test for locked user after 
 
         [Test]
+        public void Get_WhenUser_IsHidden_ReturnProperFlag()
+        {
+            // arrange
+            var userName = _generator.RandomName;
+
+            _installer.Install(userName, _generator.RandomName);
+
+            UserHelper.AddSpecialAccountRegistry();
+            UserHelper.HideUser(userName);
+            UserHelper.GetUserVisibility(userName).Should().BeFalse();
+
+            // act
+            var user = _shell.GetLocalUser(userName);
+
+            // assert
+            user.IsVisible.Should().BeFalse();
+        }
+
+
+        [Test]
         public void Get_ReturnNull_When_User_NotExisting()
         {
             // arrange 
@@ -185,5 +206,7 @@ namespace Continuous.User.Tests.Tests.User
             // assert
             user.Should().BeNull();
         }
+
+       
     }
 }

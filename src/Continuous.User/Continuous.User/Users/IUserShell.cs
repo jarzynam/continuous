@@ -61,7 +61,7 @@ namespace Continuous.User.Users
         /// Specify wheter password is required at user logon
         /// </summary>
         /// <param name="userName">user name</param>
-        /// <param name="value">flag value</param>
+        /// <param name="value">new property value</param>
         /// <returns></returns>
         void SetPasswordRequired(string userName, bool value);
 
@@ -69,7 +69,7 @@ namespace Continuous.User.Users
         /// Specify wheter the password can be changed by user
         /// </summary>
         /// <param name="userName">user name</param>
-        /// <param name="value">flag value</param>
+        /// <param name="value">new property value</param>
         /// <returns></returns>
         void SetPasswordCanBeChangedByUser(string userName, bool value);
 
@@ -77,7 +77,7 @@ namespace Continuous.User.Users
         /// Specify wheter the password can expire
         /// </summary>
         /// <param name="userName">user name</param>
-        /// <param name="value">flag value</param>
+        /// <param name="value">new property value</param>
         /// <returns></returns>
         void SetPasswordCanExpire(string userName, bool value);
 
@@ -85,7 +85,7 @@ namespace Continuous.User.Users
         /// Specify wheter password has been expired
         /// </summary>
         /// <param name="userName">user name</param>
-        /// <param name="value">flag value</param>
+        /// <param name="value">property value</param>
         /// <returns></returns>
         void SetPasswordExpired(string userName, bool value);
 
@@ -93,11 +93,18 @@ namespace Continuous.User.Users
         /// Specify wheter account has been disabled
         /// </summary>
         /// <param name="userName">user name</param>
-        /// <param name="value">flag value</param>
+        /// <param name="value">new property value</param>
         void SetAccountDisabled(string userName, bool value);
 
         /// <summary>
-        /// Get current logged in user
+        /// Specify wheter user is visible in windows welcome screen
+        /// </summary>
+        /// <param name="userName">user name</param>
+        /// <param name="value">new property value</param>
+        void SetUserVisibility(string userName, bool value);
+            
+        /// <summary>
+        /// Get currently logged-in user
         /// </summary>
         LocalUserInfo GetLoggedInUser();
 

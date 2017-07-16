@@ -34,7 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Continuous.Management, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Continuous.Management.1.1.2\lib\net452\Continuous.Management.dll</HintPath>
+      <HintPath>..\packages\Continuous.Management.1.1.3-alpha\lib\net452\Continuous.Management.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -85,6 +85,8 @@
     <EmbeddedResource Include="Users\Scripts\SetUserProperty.ps1" />
     <EmbeddedResource Include="Users\Scripts\GetLoggedUsername.ps1" />
     <EmbeddedResource Include="Users\Scripts\GetAllUsers.ps1" />
+    <EmbeddedResource Include="Users\Scripts\SetUserVisibility.ps1" />
+    <EmbeddedResource Include="Users\Scripts\GetUserVisibility.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
