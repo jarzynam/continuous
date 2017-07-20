@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Security;
 
 namespace Continuous.User.Users.Extensions.LocalUserInfo
@@ -58,6 +59,12 @@ namespace Continuous.User.Users.Extensions.LocalUserInfo
         public ILocalUserInfoUpdate IsVisible(bool newValue)
         {
             _cache.IsVisible = newValue;
+            return this;
+        }
+
+        public ILocalUserInfoUpdate Description(string newValue)
+        {
+            _cache.Desription = newValue;
             return this;
         }
 
@@ -128,6 +135,9 @@ namespace Continuous.User.Users.Extensions.LocalUserInfo
 
             if (config.PasswordExpired.HasValue)
                 _shell.SetPasswordExpired(_user.Name, config.PasswordExpired.Value);
+
+            if(config.Desription != null)
+                _shell.SetUserDescription(_user.Name, config.Desription);
         }
 
         private void Rollback()
@@ -157,6 +167,9 @@ namespace Continuous.User.Users.Extensions.LocalUserInfo
             if (cache.PasswordExpired.HasValue)
                 rollback.PasswordExpired = actualUser.PasswordExpires.HasValue 
                     && actualUser.PasswordExpires.Value.Date > DateTime.Now;
+
+            if (cache.Desription != null)
+                rollback.Desription = actualUser.Description;
 
             return rollback;
         }

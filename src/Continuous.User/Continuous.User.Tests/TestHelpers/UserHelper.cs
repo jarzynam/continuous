@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Linq;
-using System.Management.Automation;
 using Continuous.User.Users.Model;
 
 namespace Continuous.User.Tests.TestHelpers
 {
     internal static class UserHelper
     {
-        private const string SpecialAccountRegistry = @"HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\UserList";
+        private const string SpecialAccountRegistry =
+            @"HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\UserList";
 
         internal static void CreateUser(string userName, string userPassword)
         {
@@ -122,7 +122,7 @@ namespace Continuous.User.Tests.TestHelpers
 
         internal static void SetPasswordExipred(string userName, bool value)
         {
-             SetPropertyFromAdsi(userName, "PasswordExpired", (value ?1: 0).ToString());
+            SetPropertyFromAdsi(userName, "PasswordExpired", (value ? 1 : 0).ToString());
         }
 
         internal static void SetPassword(string userName, string newPassword)
@@ -136,7 +136,7 @@ namespace Continuous.User.Tests.TestHelpers
         {
             var script = $"([ADSI] \"WinNT://./{userName}, user\").PasswordAge.Value";
 
-            var result = (int) (ScriptInvoker.InvokeScript(script).FirstOrDefault()?.BaseObject??default(int));
+            var result = (int) (ScriptInvoker.InvokeScript(script).FirstOrDefault()?.BaseObject ?? default(int));
 
             return TimeSpan.FromSeconds(result);
         }
@@ -150,7 +150,7 @@ namespace Continuous.User.Tests.TestHelpers
         }
 
         internal static bool GetUserVisibility(string userName)
-        { 
+        {
             var script = $"(Get-ItemProperty -Path '{SpecialAccountRegistry}' -Name {userName}) -eq $null";
             var result = ScriptInvoker.InvokeScript(script);
 
@@ -176,7 +176,8 @@ namespace Continuous.User.Tests.TestHelpers
 
         internal static void HideUser(string userName)
         {
-            var script = $"New-ItemProperty -Path '{SpecialAccountRegistry}' -Name {userName} -Value 0 -PropertyType DWord -Force";
+            var script =
+                $"New-ItemProperty -Path '{SpecialAccountRegistry}' -Name {userName} -Value 0 -PropertyType DWord -Force";
 
             ScriptInvoker.InvokeScript(script);
         }
@@ -186,6 +187,11 @@ namespace Continuous.User.Tests.TestHelpers
             var script = $"Remove-ItemProperty '{SpecialAccountRegistry}' -Name {userName} -Force";
 
             ScriptInvoker.InvokeScript(script);
+        }
+
+        public static string GetDescription(string userName)
+        {
+            return GetPropertyFromAdsi(userName, "Description") as string;
         }
 
         private static string GetUserProperty(string userName, string propertyName)
@@ -226,5 +232,7 @@ namespace Continuous.User.Tests.TestHelpers
 
             ScriptInvoker.InvokeScript(script);
         }
+
+        
     }
 }

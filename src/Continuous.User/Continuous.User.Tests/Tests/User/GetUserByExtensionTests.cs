@@ -36,7 +36,7 @@ namespace Continuous.User.Tests.Tests.User
                 Name = _generator.RandomName,
                 AccountExpires = null,
                 Password = null,
-                Description = "",
+                Description = "test description",
                 FullName = "test user to delete"
             };
             _installer.Install(originalUser);

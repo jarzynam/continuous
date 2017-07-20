@@ -110,6 +110,13 @@ namespace Continuous.User.Users
         /// <param name="userName">user name</param>
         /// <param name="value">new property value</param>
         void SetUserVisibility(string userName, bool value);
+
+        /// <summary>
+        /// Change user description
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="description"></param>
+        void SetUserDescription(string userName, string description);
             
         /// <summary>
         /// Get currently logged-in user

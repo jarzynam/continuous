@@ -163,6 +163,11 @@ namespace Continuous.User.Users
             _executor.Execute(_scripts.SetUserVisibility, parameters);
         }
 
+        public void SetUserDescription(string userName, string description)
+        {
+            SetUserProperty(userName, "Description", description);
+        }
+
         public LocalUserInfo GetLoggedInUser()
         {
             var userWithDomain = _executor.Execute(_scripts.GetLoggedUsername, new List<CommandParameter>(0))

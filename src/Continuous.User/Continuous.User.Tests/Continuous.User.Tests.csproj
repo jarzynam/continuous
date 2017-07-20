@@ -81,6 +81,8 @@
     <Compile Include="Tests\User\GetUserByExtensionTests.cs" />
     <Compile Include="Tests\User\RemoveUserByExtensionTests.cs" />
     <Compile Include="Tests\User\SetPasswordExpiredByExtensionTests.cs" />
+    <Compile Include="Tests\User\SetUserDescriptionByExtensionTests.cs" />
+    <Compile Include="Tests\User\SetUserDescriptionTests.cs" />
     <Compile Include="Tests\User\SetUserFlagsByExtensionTests.cs" />
     <Compile Include="Tests\User\SetUserVisibilityByExtensionTests.cs" />
     <Compile Include="Tests\User\SetUserVisibilityTests.cs" />

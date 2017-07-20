@@ -13,6 +13,7 @@
     </description>
     <releaseNotes>
     - Added possibility to manipulate user directly from LocalUserInfo instance
+    - Added possibility to change user description
     </releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>Continuous Management User LocalGroup Group Windows</tags>

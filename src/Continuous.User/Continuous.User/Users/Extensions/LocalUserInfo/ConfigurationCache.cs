@@ -14,6 +14,7 @@ namespace Continuous.User.Users.Extensions.LocalUserInfo
         public bool? PasswordCanBeChangedByUser { get; set; }
         public bool? AccountDisabled { get; set; }
         public bool? IsVisible { get; set; }
+        public string Desription { get; set; }
 
         internal void Clear()
         {

@@ -58,6 +58,13 @@ namespace Continuous.User.Users.Extensions.LocalUserInfo
         ILocalUserInfoUpdate IsVisible(bool newValue);
 
         /// <summary>
+        /// Change user description
+        /// </summary>
+        /// <param name="description"></param>
+        /// <returns></returns>
+        ILocalUserInfoUpdate Description(string description);
+
+        /// <summary>
         /// Rollback all properties except user password when error occur.
         /// </summary>
         /// <returns></returns>
