@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security;
 
 namespace Continuous.User.Tests.TestHelpers
 {
@@ -19,10 +20,20 @@ namespace Continuous.User.Tests.TestHelpers
 
         public string RandomName => _prefix + _random.Next(0, 5000);
 
+        public SecureString RandomPassword => GetRandomPassword();
 
-        public string GetRandomName(string prefix)
+
+        private SecureString GetRandomPassword()
         {
-            return prefix + _random.Next(0, 5000);
+            var s = new SecureString();
+            
+            s.AppendChar((char) _random.Next(0, 9));
+            s.AppendChar((char) _random.Next(0, 9));
+            s.AppendChar((char) _random.Next(0, 9));
+            s.AppendChar((char) _random.Next(0, 9));
+            s.AppendChar((char) _random.Next(0, 9));
+
+            return s;
         }
     }
 }

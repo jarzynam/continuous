@@ -12,7 +12,7 @@
     <description>This library is providing easy way to manage local users and local user groups: add/remove new user/userGroup, assing user to group, etc. 
     </description>
     <releaseNotes>
-    - Added setting user visibility in windows welcome screen
+    - Added possibility to manipulate user directly from LocalUserInfo instance
     </releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>Continuous Management User LocalGroup Group Windows</tags>

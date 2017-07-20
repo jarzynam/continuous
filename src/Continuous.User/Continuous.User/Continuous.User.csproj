@@ -58,11 +58,16 @@
     <Compile Include="LocalUserGroups\Model\LocalUserGroup.cs" />
     <Compile Include="LocalUserGroups\ScriptsBoundle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Users\Extensions\LocalUserInfoExtensions.cs" />
+    <Compile Include="Users\Extensions\LocalUserInfo\ConfigurationCache.cs" />
+    <Compile Include="Users\Extensions\LocalUserInfo\ILocalUserInfoUpdate.cs" />
+    <Compile Include="Users\Extensions\LocalUserInfo\LocalUserInfoUpdate.cs" />
     <Compile Include="Users\IUserShell.cs" />
     <Compile Include="Users\Model\LocalUserInfo.cs" />
     <Compile Include="Users\Model\LocalUserCreateModel.cs" />
     <Compile Include="Users\Model\UserModel.cs" />
     <Compile Include="Users\ScriptsBoundle.cs" />
+    <Compile Include="Users\UserExceptionFactory.cs" />
     <Compile Include="Users\UserFlags.cs" />
     <Compile Include="Users\UserMapper.cs" />
     <Compile Include="Users\UserResultProperties.cs" />

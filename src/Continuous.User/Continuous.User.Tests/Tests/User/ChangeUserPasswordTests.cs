@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace Continuous.User.Tests.Tests.User
 {
     [TestFixture]
-    public class ChangeUserPassword
+    public class ChangeUserPasswordTests
     {
         private IUserShell _shell;
         private NameGenerator _generator;

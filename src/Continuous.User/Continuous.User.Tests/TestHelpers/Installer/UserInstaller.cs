@@ -24,7 +24,7 @@ namespace Continuous.User.Tests.TestHelpers.Installer
             AddInstance(model.Name);
         }
 
-        private void Remove(string userName)
+        public void Remove(string userName)
         {
             UserHelper.DeleteUser(userName);
             RemoveInstance(userName);

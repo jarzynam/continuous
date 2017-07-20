@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
+using System.Security;
 using Continuous.Management.Common;
 using Continuous.Management.Common.Extensions;
 using Continuous.User.Users.Model;
@@ -83,6 +84,21 @@ namespace Continuous.User.Users
         }
 
         public void ChangePassword(string userName, string userPassword)
+        {
+            ThrowIfNotExist(userName);
+
+            var parameters = new List<CommandParameter>
+            {
+                new CommandParameter("userName", userName),
+                new CommandParameter("password", userPassword)
+            };
+
+            var result = _executor.Execute(_scripts.ChangeUserPassword, parameters);
+
+            ThrowServiceExceptionIfNecessary(result, nameof(ChangePassword));
+        }
+
+        public void ChangePassword(string userName, SecureString userPassword)
         {
             ThrowIfNotExist(userName);
 

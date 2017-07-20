@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security;
 using Continuous.User.Users.Model;
 
 namespace Continuous.User.Users
@@ -49,6 +50,13 @@ namespace Continuous.User.Users
         /// <param name="userName">user name</param>
         /// <param name="userPassword">new password</param>
         void ChangePassword(string userName, string userPassword);
+
+        /// <summary>
+        /// Change user password with more secure password parameter
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="userPassword"></param>
+        void ChangePassword(string userName, SecureString userPassword);
 
         /// <summary>
         /// Check if user exists

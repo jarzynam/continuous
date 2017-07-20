@@ -1,12 +1,24 @@
 ﻿using System;
+using Continuous.User.Users.Extensions;
 
 namespace Continuous.User.Users.Model
 {
     /// <summary>
     ///     Model for creating new local user
     /// </summary>
-    public class LocalUserInfo
+    public class LocalUserInfo : LocalUserInfoExtensions
     {
+        public LocalUserInfo()
+        {
+            InitializeBase(this);
+        }
+
+        public LocalUserInfo(string userName) : this()
+        {
+            Name = userName;
+            Refresh();
+        }
+
         /// <summary>
         ///     User name
         /// </summary>

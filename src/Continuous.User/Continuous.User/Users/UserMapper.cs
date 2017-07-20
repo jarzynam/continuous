@@ -102,5 +102,27 @@ namespace Continuous.User.Users
 
             return DateTime.Now.Add(deltaTime);
         }
+
+        public void CopyProperties(LocalUserInfo info, LocalUserInfo source)
+        {
+            info.IsVisible = source.IsVisible;
+            info.AccountDisabled = source.AccountDisabled;
+            info.AccountExpires = source.AccountExpires;
+            info.AccountLocked = source.AccountLocked;
+            info.AutoUnlockInterval = source.AutoUnlockInterval;
+            info.Description = source.Description;
+            info.FullName = source.FullName;
+            info.LastLogon = source.LastLogon;
+            info.Name = source.Name;
+            info.PasswordBadAttemptsInterval = source.PasswordBadAttemptsInterval;
+            info.PasswordCanBeChangedByUser = source.PasswordCanBeChangedByUser;
+            info.PasswordExpires = source.PasswordExpires;
+            info.PasswordBadAttemptsInterval = source.PasswordBadAttemptsInterval;
+            info.PasswordMaxBadAttempts = source.PasswordMaxBadAttempts;
+            info.PasswordMinLength = source.PasswordMinLength;
+            info.PasswordMustBeChangedAtNextLogon = source.PasswordMustBeChangedAtNextLogon;
+            info.PasswordRequired = source.PasswordRequired;
+            info.PasswordLastChange = source.PasswordLastChange;
+        }
     }
 }
