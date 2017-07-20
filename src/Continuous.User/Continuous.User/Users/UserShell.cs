@@ -168,6 +168,11 @@ namespace Continuous.User.Users
             SetUserProperty(userName, "Description", description);
         }
 
+        public void SetUserFullName(string userName, string fullName)
+        {
+            SetUserProperty(userName, "FullName", fullName);
+        }
+
         public LocalUserInfo GetLoggedInUser()
         {
             var userWithDomain = _executor.Execute(_scripts.GetLoggedUsername, new List<CommandParameter>(0))

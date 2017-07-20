@@ -15,6 +15,7 @@ namespace Continuous.User.Users.Extensions.LocalUserInfo
         public bool? AccountDisabled { get; set; }
         public bool? IsVisible { get; set; }
         public string Desription { get; set; }
+        public string FullName { get; set; }
 
         internal void Clear()
         {

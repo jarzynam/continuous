@@ -117,6 +117,13 @@ namespace Continuous.User.Users
         /// <param name="userName"></param>
         /// <param name="description"></param>
         void SetUserDescription(string userName, string description);
+
+        /// <summary>
+        /// Change user full name
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="fullName"></param>
+        void SetUserFullName(string userName, string fullName);
             
         /// <summary>
         /// Get currently logged-in user

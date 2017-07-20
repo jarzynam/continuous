@@ -68,6 +68,12 @@ namespace Continuous.User.Users.Extensions.LocalUserInfo
             return this;
         }
 
+        public ILocalUserInfoUpdate FullName(string newValue)
+        {
+            _cache.FullName = newValue;
+            return this;
+        }
+
         public ILocalUserInfoUpdate RollbackOnError()
         {
             _cache.RollbackOnError = true;
@@ -138,6 +144,9 @@ namespace Continuous.User.Users.Extensions.LocalUserInfo
 
             if(config.Desription != null)
                 _shell.SetUserDescription(_user.Name, config.Desription);
+
+            if(config.FullName != null)
+                _shell.SetUserFullName(_user.Name, config.FullName);
         }
 
         private void Rollback()

@@ -65,6 +65,13 @@ namespace Continuous.User.Users.Extensions.LocalUserInfo
         ILocalUserInfoUpdate Description(string description);
 
         /// <summary>
+        /// Change user full name
+        /// </summary>
+        /// <param name="newValue"></param>
+        /// <returns></returns>
+        ILocalUserInfoUpdate FullName(string newValue);
+
+        /// <summary>
         /// Rollback all properties except user password when error occur.
         /// </summary>
         /// <returns></returns>
