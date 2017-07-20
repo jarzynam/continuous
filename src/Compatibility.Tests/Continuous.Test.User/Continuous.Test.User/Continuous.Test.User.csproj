@@ -44,7 +44,7 @@
       <HintPath>..\packages\Continuous.Management.1.1.4\lib\net452\Continuous.Management.dll</HintPath>
     </Reference>
     <Reference Include="Continuous.User, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Continuous.User.1.4.3-alpha\lib\net452\Continuous.User.dll</HintPath>
+      <HintPath>..\packages\Continuous.User.2.0.3-alpha\lib\net452\Continuous.User.dll</HintPath>
     </Reference>
     <Reference Include="FluentAssertions, Version=4.19.3.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentAssertions.4.19.3\lib\net45\FluentAssertions.dll</HintPath>
@@ -104,11 +104,17 @@
     <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\Tests\LocalGroup\RemoveUSersFromLocalGroupTests.cs">
       <Link>Tests\LocalGroups\RemoveUSersFromLocalGroupTests.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\Tests\User\ChangeUserPassword.cs">
-      <Link>Tests\Users\ChangeUserPassword.cs</Link>
+    <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\Tests\User\ChangeUserPasswordByExtensionTests.cs">
+      <Link>Tests\Users\ChangeUserPasswordByExtensionTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\Tests\User\ChangeUserPasswordTests.cs">
+      <Link>Tests\Users\ChangeUserPasswordTests.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\Tests\User\CreateUserTests.cs">
       <Link>Tests\Users\CreateUserTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\Tests\User\ExistsUserByExtensionTest .cs">
+      <Link>Tests\Users\ExistsUserByExtensionTest .cs</Link>
     </Compile>
     <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\Tests\User\ExistsUserTest.cs">
       <Link>Tests\Users\ExistsUserTest.cs</Link>
@@ -119,17 +125,38 @@
     <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\Tests\User\GetCurrentLoggedUserTests.cs">
       <Link>Tests\Users\GetCurrentLoggedUserTests.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\Tests\User\GetUserByExtensionTests.cs">
+      <Link>Tests\Users\GetUserByExtensionTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\Tests\User\GetUserTests.cs">
       <Link>Tests\Users\GetUserTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\Tests\User\RemoveUserByExtensionTests.cs">
+      <Link>Tests\Users\RemoveUserByExtensionTests.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\Tests\User\RemoveUserTests.cs">
       <Link>Tests\Users\RemoveUserTests.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\Tests\User\SetPasswordExpiredByExtensionTests.cs">
+      <Link>Tests\Users\SetPasswordExpiredByExtensionTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\Tests\User\SetPasswordExpiredTests.cs">
       <Link>Tests\Users\SetPasswordExpiredTests.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\Tests\User\SetUserDescriptionByExtensionTests.cs">
+      <Link>Tests\Users\SetUserDescriptionByExtensionTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\Tests\User\SetUserDescriptionTests.cs">
+      <Link>Tests\Users\SetUserDescriptionTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\Tests\User\SetUserFlagsTests.cs">
       <Link>Tests\Users\SetUserFlagsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\Tests\User\SetUserFullNameByExtensionTests.cs">
+      <Link>Tests\Users\SetUserFullNameByExtensionTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\Tests\User\SetUserFullNameTests.cs">
+      <Link>Tests\Users\SetUserFullNameTests.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\Tests\User\SetUserVisibilityTests.cs">
       <Link>Tests\Users\SetUserVisibilityTests.cs</Link>
