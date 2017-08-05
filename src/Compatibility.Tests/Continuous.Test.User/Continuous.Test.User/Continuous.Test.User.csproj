@@ -44,7 +44,7 @@
       <HintPath>..\packages\Continuous.Management.1.1.4\lib\net452\Continuous.Management.dll</HintPath>
     </Reference>
     <Reference Include="Continuous.User, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Continuous.User.2.0.3-alpha\lib\net452\Continuous.User.dll</HintPath>
+      <HintPath>..\packages\Continuous.User.2.1.1-alpha\lib\net452\Continuous.User.dll</HintPath>
     </Reference>
     <Reference Include="FluentAssertions, Version=4.19.3.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentAssertions.4.19.3\lib\net45\FluentAssertions.dll</HintPath>
@@ -97,6 +97,9 @@
     </Compile>
     <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\Tests\LocalGroup\GetLocalGroupTests.cs">
       <Link>Tests\LocalGroups\GetLocalGroupTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\Tests\LocalGroup\GetLocalGroupTestsBySid.cs">
+      <Link>Tests\LocalGroups\GetLocalGroupTestsBySid.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\Tests\LocalGroup\RemoveLocalGroupTests.cs">
       <Link>Tests\LocalGroups\RemoveLocalGroupTests.cs</Link>
