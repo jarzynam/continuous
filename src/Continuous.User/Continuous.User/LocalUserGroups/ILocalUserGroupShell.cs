@@ -28,6 +28,13 @@ namespace Continuous.User.LocalUserGroups
         Model.LocalUserGroup Get(string groupName);
 
         /// <summary>
+        /// find local group by SID
+        /// </summary>
+        /// <param name="sid"></param>
+        /// <returns></returns>
+        Model.LocalUserGroup GetBySid(string sid);
+
+        /// <summary>
         /// Assign existing users to group
         /// </summary>
         /// <param name="groupName">group name</param>
@@ -40,5 +47,7 @@ namespace Continuous.User.LocalUserGroups
         /// <param name="groupName">group name</param>
         /// <param name="userNames">list of users</param>
         void RemoveUsers(string groupName, List<string> userNames);
+
+        
     }
 }

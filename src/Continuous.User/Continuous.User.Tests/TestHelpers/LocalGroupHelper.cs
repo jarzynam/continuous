@@ -56,6 +56,19 @@ namespace Continuous.User.Tests.TestHelpers
             ScriptInvoker.InvokeScript(script);
         }
 
+        public static string GetSid(string groupName)
+        {
+            return GetProperty(groupName, "SID") as string;
+        }
+
+        private static object GetProperty(string groupName, string propertyName)
+        {
+            var script =
+                $"(Get-WMIObject -class Win32_Group -Filter \"Name= '{groupName}' and LocalAccount= '$true'\").{propertyName}";
+
+            return ScriptInvoker.InvokeScript(script).FirstOrDefault()?.BaseObject;
+        }
+
 
 
     }

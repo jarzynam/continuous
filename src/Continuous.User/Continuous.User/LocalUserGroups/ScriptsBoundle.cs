@@ -16,5 +16,6 @@ namespace Continuous.User.LocalUserGroups
         public string GetLocalUserGroup => AddToPath(_currentPath, "GetLocalUserGroup.ps1");
         public string AddUsersToLocalGroup => AddToPath(_currentPath, "AddUsersToLocalGroup.ps1");
         public string RemoveUsersFromLocalGroup => AddToPath(_currentPath, "RemoveUsersFromLocalGroup.ps1");
+        public string GetLocalUserGroupBySid => AddToPath(_currentPath, "GetLocalUserGroupBySid.ps1");
     }
 }

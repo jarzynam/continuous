@@ -65,6 +65,20 @@ namespace Continuous.User.LocalUserGroups
             }
         }
 
+        public LocalUserGroup GetBySid(string sid)
+        {
+            var parameters = new List<CommandParameter>
+            {
+                new CommandParameter("sid", sid)
+            };
+
+            var result = _executor.Execute(_scripts.GetLocalUserGroupBySid, parameters).FirstOrDefault();
+
+            var groupName = result?.Properties["Name"]?.Value as string;
+
+            return groupName != null ? Get(groupName) : null;
+        }
+
         public void AssignUsers(string groupName, List<string> userNames)
         {
             ThrowIfListIsEmpty(userNames);

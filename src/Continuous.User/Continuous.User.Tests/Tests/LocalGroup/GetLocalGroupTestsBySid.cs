@@ -7,12 +7,12 @@ using NUnit.Framework;
 namespace Continuous.User.Tests.Tests.LocalGroup
 {
     [TestFixture]
-    class GetLocalGroupTests
+    public class GetLocalGroupBySidTests
     {
         private ILocalUserGroupShell _shell;
         private LocalGroupInstaller _groupInstaller;
-        private NameGenerator _generator;
         private UserInstaller _userInstaller;
+        private NameGenerator _generator;
 
         [SetUp]
         public void SetUp()
@@ -20,7 +20,7 @@ namespace Continuous.User.Tests.Tests.LocalGroup
             _shell = new LocalUserGroupShell();
             _groupInstaller = new LocalGroupInstaller();
             _userInstaller = new UserInstaller();
-            _generator = new NameGenerator("testGLG");
+            _generator = new NameGenerator("testGLGBS");
         }
 
         [TearDown]
@@ -30,16 +30,18 @@ namespace Continuous.User.Tests.Tests.LocalGroup
             _userInstaller.Dispose();
         }
 
+
         [Test]
-        public void Get_Should_Fetch_LocalGroup_When_HasNot_AssignedMembers()
+        public void GetBySid_Should_Fetch_LocalGroup_When_HasNot_AssignedMembers()
         {
             // arrange
             string groupName = _generator.RandomName;
 
             _groupInstaller.Install(groupName);
+            var sid = LocalGroupHelper.GetSid(groupName);
 
             // act
-            var group = _shell.Get(groupName);
+            var group = _shell.GetBySid(sid);
 
             // assert
             group.Name.Should().Be(groupName);
@@ -48,7 +50,7 @@ namespace Continuous.User.Tests.Tests.LocalGroup
         }
 
         [Test]
-        public void Get_Should_Fetch_LocalGroup_When_Has_AssignedMembers()
+        public void GetBySid_Should_Fetch_LocalGroup_When_Has_AssignedMembers()
         {
             // arrange
             string groupName = _generator.RandomName;
@@ -62,8 +64,9 @@ namespace Continuous.User.Tests.Tests.LocalGroup
             LocalGroupHelper.AssignUser(groupName, userName);
             LocalGroupHelper.AssignUser(groupName, userName2);
 
+            var sid = LocalGroupHelper.GetSid(groupName);
             // act
-            var group = _shell.Get(groupName);
+            var group = _shell.GetBySid(sid);
 
             // assert
             group.Members.Should().Contain(p => p == userName);
@@ -72,13 +75,13 @@ namespace Continuous.User.Tests.Tests.LocalGroup
 
 
         [Test]
-        public void Get_Return_Null_When_LocalGroup_NotExist()
+        public void GetBySid_Return_Null_When_LocalGroup_NotExist()
         {
             // arrange
             var groupName = _generator.RandomName;
 
             // act
-            var group =  _shell.Get(groupName);
+            var group = _shell.GetBySid(groupName);
 
             // assert
             group.Should().BeNull();
