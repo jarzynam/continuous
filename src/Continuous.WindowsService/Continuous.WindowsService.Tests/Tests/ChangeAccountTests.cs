@@ -46,6 +46,7 @@ namespace Continuous.WindowsService.Tests.Tests
             _serviceInstaller.InstallService(serviceName);
             _userInstaller.Install(userName, userPassword);
 
+            UserHelper.AssingnUserToAdministators(userName);
             // act
             _shell.ChangeAccount(serviceName, userName, userPassword);
 

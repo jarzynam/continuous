@@ -42,6 +42,8 @@ namespace Continuous.WindowsService.Tests.Tests.WindowsServiceInfo
             var service = _serviceInstaller.InstallAndGetService(serviceName);
             _userInstaller.Install(userName, userPassword);
 
+            UserHelper.AssingnUserToAdministators(userName);
+
             // act
             service.Change()
                 .AccountName(userName)

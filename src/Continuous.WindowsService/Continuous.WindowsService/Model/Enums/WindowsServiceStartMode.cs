@@ -32,5 +32,9 @@ namespace Continuous.WindowsService.Model.Enums
         /// Service will start automatically with short delay after system startup 
         /// </summary>
         AutomaticDelayedStart,
+        /// <summary>
+        /// Unknown service start mode
+        /// </summary>
+        Unknown
     }
 }

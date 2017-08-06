@@ -12,26 +12,27 @@ namespace Continuous.WindowsService.Shell
     {
         internal WindowsServiceInfo Map(PSObject result)
         {
-            var info = new WindowsServiceInfo
-            {
-                Name = result.Properties["Name"]?.Value as string,
-                DisplayName = result.Properties["DisplayName"]?.Value as string,
-                Description = result.Properties["Description"]?.Value as string,
-                ProcessId = (result.Properties["ProcessId"]?.Value as int?).GetValueOrDefault(),
-                AccountName = result.Properties["StartName"]?.Value as string,
-                Type = (result.Properties["ServiceType"]?.Value as string).ToEnum<WindowsServiceType>(),
-                StartMode = ((result.Properties["StartMode"]?.Value as string)?.Replace("Auto", "Automatic").ToEnum<WindowsServiceStartMode>()).GetValueOrDefault(),
-                State = (result.Properties["State"]?.Value as string).ToEnum<WindowsServiceState>(),
-                Status = (result.Properties["Status"]?.Value as string).ToEnum<WindowsServiceStatus>(),
-                ErrorControl = (result.Properties["ErrorControl"]?.Value as string).ToEnum<WindowsServiceErrorControl>(),
-                InteractWithDesktop = (result.Properties["DesktopInteract"]?.Value as bool?).GetValueOrDefault(),
-                Path = result.Properties["PathName"]?.Value as string,
-                ExitCode = (result.Properties["ExitCode"]?.Value as UInt32?) .GetValueOrDefault(),
-                ServiceSpecificExitCode = (result.Properties["ServiceSpecificExitCode"]?.Value as UInt32?).GetValueOrDefault(),
-                CanPause = (result.Properties["AcceptPause"]?.Value as bool?).GetValueOrDefault(),
-                CanStop = (result.Properties["AcceptStop"]?.Value as bool?).GetValueOrDefault(),
-                ServiceDependencies = (result.Properties["ServiceDependencies"]?.Value as string[])?.ToList()?? new List<string>()
-            };
+            var info = new WindowsServiceInfo();
+            
+            info.Name = result.Properties["Name"]?.Value as string;
+            info.DisplayName = result.Properties["DisplayName"]?.Value as string;
+            info.Description = result.Properties["Description"]?.Value as string;
+            info.ProcessId = (result.Properties["ProcessId"]?.Value as int?).GetValueOrDefault();
+            info.AccountName = result.Properties["StartName"]?.Value as string;
+            info.Type = (result.Properties["ServiceType"]?.Value as string).ToEnum<WindowsServiceType>();
+            info.StartMode = ((result.Properties["StartMode"]?.Value as string)?.Replace("Auto", "Automatic").ToEnum<WindowsServiceStartMode>()).GetValueOrDefault();
+            info.State = (result.Properties["State"]?.Value as string).ToEnum<WindowsServiceState>();
+            info.Status = (result.Properties["Status"]?.Value as string).ToEnum<WindowsServiceStatus>();
+            info.ErrorControl = (result.Properties["ErrorControl"]?.Value as string).ToEnum<WindowsServiceErrorControl>();
+            info.InteractWithDesktop = (result.Properties["DesktopInteract"]?.Value as bool?).GetValueOrDefault();
+            info.Path = result.Properties["PathName"]?.Value as string;
+            info.ExitCode = (result.Properties["ExitCode"]?.Value as UInt32?) .GetValueOrDefault();
+            info.ServiceSpecificExitCode = (result.Properties["ServiceSpecificExitCode"]?.Value as UInt32?).GetValueOrDefault();
+            info.CanPause = (result.Properties["AcceptPause"]?.Value as bool?).GetValueOrDefault();
+            info.CanStop = (result.Properties["AcceptStop"]?.Value as bool?).GetValueOrDefault();
+            info.ServiceDependencies = (result.Properties["ServiceDependencies"]?.Value as string[])?.ToList() ??
+                                       new List<string>();
+            
 
             if (info.StartMode == WindowsServiceStartMode.Automatic &&
                 result.Properties["DelayedAutoStart"]?.Value as bool? == true)
