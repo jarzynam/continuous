@@ -190,11 +190,17 @@ namespace Continuous.User.Tests.TestHelpers
             ScriptInvoker.InvokeScript(script);
         }
 
-        public static string GetDescription(string userName)
+        internal static string GetDescription(string userName)
         {
             return GetPropertyFromAdsi(userName, "Description") as string;
         }
 
+        internal static string GetSid(string userName)
+        {
+            return GetPropertyFromWmi(userName, "Sid") as string;
+        }
+        
+        
         private static string GetUserProperty(string userName, string propertyName)
         {
             var propertyRegex = @"'\s{2,}'";
@@ -207,6 +213,13 @@ namespace Continuous.User.Tests.TestHelpers
         private static object GetPropertyFromAdsi(string userName, string propertyName)
         {
             var script = $"([ADSI] \"WinNT://./{userName}, user\").{propertyName}.Value";
+
+            return ScriptInvoker.InvokeScript(script).FirstOrDefault()?.BaseObject;
+        }
+
+        private static object GetPropertyFromWmi(string userName, string propertyName)
+        {
+            var script = $"(Get-WMIObject -Class Win32_UserAccount -Filter \"Name = \'{userName}\'\").{propertyName}";
 
             return ScriptInvoker.InvokeScript(script).FirstOrDefault()?.BaseObject;
         }

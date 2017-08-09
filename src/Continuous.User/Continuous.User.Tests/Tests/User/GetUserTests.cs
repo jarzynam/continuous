@@ -48,6 +48,7 @@ namespace Continuous.User.Tests.Tests.User
             var actualUser = _shell.GetLocalUser(originalUser.Name);
 
             // assert
+            actualUser.Sid.Should().Be(UserHelper.GetSid(originalUser.Name));
             actualUser.Name.Should().Be(originalUser.Name);
             actualUser.Description.Should().Be(originalUser.Description);
             actualUser.AccountExpires.Should().Be(originalUser.AccountExpires);

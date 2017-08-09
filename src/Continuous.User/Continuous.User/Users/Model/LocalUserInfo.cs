@@ -20,6 +20,11 @@ namespace Continuous.User.Users.Model
         }
 
         /// <summary>
+        ///     User security id 
+        /// </summary>
+        public string Sid { get; set; }
+
+        /// <summary>
         ///     User name
         /// </summary>
         public string Name { get; internal set; }

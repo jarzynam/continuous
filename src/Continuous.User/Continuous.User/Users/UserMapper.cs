@@ -55,6 +55,7 @@ namespace Continuous.User.Users
 
             var user = new LocalUserInfo();
 
+            user.Sid = result.Properties["SecurityId"]?.Value as string;
             user.Name = properties.Get<string>("Name");
             user.FullName = properties.Get<string>("FullName");
             user.Description = properties.Get<string>("Description");
