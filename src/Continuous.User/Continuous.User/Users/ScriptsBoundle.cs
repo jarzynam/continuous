@@ -22,6 +22,5 @@ namespace Continuous.User.Users
         public string GetAllUsers => AddToPath(_currentPath, "GetAllUsers.ps1");
         public string SetUserVisibility => AddToPath(_currentPath, "SetUserVisibility.ps1");
         public string GetUserVisibility => AddToPath(_currentPath, "GetUserVisibility.ps1");
-        public string GetUserCanLogOnAsService => AddToPath(_currentPath, "GetUserCanLogOnAsService.ps1");
     }
 }

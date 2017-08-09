@@ -108,10 +108,5 @@ namespace Continuous.User.Users.Model
         ///     User visibility in windows welcome screen
         /// </summary>
         public bool IsVisible { get; internal set; }
-
-        /// <summary>
-        ///     Determine if windows service can run on this user account
-        /// </summary>
-        public bool CanLogOnAsService { get; internal set; }
     }
 }

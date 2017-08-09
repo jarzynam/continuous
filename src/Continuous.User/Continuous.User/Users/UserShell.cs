@@ -77,8 +77,7 @@ namespace Continuous.User.Users
             var results = _executor.Execute(_scripts.GetUser, parameters);
 
             var user =  _userMapper.MapToLocalUserInfo(results.FirstOrDefault());
-
-            user.CanLogOnAsService = GetUserCanLogOnAsService(user.Sid);
+            
             user.IsVisible = IsUserVisible(userName);
 
             return user;
@@ -257,19 +256,6 @@ namespace Continuous.User.Users
         {
             if (!Exists(userName))
                 throw new InvalidOperationException($"User '{userName}' is not existing");
-        }
-
-        private bool GetUserCanLogOnAsService(string sid)
-        {
-            
-            var parameters = new List<CommandParameter>
-            {
-                new CommandParameter("sid", sid)
-            };
-
-            var result = _executor.Execute(_scripts.GetUserCanLogOnAsService, parameters, true);
-
-            return (bool?) result.FirstOrDefault()?.BaseObject ?? default(bool);
         }
     }
 }
