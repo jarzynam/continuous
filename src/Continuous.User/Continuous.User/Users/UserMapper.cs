@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Management.Automation;
 using Continuous.User.Users.Model;
+#pragma warning disable 612
 
 namespace Continuous.User.Users
 {

@@ -120,7 +120,7 @@ namespace Continuous.User.LocalUserGroups
         private static void ThrowIfListIsEmpty(List<string> userNames)
         {
             if (userNames == null || !userNames.Any())
-                throw new InvalidOperationException("the user names list cannot be empty");
+                throw new InvalidOperationException($"the {nameof(userNames)} list cannot be empty");
         }
     }
 }

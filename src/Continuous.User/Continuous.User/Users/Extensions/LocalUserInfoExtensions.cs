@@ -1,6 +1,5 @@
 ﻿using System;
 using Continuous.User.Users.Extensions.LocalUserInfo;
-using Continuous.User.Users.Model;
 
 namespace Continuous.User.Users.Extensions
 {

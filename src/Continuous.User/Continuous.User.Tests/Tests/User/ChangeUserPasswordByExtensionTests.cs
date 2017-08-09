@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Security;
 using Continuous.User.Tests.TestHelpers;
 using Continuous.User.Tests.TestHelpers.Installer;
 using Continuous.User.Users;

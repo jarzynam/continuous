@@ -3,6 +3,7 @@ using Continuous.User.Users;
 using Continuous.User.Users.Model;
 using FluentAssertions;
 using NUnit.Framework;
+#pragma warning disable 612
 
 namespace Continuous.User.Tests.UnitTests
 {

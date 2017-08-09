@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Linq;
+﻿using System.Linq;
 using Continuous.User.LocalUserGroups.Model;
-using NUnit.Framework;
 using System.Collections.Generic;
 
 namespace Continuous.User.Tests.TestHelpers

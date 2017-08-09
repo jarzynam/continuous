@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Continuous.User.Users.Model;
+#pragma warning disable 612
 
 namespace Continuous.User.Tests.TestHelpers
 {

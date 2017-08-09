@@ -9,7 +9,6 @@ namespace Continuous.User.Tests.UnitTests
         //all user flags: 
         //https://msdn.microsoft.com/en-us/library/aa772300%28v=vs.85%29.aspx
         private const int PasswordNotRequiredFlag = 0x20;
-        private const int PasswordCantChangeFlag = 0x40;
         private const int PasswordDontExipredFlag = 0x10000;
         private const int AccountDisabledFlag = 0x2;
         private const int AccountLockedFlag = 0x10;

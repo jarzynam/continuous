@@ -1,6 +1,5 @@
 ﻿using Continuous.User.Tests.TestHelpers;
 using Continuous.User.Tests.TestHelpers.Installer;
-using Continuous.User.Users;
 using Continuous.User.Users.Model;
 using FluentAssertions;
 using NUnit.Framework;
