@@ -43,7 +43,6 @@ namespace Continuous.User.Tests.Tests.User
             };
             _installer.Install(originalUser);
 
-
             // act
             var actualUser = _shell.GetLocalUser(originalUser.Name);
 
@@ -65,6 +64,7 @@ namespace Continuous.User.Tests.Tests.User
             actualUser.AutoUnlockInterval.Should().Be(UserHelper.GetAutoUnlockInterval(originalUser.Name));
             actualUser.LastLogon.Should().Be(UserHelper.GetLastLogon(originalUser.Name));
             actualUser.IsVisible.Should().BeTrue();
+            actualUser.CanLogOnAsService.Should().BeFalse();
         }
 
         [Test]
