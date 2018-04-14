@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Continuous.User</id>
-    <version>1.0.2</version>
+    <version>2.0.0</version>
     <title>Continuous User</title>
     <authors>Michał Jarzyna</authors>
     <owners>Code Creation</owners>
@@ -12,7 +12,7 @@
     <description>This library is providing easy way to manage local users and local user groups: add/remove new user/userGroup, assing user to group, etc. 
     </description>
     <releaseNotes>
-    - Added Sid property to LocalUserInfo
+    - Fixed User management for non-english systems
     </releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>Continuous Management User LocalGroup Group Windows</tags>

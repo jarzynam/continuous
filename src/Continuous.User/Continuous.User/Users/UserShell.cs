@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 using System.Security;
 using Continuous.Management.Common;
@@ -36,13 +35,12 @@ namespace Continuous.User.Users
                 new CommandParameter("name", userModel.Name),
                 new CommandParameter("password", userModel.Password),
                 new CommandParameter("description", userModel.Description),
-                new CommandParameter("fullName", userModel.FullName),
-                new CommandParameter("expires", userModel.AccountExpires?.Date.ToShortDateString() ?? "never")
+                new CommandParameter("fullName", userModel.FullName)
             };
 
-            var result = _executor.Execute(_scripts.CreateUser, parameters);
+            _executor.Execute(_scripts.CreateUser, parameters);
 
-            ThrowServiceExceptionIfNecessary(result, nameof(Create));
+            SetAccountExpirationDate(userModel.Name, userModel.AccountExpires);
         }
 
         public void Remove(string userName)
@@ -52,9 +50,7 @@ namespace Continuous.User.Users
                 new CommandParameter("name", userName)
             };
 
-            var result = _executor.Execute(_scripts.RemoveUser, parameters);
-
-            ThrowServiceExceptionIfNecessary(result, nameof(Remove));
+            _executor.Execute(_scripts.RemoveUser, parameters);
         }
 
         [Obsolete("Use GetLocalUser")]
@@ -93,9 +89,7 @@ namespace Continuous.User.Users
                 new CommandParameter("password", userPassword)
             };
 
-            var result = _executor.Execute(_scripts.ChangeUserPassword, parameters);
-
-            ThrowServiceExceptionIfNecessary(result, nameof(ChangePassword));
+            _executor.Execute(_scripts.ChangeUserPassword, parameters);
         }
 
         public void ChangePassword(string userName, SecureString userPassword)
@@ -108,9 +102,7 @@ namespace Continuous.User.Users
                 new CommandParameter("password", userPassword)
             };
 
-            var result = _executor.Execute(_scripts.ChangeUserPassword, parameters);
-
-            ThrowServiceExceptionIfNecessary(result, nameof(ChangePassword));
+            _executor.Execute(_scripts.ChangeUserPassword, parameters);
         }
 
         public bool Exists(string userName)
@@ -173,6 +165,20 @@ namespace Continuous.User.Users
             SetUserProperty(userName, "FullName", fullName);
         }
 
+        public void SetAccountExpirationDate(string userName, DateTime? expirationTime = null)
+        {
+            if (!expirationTime.HasValue)
+            {
+                SetUserFlags(userName, UserFlags.PasswordCantExpireFlag, true);
+            }
+            else
+            {
+                SetUserFlags(userName, UserFlags.PasswordCantExpireFlag, false);
+                SetUserPropertyDate(userName, "AccountExpirationDate", expirationTime.Value);
+            }
+        }
+
+
         public LocalUserInfo GetLoggedInUser()
         {
             var userWithDomain = _executor.Execute(_scripts.GetLoggedUsername, new List<CommandParameter>(0))
@@ -213,6 +219,20 @@ namespace Continuous.User.Users
             _executor.Execute(_scripts.SetUserProperty, parameters);
         }
 
+        private void SetUserPropertyDate(string userName, string propertyName, DateTime value)
+        {
+            ThrowIfNotExist(userName);
+
+            var parameters = new List<CommandParameter>
+            {
+                new CommandParameter("name", userName),
+                new CommandParameter("propertyName", propertyName),
+                new CommandParameter("propertyValue", value)
+            };
+
+            _executor.Execute(_scripts.SetUserPropertyDate, parameters);
+        }
+
         private void SetUserFlags(string userName, int flag, bool value)
         {
             ThrowIfNotExist(userName);
@@ -242,14 +262,6 @@ namespace Continuous.User.Users
             }
 
             return false;
-        }
-
-        private static void ThrowServiceExceptionIfNecessary(ICollection<PSObject> result, string commandName)
-        {
-            var returnValue = result.FirstOrDefault()?.BaseObject as string;
-
-            if (returnValue != "The command completed successfully.")
-                throw new InvalidOperationException($"Cannot invoke command {commandName}. Reason: " + returnValue);
         }
 
         private void ThrowIfNotExist(string userName)

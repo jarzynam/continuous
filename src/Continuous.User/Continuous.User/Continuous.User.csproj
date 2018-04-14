@@ -93,6 +93,7 @@
     <EmbeddedResource Include="Users\Scripts\GetAllUsers.ps1" />
     <EmbeddedResource Include="Users\Scripts\SetUserVisibility.ps1" />
     <EmbeddedResource Include="Users\Scripts\GetUserVisibility.ps1" />
+    <EmbeddedResource Include="Users\Scripts\SetUserPropertyDate.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

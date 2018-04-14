@@ -77,7 +77,7 @@ namespace Continuous.User.Users
             var maxPasswordAge = properties.GetTimeSpan("MaxPasswordAge");
             var passwordExpired = properties.GetValue<int>("PasswordExpired");
 
-            user.PasswordLastChange = DateTime.Now.Add(passwordAge.Negate());
+            user.PasswordLastChange = DateTime.Now.Add(passwordAge.Negate()).Date;
 
             user.AccountExpires = GetExpirationDate(TimeSpan.Zero, accountExpirationDate);
 
@@ -100,7 +100,7 @@ namespace Continuous.User.Users
 
             if (deltaTime == TimeSpan.Zero) return null;
 
-            return DateTime.Now.Add(deltaTime);
+            return DateTime.Now.Add(deltaTime).Date;
         }
 
         public void CopyProperties(LocalUserInfo info, LocalUserInfo source)

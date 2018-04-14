@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Management.Automation;
 using Continuous.User.Users.Model;
 #pragma warning disable 612
 
@@ -36,25 +37,29 @@ namespace Continuous.User.Tests.TestHelpers
                 Password = null
             };
 
-            var p = GetUserProperty(userName, "Account expires");
-            model.AccountExpires = p == "Never" ? null : (DateTime?) DateTime.Parse(p);
-
+            var accountExpirationDate = GetPropertyFromAdsi(userName, "AccountExpirationDate");
+            model.AccountExpires = GetDateProperty(accountExpirationDate);
 
             return model;
         }
 
-        internal static DateTime GetPasswordLastSet(string userName)
+        internal static DateTime? GetPasswordLastSet(string userName)
         {
-            return DateTime.Parse(GetUserProperty(userName, "Password last set"));
+            var passwordAge = GetPropertyFromAdsi(userName, "PasswordAge");
+
+            return DateTime.Now.AddSeconds(-(int)passwordAge).Date;
         }
 
         internal static DateTime? GetPasswordExpirationDate(string userName)
         {
-            var result = GetUserProperty(userName, "Password expires");
+            var passwordMaxAge = GetPropertyFromAdsi(userName, "PasswordMaxAge");
+            
+            if (passwordMaxAge.GetType() != typeof(PSMethod))
+            {
+                return DateTime.Now.AddSeconds((int)passwordMaxAge).Date;
+            }
 
-            if (result == "Never") return null;
-
-            return DateTime.Parse(result);
+            return null;
         }
 
         internal static TimeSpan GetPasswordBadAttemptsInterval(string userName)
@@ -199,16 +204,6 @@ namespace Continuous.User.Tests.TestHelpers
         {
             return GetPropertyFromWmi(userName, "Sid") as string;
         }
-        
-        
-        private static string GetUserProperty(string userName, string propertyName)
-        {
-            var propertyRegex = @"'\s{2,}'";
-            var result = ScriptInvoker.InvokeScript(
-                $"(((net user {userName})  -match \"{propertyName}\") -split {propertyRegex})");
-
-            return result[1].BaseObject as string;
-        }
 
         private static object GetPropertyFromAdsi(string userName, string propertyName)
         {
@@ -247,6 +242,14 @@ namespace Continuous.User.Tests.TestHelpers
             ScriptInvoker.InvokeScript(script);
         }
 
-        
+        private static DateTime? GetDateProperty(object property)
+        {
+            if (property.GetType() != typeof(PSMethod))
+            {
+                return ((DateTime) property).Date;
+            }
+
+            return null;
+        }
     }
 }

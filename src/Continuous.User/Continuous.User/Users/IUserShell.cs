@@ -124,6 +124,13 @@ namespace Continuous.User.Users
         /// <param name="userName"></param>
         /// <param name="fullName"></param>
         void SetUserFullName(string userName, string fullName);
+
+        /// <summary>
+        /// Specify when user account should expire - [null] if never. 
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="dateTime"></param>
+        void SetAccountExpirationDate(string userName, DateTime? dateTime);
             
         /// <summary>
         /// Get currently logged-in user

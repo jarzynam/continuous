@@ -3,4 +3,6 @@
 #
 param([string]$name)
   
-net user $name /delete
+$computer = [ADSI]"WinNT://$Env:COMPUTERNAME,Computer"
+
+$computer.delete("user", $name)

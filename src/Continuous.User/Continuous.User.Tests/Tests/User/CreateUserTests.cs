@@ -29,15 +29,19 @@ namespace Continuous.User.Tests.Tests.User
             _installer.Dispose();
         }
 
-        [Test]
-        public void Create_Should_Add_NewUser()
+
+        [TestCase("Test User", "Test description", 1)]
+        [TestCase("Test User", "Test description", null)]
+        [TestCase("Test User", null, 1)]
+        [TestCase(null, "Test description", 1)]
+        public void Create_Should_Add_NewUser(string fullName, string description, int? accountLifeTimeInDays)
         {
             // arrange
             var user = new LocalUserCreateModel
             {
-                Description = "Test",
-                AccountExpires = DateTime.Today.AddDays(1),
-                FullName = "Test User",
+                Description = description,
+                AccountExpires = accountLifeTimeInDays.HasValue ? (DateTime?) DateTime.Now.Date.AddDays(accountLifeTimeInDays.Value): null,
+                FullName = fullName,
                 Name = _generator.RandomName,
                 Password = _generator.RandomName
             };
@@ -51,9 +55,9 @@ namespace Continuous.User.Tests.Tests.User
             var createdUser = UserHelper.GetUser(user.Name);
 
             createdUser.Name.Should().Be(user.Name);
-            createdUser.Description.Should().Be(user.Description);
+            createdUser.Description.Should().Be(user.Description??"");
             createdUser.AccountExpires.Should().Be(user.AccountExpires);
-            createdUser.FullName.Should().Be(user.FullName);
+            createdUser.FullName.Should().Be(user.FullName??"");
             createdUser.Password.Should().Be(null);
         }
 
@@ -70,7 +74,7 @@ namespace Continuous.User.Tests.Tests.User
 
             // assert
             act.ShouldNotThrow();
-            act.ShouldThrow<InvalidOperationException>();
+            act.ShouldThrow<System.Management.Automation.MethodInvocationException>();
         }
     }
 

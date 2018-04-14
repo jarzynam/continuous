@@ -54,7 +54,7 @@ namespace Continuous.User.Tests.Tests.User
             Action act = () => _shell.Remove(userName);
 
             // assert
-            act.ShouldThrow<InvalidOperationException>();
+            act.ShouldThrow<System.Management.Automation.MethodInvocationException>();
         }
 
     }

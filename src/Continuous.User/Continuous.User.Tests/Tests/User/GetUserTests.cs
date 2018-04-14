@@ -53,7 +53,7 @@ namespace Continuous.User.Tests.Tests.User
             actualUser.AccountExpires.Should().Be(originalUser.AccountExpires);
             actualUser.FullName.Should().Be(originalUser.FullName);
          
-            actualUser.PasswordLastChange.GetValueOrDefault().Date.Should().Be(UserHelper.GetPasswordLastSet(originalUser.Name).Date);
+            actualUser.PasswordLastChange.GetValueOrDefault().Date.Should().Be(UserHelper.GetPasswordLastSet(originalUser.Name).GetValueOrDefault());
             actualUser.PasswordMaxBadAttempts.Should().Be(UserHelper.GetPasswordMaxBadAttempts(originalUser.Name));
             actualUser.PasswordBadAttemptsInterval.Should().Be(UserHelper.GetPasswordBadAttemptsInterval(originalUser.Name));
             actualUser.PasswordMustBeChangedAtNextLogon.Should().Be(false);

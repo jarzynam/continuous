@@ -34,7 +34,7 @@ namespace Continuous.User.Tests.Tests.User
 
             actualUser.PasswordLastChange.GetValueOrDefault()
                 .Date.Should()
-                .Be(UserHelper.GetPasswordLastSet(originalUser.Name).Date);
+                .Be(UserHelper.GetPasswordLastSet(originalUser.Name).GetValueOrDefault());
             actualUser.PasswordMaxBadAttempts.Should().Be(UserHelper.GetPasswordMaxBadAttempts(originalUser.Name));
             actualUser.PasswordBadAttemptsInterval.Should()
                 .Be(UserHelper.GetPasswordBadAttemptsInterval(originalUser.Name));

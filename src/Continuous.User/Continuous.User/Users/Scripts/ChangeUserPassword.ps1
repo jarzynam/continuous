@@ -2,5 +2,7 @@
 # Change user password
 #
 param([string]$userName, [string] $password)
-  
- net user $userName $password
+
+$user = [ADSI]("WinNT://./$userName, user");
+$user.SetPassword($password)
+$user.SetInfo()
