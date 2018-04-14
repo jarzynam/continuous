@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Continuous.User.LocalUserGroups.Model;
 using System.Collections.Generic;
 
@@ -34,10 +35,11 @@ namespace Continuous.User.Tests.TestHelpers
 
         public static List<string> GetMemebers(string groupName)
         {
-            var script = "net localgroup "+groupName +" | where { $_ -AND $_ -notmatch \"command completed successfully\"} | select -skip 4";
+            var script = @"net localgroup "+groupName +" | where { $_ } | select -skip 4";
             var result = ScriptInvoker.InvokeScript(script);
 
-            return result.Select(p => p.BaseObject as string).ToList();
+            return result.Select(p => p.BaseObject as string)
+                .Take(result.Count-1).ToList();
         }
 
         public static void AssignUser(string groupName, string userName)

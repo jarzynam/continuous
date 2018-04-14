@@ -66,6 +66,7 @@ namespace Continuous.User.Tests.Tests.LocalGroup
             var group = _shell.Get(groupName);
 
             // assert
+            
             group.Members.Should().Contain(p => p == userName);
             group.Members.Should().Contain(p => p == userName2);
         }

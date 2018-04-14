@@ -3,4 +3,7 @@
 #
 param([string]$name)
   
-net localgroup $name
+$group = [ADSI]("WinNT://./$name, group");
+
+
+return $group

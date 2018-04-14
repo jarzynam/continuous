@@ -4,7 +4,6 @@ using System.Linq;
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 using Continuous.Management.Common;
-using Continuous.Management.Common.Extensions;
 using Continuous.User.LocalUserGroups.Model;
 
 namespace Continuous.User.LocalUserGroups
@@ -12,14 +11,14 @@ namespace Continuous.User.LocalUserGroups
     public class LocalUserGroupShell : ILocalUserGroupShell
     {
         private readonly ScriptExecutor _executor;
-        private readonly Mapper _mapper;
+        private readonly LocalUserGroupMapper _localUserGroupMapper;
         private readonly ScriptsBoundle _scripts;
 
         public LocalUserGroupShell()
         {
             _executor = new ScriptExecutor(GetType());
             _scripts = new ScriptsBoundle();
-            _mapper = new Mapper();
+            _localUserGroupMapper = new LocalUserGroupMapper();
         }
 
         public void Create(string name, string description)
@@ -30,9 +29,7 @@ namespace Continuous.User.LocalUserGroups
                 new CommandParameter("description", description)
             };
 
-            var result = _executor.Execute(_scripts.CreateLocalUserGroup, parameters);
-
-            ThrowServiceExceptionIfNecessary(result, nameof(Create));
+            _executor.Execute(_scripts.CreateLocalUserGroup, parameters);
         }
 
         public void Remove(string groupName)
@@ -42,9 +39,7 @@ namespace Continuous.User.LocalUserGroups
                 new CommandParameter("name", groupName)
             };
 
-            var result = _executor.Execute(_scripts.RemoveLocalUserGroup, parameters);
-
-            ThrowServiceExceptionIfNecessary(result, nameof(Remove));
+            _executor.Execute(_scripts.RemoveLocalUserGroup, parameters);
         }
 
         public LocalUserGroup Get(string groupName)
@@ -53,16 +48,27 @@ namespace Continuous.User.LocalUserGroups
             {
                 new CommandParameter("name", groupName)
             };
-            try
-            {
-                var results = _executor.Execute(_scripts.GetLocalUserGroup, parameters);
+         
+            var results = _executor.Execute(_scripts.GetLocalUserGroup, parameters);
 
-                return !results.Any() ? null : _mapper.Map(results);
-            }
-            catch (Exception)
+            var group =  _localUserGroupMapper.Map(results.FirstOrDefault());
+
+            if(group != null) group.Members = GetMembers(groupName);
+
+            return group;
+        }
+
+        public List<string> GetMembers(string groupName)
+        {
+            var parameters = new List<CommandParameter>
             {
-                return null;
-            }
+                new CommandParameter("name", groupName)
+            };
+           
+            var results = _executor.Execute(_scripts.GetLocalUserGroupMembers, parameters);
+
+            return results.Select(p => p.BaseObject as string).ToList();
+
         }
 
         public LocalUserGroup GetBySid(string sid)
@@ -83,44 +89,42 @@ namespace Continuous.User.LocalUserGroups
         {
             ThrowIfListIsEmpty(userNames);
 
-            var parameters = new List<CommandParameter>
-            {
-                new CommandParameter("name", groupName),
-                new CommandParameter("members", userNames.ToFlatString())
-            };
-
-            var results = _executor.Execute(_scripts.AddUsersToLocalGroup, parameters);
-
-            ThrowServiceExceptionIfNecessary(results, nameof(AssignUsers));
+            foreach (var userName in userNames) AssignUser(groupName, userName);
         }
 
         public void RemoveUsers(string groupName, List<string> userNames)
         {
             ThrowIfListIsEmpty(userNames);
 
+            foreach (var userName in userNames) RemoveUser(groupName, userName);
+        }
+
+        public void AssignUser(string groupName, string userName)
+        {
             var parameters = new List<CommandParameter>
             {
                 new CommandParameter("name", groupName),
-                new CommandParameter("members", userNames.ToFlatString())
+                new CommandParameter("userName", userName)
             };
 
-            var result = _executor.Execute(_scripts.RemoveUsersFromLocalGroup, parameters);
-
-            ThrowServiceExceptionIfNecessary(result, nameof(RemoveUsers));
+            _executor.Execute(_scripts.AddUsersToLocalGroup, parameters);
         }
 
-        private static void ThrowServiceExceptionIfNecessary(ICollection<PSObject> result, string commandName)
+        public void RemoveUser(string groupName, string userName)
         {
-            var returnValue = result.FirstOrDefault()?.BaseObject as string;
+            var parameters = new List<CommandParameter>
+            {
+                new CommandParameter("name", groupName),
+                new CommandParameter("userName", userName)
+            };
 
-            if (returnValue != "The command completed successfully.")
-                throw new InvalidOperationException($"Cannot invoke command {commandName}. Reason: " + returnValue);
+            _executor.Execute(_scripts.RemoveUsersFromLocalGroup, parameters);
         }
 
         private static void ThrowIfListIsEmpty(List<string> userNames)
         {
             if (userNames == null || !userNames.Any())
-                throw new InvalidOperationException($"the {nameof(userNames)} list cannot be empty");
+                throw new MethodInvocationException($"the {nameof(userNames)} list cannot be empty");
         }
     }
 }

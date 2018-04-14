@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Management.Automation;
+using Continuous.User.Shared;
 using Continuous.User.Users.Model;
 #pragma warning disable 612
 
@@ -47,7 +48,7 @@ namespace Continuous.User.Users
         {
             if (result == null) return null;
 
-            var properties = new UserResultProperties(result);
+            var properties = new PsObjectProperties(result);
 
             var flags = properties.Get("UserFlags") ?? default(int);
 

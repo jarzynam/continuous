@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Management.Automation;
 using Continuous.User.LocalUserGroups;
 using Continuous.User.Tests.TestHelpers;
 using Continuous.User.Tests.TestHelpers.Installer;
@@ -67,7 +68,7 @@ namespace Continuous.User.Tests.Tests.LocalGroup
             Action act = () => _shell.RemoveUsers(groupName, new List<string> { userName });
 
             // assert
-            act.ShouldThrow<InvalidOperationException>();
+            act.ShouldThrow<MethodInvocationException>();
 
         }
 
@@ -82,7 +83,7 @@ namespace Continuous.User.Tests.Tests.LocalGroup
             Action act = () => _shell.RemoveUsers(groupName, new List<string> { userName });
 
             // assert
-            act.ShouldThrow<InvalidOperationException>();
+            act.ShouldThrow<ExtendedTypeSystemException>();
         }
 
         [Test]
@@ -101,7 +102,7 @@ namespace Continuous.User.Tests.Tests.LocalGroup
             Action act = () => _shell.AssignUsers(groupName, new List<string>());
 
             // assert
-            act.ShouldThrow<InvalidOperationException>();
+            act.ShouldThrow<MethodInvocationException>();
         }
 
     }

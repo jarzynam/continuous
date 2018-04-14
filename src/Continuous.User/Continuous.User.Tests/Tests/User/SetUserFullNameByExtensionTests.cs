@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Management.Automation;
 using Continuous.User.Tests.TestHelpers;
 using Continuous.User.Tests.TestHelpers.Installer;
 using Continuous.User.Users.Model;
@@ -48,7 +49,7 @@ namespace Continuous.User.Tests.Tests.User
 
      
         [Test]
-        public void SetUserFullName_ThrowsExcpeiton_WhenUserNotExist()
+        public void SetUserFullName_ThrowsExcpction_WhenUserNotExist()
         {
             // arrange
             var userName = _generator.RandomName;
@@ -66,7 +67,7 @@ namespace Continuous.User.Tests.Tests.User
             .Apply();
 
             // assert
-            act.ShouldThrow<InvalidOperationException>();
+            act.ShouldThrow<MethodInvocationException>();
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿# 
-# Add users to existing user name
+# Add user to existing group by user name
 #
-param([string]$name, [string] $members)
-  
-net localgroup $name $members /add
+param([string]$name, [string] $userName)
+
+$group = [ADSI]("WinNT://$Env:COMPUTERNAME/$name,group");
+
+$group.Add("WinNT://$Env:COMPUTERNAME/$userName,user");

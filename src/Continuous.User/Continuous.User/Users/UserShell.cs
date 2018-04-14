@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 using System.Security;
 using Continuous.Management.Common;
@@ -267,7 +268,7 @@ namespace Continuous.User.Users
         private void ThrowIfNotExist(string userName)
         {
             if (!Exists(userName))
-                throw new InvalidOperationException($"User '{userName}' is not existing");
+                throw new MethodInvocationException($"User '{userName}' is not existing");
         }
     }
 }

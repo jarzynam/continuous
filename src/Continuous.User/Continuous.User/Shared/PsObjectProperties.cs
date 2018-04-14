@@ -4,13 +4,13 @@ using System.DirectoryServices;
 using System.Linq;
 using System.Management.Automation;
 
-namespace Continuous.User.Users
+namespace Continuous.User.Shared
 {
-    internal class UserResultProperties
+    internal class PsObjectProperties
     {
         private readonly List<PropertyValueCollection> _properties;
 
-        internal UserResultProperties(PSObject result)
+        internal PsObjectProperties(PSObject result)
         {
             _properties = result.Properties
                 .Where(p => p?.TypeNameOfValue == "System.DirectoryServices.PropertyValueCollection")

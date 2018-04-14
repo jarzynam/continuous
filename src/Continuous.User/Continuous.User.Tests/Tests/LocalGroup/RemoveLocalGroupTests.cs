@@ -54,7 +54,7 @@ namespace Continuous.User.Tests.Tests.LocalGroup
             Action act = () => _shell.Remove(name);
 
             // assert
-            act.ShouldThrow<InvalidOperationException>();
+            act.ShouldThrow<System.Management.Automation.MethodInvocationException>();
         }
     }
 }

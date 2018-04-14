@@ -54,7 +54,7 @@
     <Compile Include="FactoryExtension.cs" />
     <Compile Include="LocalUserGroups\ILocalUserGroupShell.cs" />
     <Compile Include="LocalUserGroups\LocalUserGroupShell.cs" />
-    <Compile Include="LocalUserGroups\Mapper.cs" />
+    <Compile Include="LocalUserGroups\LocalUserGroupMapper.cs" />
     <Compile Include="LocalUserGroups\Model\LocalUserGroup.cs" />
     <Compile Include="LocalUserGroups\ScriptsBoundle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -70,7 +70,7 @@
     <Compile Include="Users\UserExceptionFactory.cs" />
     <Compile Include="Users\UserFlags.cs" />
     <Compile Include="Users\UserMapper.cs" />
-    <Compile Include="Users\UserResultProperties.cs" />
+    <Compile Include="Shared\PsObjectProperties.cs" />
     <Compile Include="Users\UserShell.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -82,6 +82,7 @@
     <None Include="Continuous.User.nuspec" />
     <EmbeddedResource Include="Users\Scripts\ChangeUserPassword.ps1" />
     <EmbeddedResource Include="LocalUserGroups\Scripts\GetLocalUserGroupBySid.ps1" />
+    <EmbeddedResource Include="LocalUserGroups\Scripts\GetLocalUserGroupMembers.ps1" />
     <None Include="packages.config" />
     <EmbeddedResource Include="Users\Scripts\CreateUser.ps1" />
     <EmbeddedResource Include="Users\Scripts\GetUser.ps1" />

@@ -1,6 +1,8 @@
 ﻿# 
 # Remove users from local group 
 #
-param([string]$name, [string] $members)
+param([string]$name, [string] $userName)
   
-net localgroup $name $members /delete
+$group = [ADSI]("WinNT://./$name, group");
+
+$group.Remove("WinNT://$Env:COMPUTERNAME/$userName,user");

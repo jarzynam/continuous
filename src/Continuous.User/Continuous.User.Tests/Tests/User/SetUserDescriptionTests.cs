@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Management.Automation;
 using Continuous.User.Tests.TestHelpers;
 using Continuous.User.Tests.TestHelpers.Installer;
 using Continuous.User.Users;
@@ -57,7 +58,7 @@ namespace Continuous.User.Tests.Tests.User
             Action act = () => _shell.SetUserDescription(userName, description);
 
             // assert
-            act.ShouldThrow<InvalidOperationException>();
+            act.ShouldThrow<MethodInvocationException>();
         }
     }
 }

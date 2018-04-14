@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Management.Automation;
 using Continuous.User.LocalUserGroups;
 using Continuous.User.Tests.TestHelpers;
 using Continuous.User.Tests.TestHelpers.Installer;
@@ -61,7 +62,7 @@ namespace Continuous.User.Tests.Tests.LocalGroup
             Action act = () => _shell.Create(name, description);
 
             // assert
-            act.ShouldThrow<InvalidOperationException>();
+            act.ShouldThrow<MethodInvocationException>();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Management.Automation;
 using Continuous.User.Tests.TestHelpers;
 using Continuous.User.Tests.TestHelpers.Installer;
 using Continuous.User.Users;
@@ -84,7 +85,7 @@ namespace Continuous.User.Tests.Tests.User
             Action act = () => _shell.SetPasswordCanBeChangedByUser(userName, true);
 
             // assert
-            act.ShouldThrow<InvalidOperationException>();
+            act.ShouldThrow<MethodInvocationException>();
         }
 
         [Test]
@@ -132,7 +133,7 @@ namespace Continuous.User.Tests.Tests.User
             Action act = () => _shell.SetPasswordCanExpire(userName, true);
 
             // assert
-            act.ShouldThrow<InvalidOperationException>();
+            act.ShouldThrow<MethodInvocationException>();
         }
 
 
@@ -181,7 +182,7 @@ namespace Continuous.User.Tests.Tests.User
             Action act = () => _shell.SetPasswordRequired(userName, true);
 
             // assert
-            act.ShouldThrow<InvalidOperationException>();
+            act.ShouldThrow<MethodInvocationException>();
         }
 
         [Test]
@@ -229,7 +230,7 @@ namespace Continuous.User.Tests.Tests.User
             Action act = () => _shell.SetAccountDisabled(userName, true);
 
             // assert
-            act.ShouldThrow<InvalidOperationException>();
+            act.ShouldThrow<MethodInvocationException>();
         }
 
        
