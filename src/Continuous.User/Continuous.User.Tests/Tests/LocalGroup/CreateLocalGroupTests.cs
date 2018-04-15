@@ -62,7 +62,7 @@ namespace Continuous.User.Tests.Tests.LocalGroup
             Action act = () => _shell.Create(name, description);
 
             // assert
-            act.ShouldThrow<MethodInvocationException>();
+            act.Should().Throw<MethodInvocationException>();
         }
     }
 }

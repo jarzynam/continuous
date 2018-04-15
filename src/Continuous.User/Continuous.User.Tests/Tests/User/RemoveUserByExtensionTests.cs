@@ -52,7 +52,7 @@ namespace Continuous.User.Tests.Tests.User
             Action act = () => new LocalUserInfo(userName).Remove();
 
             // assert
-            act.ShouldThrow<InvalidOperationException>();
+            act.Should().Throw<InvalidOperationException>();
         }
 
     }

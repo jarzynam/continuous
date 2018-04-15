@@ -85,7 +85,7 @@ namespace Continuous.User.Tests.Tests.User
             Action act = () => _shell.SetPasswordCanBeChangedByUser(userName, true);
 
             // assert
-            act.ShouldThrow<MethodInvocationException>();
+            act.Should().Throw<MethodInvocationException>();
         }
 
         [Test]
@@ -133,7 +133,7 @@ namespace Continuous.User.Tests.Tests.User
             Action act = () => _shell.SetPasswordCanExpire(userName, true);
 
             // assert
-            act.ShouldThrow<MethodInvocationException>();
+            act.Should().Throw<MethodInvocationException>();
         }
 
 
@@ -182,7 +182,7 @@ namespace Continuous.User.Tests.Tests.User
             Action act = () => _shell.SetPasswordRequired(userName, true);
 
             // assert
-            act.ShouldThrow<MethodInvocationException>();
+            act.Should().Throw<MethodInvocationException>();
         }
 
         [Test]
@@ -230,7 +230,7 @@ namespace Continuous.User.Tests.Tests.User
             Action act = () => _shell.SetAccountDisabled(userName, true);
 
             // assert
-            act.ShouldThrow<MethodInvocationException>();
+            act.Should().Throw<MethodInvocationException>();
         }
 
        

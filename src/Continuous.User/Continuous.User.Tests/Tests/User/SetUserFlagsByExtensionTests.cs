@@ -49,7 +49,7 @@ namespace Continuous.User.Tests.Tests.User
                 .Apply();
 
             // assert
-            act.ShouldThrow<InvalidOperationException>();
+            act.Should().Throw<InvalidOperationException>();
         }
 
         [Test]
@@ -106,7 +106,7 @@ namespace Continuous.User.Tests.Tests.User
                 .Apply();
 
             // assert
-            act.ShouldThrow<InvalidOperationException>();
+            act.Should().Throw<InvalidOperationException>();
         }
 
         [Test]
@@ -161,7 +161,7 @@ namespace Continuous.User.Tests.Tests.User
                 .Apply();
 
             // assert
-            act.ShouldThrow<InvalidOperationException>();
+            act.Should().Throw<InvalidOperationException>();
         }
 
         [Test]
@@ -217,7 +217,7 @@ namespace Continuous.User.Tests.Tests.User
                 .Apply();
 
             // assert
-            act.ShouldThrow<InvalidOperationException>();
+            act.Should().Throw<InvalidOperationException>();
         }
 
 

@@ -36,7 +36,7 @@ namespace Continuous.User.Tests.Tests.User
             Action act = () => _shell.GetAllUsers();
 
             // assert
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
 
         [Test]

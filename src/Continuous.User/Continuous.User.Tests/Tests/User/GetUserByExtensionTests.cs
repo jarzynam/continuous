@@ -221,7 +221,7 @@ namespace Continuous.User.Tests.Tests.User
             Action act = () => new LocalUserInfo(userName);
 
             // assert
-            act.ShouldThrow<InvalidOperationException>();
+            act.Should().Throw<InvalidOperationException>();
         }
 
        

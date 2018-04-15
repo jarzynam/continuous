@@ -73,8 +73,8 @@ namespace Continuous.User.Tests.Tests.User
             _installer.AddAsInstalled(user.Name);
 
             // assert
-            act.ShouldNotThrow();
-            act.ShouldThrow<System.Management.Automation.MethodInvocationException>();
+            act.Should().NotThrow();
+            act.Should().Throw<System.Management.Automation.MethodInvocationException>();
         }
     }
 

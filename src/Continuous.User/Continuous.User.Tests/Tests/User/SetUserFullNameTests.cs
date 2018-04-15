@@ -57,7 +57,7 @@ namespace Continuous.User.Tests.Tests.User
             Action act = () => _shell.SetUserFullName(userName, fullName);
 
             // assert
-            act.ShouldThrow<MethodInvocationException>();
+            act.Should().Throw<MethodInvocationException>();
         }
     }
 }

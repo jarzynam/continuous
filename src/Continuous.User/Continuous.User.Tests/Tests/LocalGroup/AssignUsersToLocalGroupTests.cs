@@ -64,7 +64,7 @@ namespace Continuous.User.Tests.Tests.LocalGroup
             Action act = () => _shell.AssignUsers(groupName, new List<string>{userName});
 
             // assert
-            act.ShouldThrow<MethodInvocationException>();
+            act.Should().Throw<MethodInvocationException>();
         }
 
         [Test]
@@ -83,7 +83,7 @@ namespace Continuous.User.Tests.Tests.LocalGroup
             Action act = () => _shell.AssignUsers(groupName, new List<string> { userName });
 
             // assert
-            act.ShouldThrow<MethodInvocationException>();
+            act.Should().Throw<MethodInvocationException>();
         }
 
         [Test]
@@ -99,7 +99,7 @@ namespace Continuous.User.Tests.Tests.LocalGroup
             Action act = () => _shell.AssignUsers(groupName, new List<string>{userName});
 
             // assert
-            act.ShouldThrow<ExtendedTypeSystemException>();
+            act.Should().Throw<ExtendedTypeSystemException>();
         }
 
         [Test]
@@ -118,7 +118,7 @@ namespace Continuous.User.Tests.Tests.LocalGroup
             Action act = () => _shell.AssignUsers(groupName, new List<string>());
 
             // assert
-            act.ShouldThrow<MethodInvocationException>();
+            act.Should().Throw<MethodInvocationException>();
         }
 
     }

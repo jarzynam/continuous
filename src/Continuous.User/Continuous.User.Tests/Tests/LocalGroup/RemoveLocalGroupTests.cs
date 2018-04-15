@@ -54,7 +54,7 @@ namespace Continuous.User.Tests.Tests.LocalGroup
             Action act = () => _shell.Remove(name);
 
             // assert
-            act.ShouldThrow<System.Management.Automation.MethodInvocationException>();
+            act.Should().Throw<System.Management.Automation.MethodInvocationException>();
         }
     }
 }

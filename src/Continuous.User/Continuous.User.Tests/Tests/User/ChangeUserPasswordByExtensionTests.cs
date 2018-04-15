@@ -43,7 +43,7 @@ namespace Continuous.User.Tests.Tests.User
                 .Apply();
 
             // assert
-            act.ShouldNotThrow();
+            act.Should().NotThrow();
         }
     
 
@@ -60,7 +60,7 @@ namespace Continuous.User.Tests.Tests.User
                 .Apply();
 
             // assert
-            act.ShouldThrow<InvalidOperationException>();
+            act.Should().Throw<InvalidOperationException>();
         }
     }
 

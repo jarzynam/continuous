@@ -67,7 +67,7 @@ namespace Continuous.User.Tests.Tests.User
             .Apply();
 
             // assert
-            act.ShouldThrow<MethodInvocationException>();
+            act.Should().Throw<MethodInvocationException>();
         }
     }
 }
