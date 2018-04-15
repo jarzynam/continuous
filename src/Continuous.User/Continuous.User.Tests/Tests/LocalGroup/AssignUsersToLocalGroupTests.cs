@@ -99,7 +99,7 @@ namespace Continuous.User.Tests.Tests.LocalGroup
             Action act = () => _shell.AssignUsers(groupName, new List<string>{userName});
 
             // assert
-            act.Should().Throw<ExtendedTypeSystemException>();
+            act.Should().Throw<MethodInvocationException>();
         }
 
         [Test]

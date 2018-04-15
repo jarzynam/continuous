@@ -12,7 +12,7 @@
     <description>This library is providing easy way to manage local users and local user groups: add/remove new user/userGroup, assing user to group, etc. 
     </description>
     <releaseNotes>
--Breaking Change: Replace all InvalidOperationException with MethodInvocationException and ExtendendTypeSystemException
+-Breaking Change: Replace all InvalidOperationException with MethodInvocationException
 -Fixed User management for non-english systems
 -Fixed Local Groups management for non-english systems
     </releaseNotes>

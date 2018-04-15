@@ -107,7 +107,14 @@ namespace Continuous.User.LocalUserGroups
                 new CommandParameter("userName", userName)
             };
 
-            _executor.Execute(_scripts.AddUsersToLocalGroup, parameters);
+            try
+            {
+                _executor.Execute(_scripts.AddUsersToLocalGroup, parameters);
+            }
+            catch (ExtendedTypeSystemException ex)
+            {
+                throw new MethodInvocationException(ex.Message, ex);
+            }
         }
 
         public void RemoveUser(string groupName, string userName)
@@ -118,7 +125,14 @@ namespace Continuous.User.LocalUserGroups
                 new CommandParameter("userName", userName)
             };
 
-            _executor.Execute(_scripts.RemoveUsersFromLocalGroup, parameters);
+            try
+            {
+                _executor.Execute(_scripts.RemoveUsersFromLocalGroup, parameters);
+            }
+            catch (ExtendedTypeSystemException ex)
+            {
+                throw new MethodInvocationException(ex.Message, ex);
+            }
         }
 
         private static void ThrowIfListIsEmpty(List<string> userNames)

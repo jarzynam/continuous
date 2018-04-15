@@ -73,7 +73,7 @@ namespace Continuous.User.Tests.Tests.LocalGroup
         }
 
         [Test]
-        public void AssignUsers_Throws_When_Group_NotExist()
+        public void RemoveUsers_Throws_When_Group_NotExist()
         {
             // arrange
             string groupName = _generator.RandomName;
@@ -83,7 +83,7 @@ namespace Continuous.User.Tests.Tests.LocalGroup
             Action act = () => _shell.RemoveUsers(groupName, new List<string> { userName });
 
             // assert
-            act.Should().Throw<ExtendedTypeSystemException>();
+            act.Should().Throw<MethodInvocationException>();
         }
 
         [Test]
