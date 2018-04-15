@@ -1,4 +1,5 @@
 using System;
+using System.Management.Automation;
 
 namespace Continuous.User.Users
 {
@@ -11,7 +12,7 @@ namespace Continuous.User.Users
     {
         public void UserNotFoundException(string userName)
         {
-            throw new InvalidOperationException("Can't find user with name: " + userName);
+            throw new MethodInvocationException("Can't find user with name: " + userName);
         }
 
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Management.Automation;
 using Continuous.User.Tests.TestHelpers;
 using Continuous.User.Tests.TestHelpers.Installer;
 using Continuous.User.Users;
@@ -60,7 +61,7 @@ namespace Continuous.User.Tests.Tests.User
                 .Apply();
 
             // assert
-            act.Should().Throw<InvalidOperationException>();
+            act.Should().Throw<MethodInvocationException>();
         }
     }
 

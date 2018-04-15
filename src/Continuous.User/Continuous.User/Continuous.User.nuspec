@@ -12,9 +12,9 @@
     <description>This library is providing easy way to manage local users and local user groups: add/remove new user/userGroup, assing user to group, etc. 
     </description>
     <releaseNotes>
-- Breaking Change: Replace all InvalidOperationException with MethodInvocationException and ExtendendTypeSystemException
-- Fixed User management for non-english systems
-- Fixed Local Groups management for non-english systems
+-Breaking Change: Replace all InvalidOperationException with MethodInvocationException and ExtendendTypeSystemException
+-Fixed User management for non-english systems
+-Fixed Local Groups management for non-english systems
     </releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>Continuous Management User LocalGroup Group Windows</tags>
