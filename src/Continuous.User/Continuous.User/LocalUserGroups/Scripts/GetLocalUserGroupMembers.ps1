@@ -1,11 +1,11 @@
 ﻿#  
-# get local user group by name
+# get local group members by name
 #
-param([string]$name)
+param([string] $name)
   
 $group = [ADSI]("WinNT://./$name, group");
 
 return $group.psbase.invoke("members")  | ForEach {
 
-  $_.GetType().InvokeMember("Name","GetProperty",$Null,$_,$Null)
+  $_.GetType.Invoke().InvokeMember("Name", "GetProperty", $null, $_, $null)
 }
