@@ -30,6 +30,13 @@ namespace Continuous.User.Users
         void Remove(string userName);
 
         /// <summary>
+        /// Remove user account
+        /// </summary>
+        /// <param name="userName">user name</param>
+        /// <param name="deleteFolder">delete folder or not</param>
+        void Remove(string userName, bool deleteFolder);
+
+        /// <summary>
         /// Get user account
         /// </summary>
         /// <param name="userName">user name</param>

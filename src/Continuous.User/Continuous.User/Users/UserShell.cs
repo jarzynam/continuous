@@ -54,6 +54,17 @@ namespace Continuous.User.Users
             _executor.Execute(_scripts.RemoveUser, parameters);
         }
 
+        public void Remove(string userName, bool deleteFolder = false)
+        {
+            var parameters = new List<CommandParameter>
+            {
+                new CommandParameter("name", userName),
+                new CommandParameter("deleteFolder", deleteFolder)
+            };
+
+            _executor.Execute(_scripts.RemoveUser, parameters);
+        }
+
         [Obsolete("Use GetLocalUser")]
         public UserModel Get(string userName)
         {
