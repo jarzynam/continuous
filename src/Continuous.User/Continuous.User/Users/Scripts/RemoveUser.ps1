@@ -10,5 +10,10 @@ $computer = [ADSI]"WinNT://$Env:COMPUTERNAME,Computer"
 
 $computer.delete("user", $name)
 if($deleteFolder) {
-	Remove-Item "C:\Users\$($name)" -Recurse -Force -Verbose
+	[array]$users = Get-WmiObject -ComputerName $env:COMPUTERNAME Win32_UserProfile -filter "LocalPath Like 'C:\\Users\\$($name)'" -ea stop
+	if ($users.count -gt 0) {
+		For ($i = 0; $i -lt $users.count; $i++) {
+			$users[$i].Delete()
+		}
+	}
 }
