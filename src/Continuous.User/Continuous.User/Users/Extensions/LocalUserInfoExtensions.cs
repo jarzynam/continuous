@@ -9,7 +9,7 @@ namespace Continuous.User.Users.Extensions
     public interface ILocalUserInfoExtensions
     {
         /// <summary>
-        ///     Start local user modification proccess. To make changes perform Apply() method.
+        ///     Start local user modification process. To make changes perform Apply() method.
         /// </summary>
         /// <returns></returns>
         ILocalUserInfoUpdate Change();
@@ -30,6 +30,11 @@ namespace Continuous.User.Users.Extensions
         ///     Remove this user
         /// </summary>
         void Remove();
+
+        /// <summary>
+        ///     Remove this user and connected windows profile
+        /// </summary>
+        void RemoveWithProfile();
     }
 
     /// <summary>
@@ -76,6 +81,12 @@ namespace Continuous.User.Users.Extensions
         public void Remove()
         {
             _shell.Value.Remove(_info.Name);
+        }
+
+        /// <inheritdoc />
+        public void RemoveWithProfile()
+        {
+            _shell.Value.Remove(_info.Name, true);
         }
 
         protected void InitializeBase(Model.LocalUserInfo localUserInfo)
