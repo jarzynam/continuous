@@ -43,6 +43,46 @@ namespace Continuous.User.Tests.Tests.User
 
             user.Should().BeNull();
         }
+
+        [Test]
+        public void Remove_Should_Delete_NewUser_WithoutProfile()
+        {
+            // arrange
+            var userName = _generator.RandomName;
+
+            _installer.InstallWithProfile(userName, _generator.RandomName);
+
+            // act
+            new LocalUserInfo(userName).Remove();
+            
+            // assert
+            var user = UserHelper.GetUser(userName);
+            var isProfileExists = UserHelper.IsProfileExists(userName);
+
+            user.Should().BeNull();
+            isProfileExists.Should().BeTrue();
+        }
+
+        [Test]
+        public void Remove_Should_Delete_NewUser_AndProfile()
+        {
+            // arrange
+            var userName = _generator.RandomName;
+
+            _installer.InstallWithProfile(userName, _generator.RandomName);
+
+            // act
+            var user = new LocalUserInfo(userName);
+            user.RemoveWithProfile();
+            
+            // assert
+            var fetchedUser = UserHelper.GetUser(userName);
+            var isProfileExists = UserHelper.IsProfileExists(userName);
+
+            fetchedUser.Should().BeNull();
+            isProfileExists.Should().BeFalse();
+        }
+
         [Test]
         public void Remove_Throws_When_User_NotExist()
         {

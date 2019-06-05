@@ -1,7 +1,14 @@
 ﻿using System;
+using System.DirectoryServices.AccountManagement;
+using System.IO;
 using System.Linq;
 using System.Management.Automation;
+using System.Security.Principal;
+using System.Text;
 using Continuous.User.Users.Model;
+using Continuous.Management.Common;
+using Continuous.User.Tests.TestHelpers.Installer;
+
 #pragma warning disable 612
 
 namespace Continuous.User.Tests.TestHelpers
@@ -251,5 +258,24 @@ namespace Continuous.User.Tests.TestHelpers
 
             return null;
         }
+
+        public static bool IsProfileExists(string userName)
+        {
+            var path = Path.Combine("C:\\Users", userName);
+
+            return Directory.Exists(path);
+        }
+
+        public static SecurityIdentifier CreateUserProfile(string userName)
+        {
+            return WindowsUserProfile.Create(userName);
+        }
+
+        public static void DeleteUserProfile(SecurityIdentifier securityIdentifier)
+        {
+            WindowsUserProfile.Delete(securityIdentifier);
+        }
+
+
     }
 }

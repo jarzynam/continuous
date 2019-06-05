@@ -41,9 +41,48 @@ namespace Continuous.User.Tests.Tests.User
             
             // assert
             var user = UserHelper.GetUser(userName);
-
+           
             user.Should().BeNull();
         }
+
+        [Test]
+        public void Remove_Should_Delete_NewUser_WithoutProfile()
+        {
+            // arrange
+            var userName = _generator.RandomName;
+
+            _installer.InstallWithProfile(userName, _generator.RandomName);
+
+            // act
+            _shell.Remove(userName, false);
+            
+            // assert
+            var user = UserHelper.GetUser(userName);
+            var isProfileExists = UserHelper.IsProfileExists(userName);
+
+            user.Should().BeNull();
+            isProfileExists.Should().BeTrue();
+        }
+
+        [Test]
+        public void Remove_Should_Delete_UserAndProfile()
+        {
+            // arrange
+            var userName = _generator.RandomName;
+
+            _installer.InstallWithProfile(userName, _generator.RandomName);
+
+            // act 
+            _shell.Remove(userName, true);
+
+            // assert
+            var user = UserHelper.GetUser(userName);
+            var isProfileExists = UserHelper.IsProfileExists(userName);
+
+            user.Should().BeNull();
+            isProfileExists.Should().BeFalse();
+        }
+
         [Test]
         public void Remove_Throws_When_User_NotExist()
         {
@@ -56,7 +95,5 @@ namespace Continuous.User.Tests.Tests.User
             // assert
             act.Should().Throw<System.Management.Automation.MethodInvocationException>();
         }
-
     }
-
 }

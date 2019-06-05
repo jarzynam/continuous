@@ -41,6 +41,9 @@
     <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <HintPath>..\packages\Castle.Core.4.2.1\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Continuous.Management, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Continuous.Management.1.1.4\lib\net452\Continuous.Management.dll</HintPath>
+    </Reference>
     <Reference Include="FluentAssertions, Version=5.2.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentAssertions.5.2.0\lib\net45\FluentAssertions.dll</HintPath>
     </Reference>
@@ -54,6 +57,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.DirectoryServices.AccountManagement" />
     <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Management.Automation.dll.10.0.10586.0\lib\net40\System.Management.Automation.dll</HintPath>
       <Private>True</Private>
@@ -75,6 +79,7 @@
     <Compile Include="TestHelpers\Installer\Installer.cs" />
     <Compile Include="TestHelpers\Installer\LocalGroupInstaller.cs" />
     <Compile Include="TestHelpers\Installer\UserInstaller.cs" />
+    <Compile Include="TestHelpers\Installer\WindowsUserProfile.cs" />
     <Compile Include="TestHelpers\LocalGroupHelper.cs" />
     <Compile Include="TestHelpers\NameGenerator.cs" />
     <Compile Include="TestHelpers\ScriptInvoker.cs" />
