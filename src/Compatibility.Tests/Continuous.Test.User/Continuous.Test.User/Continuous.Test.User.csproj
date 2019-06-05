@@ -45,7 +45,7 @@
       <HintPath>..\packages\Continuous.Management.1.1.4\lib\net452\Continuous.Management.dll</HintPath>
     </Reference>
     <Reference Include="Continuous.User, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Continuous.User.2.1.4-alpha\lib\net452\Continuous.User.dll</HintPath>
+      <HintPath>..\packages\Continuous.User.3.0.12-alpha\lib\net452\Continuous.User.dll</HintPath>
     </Reference>
     <Reference Include="FluentAssertions, Version=5.2.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentAssertions.5.2.0\lib\net45\FluentAssertions.dll</HintPath>
@@ -59,6 +59,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.DirectoryServices.AccountManagement" />
     <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Management.Automation.dll.10.0.10586.0\lib\net40\System.Management.Automation.dll</HintPath>
       <Private>True</Private>
@@ -84,6 +85,9 @@
     </Compile>
     <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\TestHelpers\Installer\UserInstaller.cs">
       <Link>TestHelpers\Installer\UserInstaller.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\TestHelpers\Installer\WindowsUserProfile.cs">
+      <Link>TestHelpers\Installer\WindowsUserProfile.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Continuous.User\Continuous.User.Tests\TestHelpers\LocalGroupHelper.cs">
       <Link>TestHelpers\LocalGroupHelper.cs</Link>
